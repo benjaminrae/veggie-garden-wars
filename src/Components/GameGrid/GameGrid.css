@@ -1,0 +1,17 @@
+.game-grid {
+    display: grid;
+    grid-template-columns: repeat(10, 10vmin);
+    grid-template-rows: repeat(10, 10vmin);
+}
+
+.game-grid__cell {
+    border: 1px solid black;
+}
+
+.game-grid__cell--red {
+    background-color: red;
+}
+
+.game-grid__cell--green {
+    background-color: green;
+}
