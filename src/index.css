@@ -4,6 +4,23 @@
     box-sizing: border-box;
 }
 
+:root {
+    /* pastel colors : https://coolors.co/palette/f0ead2-dde5b6-adc178-a98467-6c584c */
+    --pastel-beige: #f0ead2;
+    --pastel-light-green: #dde5b6;
+    --pastel-lime: #adc178;
+    --pastel-light-brown: #a98467;
+    --pastel-dark-brown: #6c584c;
+    /* normal colors :  https://coolors.co/palette/381a00-8b4e23-f3eff5-72b01d-3f7d20*/
+    --dark-brown: #381a00;
+    --light-brown: #8b4e23;
+    --lime-green: #72b01d;
+    --dark-green: #3f7d20;
+    --off-white: #f3eff5;
+}
+
+@import url("https://fonts.googleapis.com/css2?family=Rubik+Dirt&display=swap");
+
 body {
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",

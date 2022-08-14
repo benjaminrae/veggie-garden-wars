@@ -3,10 +3,14 @@
     justify-content: space-between;
     align-items: center;
     padding: 1rem;
+    background-color: var(--pastel-light-brown);
+    font-family: "Rubik Dirt", cursive;
 }
 
 .header__title {
     font-size: 1.5rem;
+    color: var(--dark-brown);
+    font-weight: bolder;
 }
 
 .header__nav__ul {
@@ -18,4 +22,11 @@
 
 .header__nav__li {
     font-size: 1.2rem;
+    color: var(--dark-brown);
+    font-weight: bolder;
+}
+
+.header__nav__li:hover {
+    cursor: pointer;
+    text-shadow: 1px 1px 10px var(--lime-green);
 }
