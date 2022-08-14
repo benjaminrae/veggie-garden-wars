@@ -1,5 +1,6 @@
 import "./App.css";
 import GameGrid from "../GameGrid/GameGrid";
+import Header from "../Header/Header";
 import { useState } from "react";
 
 const App = () => {
@@ -7,6 +8,7 @@ const App = () => {
     const [gridWidth, setGridWidth] = useState(10);
     return (
         <>
+            <Header />
             <GameGrid height={gridHeight} width={gridWidth} />
         </>
     );

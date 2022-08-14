@@ -1,0 +1,21 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+}
+
+.header__title {
+    font-size: 1.5rem;
+}
+
+.header__nav__ul {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 2rem;
+}
+
+.header__nav__li {
+    font-size: 1.2rem;
+}
