@@ -1,0 +1,52 @@
+.welcome {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    background-color: var(--pastel-beige);
+    width: 60%;
+    height: 60%;
+    border-radius: 1rem;
+}
+
+.welcome__screen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    padding: 2rem;
+    text-align: center;
+}
+
+.welcome__title {
+    font-size: 1.5rem;
+}
+
+.welcome__button-container {
+    display: flex;
+    gap: 1rem;
+}
+
+.welcome__button {
+    background-color: var(--lime-green);
+    padding: 1rem;
+    color: white;
+    font-weight: 700;
+    border-radius: 0.5rem;
+    border: 3px solid var(--lime-green);
+}
+
+.welcome__button:hover {
+    cursor: pointer;
+    background-color: var(--pastel-lime);
+}
+
+.welcome__icon {
+    font-size: 2rem;
+}
+
+strong {
+    font-weight: bolder;
+}
