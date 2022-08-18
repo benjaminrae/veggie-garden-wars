@@ -1,58 +1,59 @@
 import "./GameScreen.css";
 import GameGrid from "../GameGrid/GameGrid";
+import CropPlaceTable from "../CropPlaceTable/CropPlaceTable";
 import { useState } from "react";
 
-const CropPlaceTable = (props) => {
-    // const vegetableNameElements =
-    //     document.getElementsByClassName("vegetable-name");
+// const CropPlaceTable = (props) => {
+//     // const vegetableNameElements =
+//     //     document.getElementsByClassName("vegetable-name");
 
-    const handleCropSelection = (event) => {
-        const playerCrops = [...props.playerCrops];
-        playerCrops.forEach((crop) =>
-            crop.cropSymbol === event.target.innerHTML
-                ? (crop.isSelected = true)
-                : (crop.isSelected = false)
-        );
-        console.log(playerCrops);
-        props.onUpdateCrops([...playerCrops]);
-        // for (let vegetable of vegetableNameElements) {
-        //     vegetable.classList.remove("crop-selected");
-        // }
-        // event.target.classList.add("crop-selected");
-    };
+//     const handleCropSelection = (event) => {
+//         const playerCrops = [...props.playerCrops];
+//         playerCrops.forEach((crop) =>
+//             crop.cropSymbol === event.target.innerHTML
+//                 ? (crop.isSelected = true)
+//                 : (crop.isSelected = false)
+//         );
+//         console.log(playerCrops);
+//         props.onUpdateCrops([...playerCrops]);
+//         // for (let vegetable of vegetableNameElements) {
+//         //     vegetable.classList.remove("crop-selected");
+//         // }
+//         // event.target.classList.add("crop-selected");
+//     };
 
-    const tableHeader = (
-        <>
-            <tr>
-                <th>Vegetable</th>
-                <th>Placed?</th>
-            </tr>
-        </>
-    );
+//     const tableHeader = (
+//         <>
+//             <tr>
+//                 <th>Vegetable</th>
+//                 <th>Placed?</th>
+//             </tr>
+//         </>
+//     );
 
-    const tableContent = props.playerCrops.map((crop, index) => {
-        return (
-            <tr key={index}>
-                <td
-                    className={
-                        crop.isSelected ? "crop-selected" : "vegetable-name"
-                    }
-                    onClick={handleCropSelection}
-                >
-                    {`${crop.cropSymbol} (${crop.spaces})`}
-                </td>
-                <td>{crop.isPlaced ? "✅" : "❌"}</td>
-            </tr>
-        );
-    });
+//     const tableContent = props.playerCrops.map((crop, index) => {
+//         return (
+//             <tr key={index}>
+//                 <td
+//                     className={
+//                         crop.isSelected ? "crop-selected" : "vegetable-name"
+//                     }
+//                     onClick={handleCropSelection}
+//                 >
+//                     {`${crop.cropSymbol} (${crop.spaces})`}
+//                 </td>
+//                 <td>{crop.isPlaced ? "✅" : "❌"}</td>
+//             </tr>
+//         );
+//     });
 
-    return (
-        <table>
-            <thead>{tableHeader}</thead>
-            <tbody>{tableContent}</tbody>
-        </table>
-    );
-};
+//     return (
+//         <table>
+//             <thead>{tableHeader}</thead>
+//             <tbody>{tableContent}</tbody>
+//         </table>
+//     );
+// };
 
 const GameScreen = (props) => {
     const [buttonDirections, setButtonDirections] = useState([

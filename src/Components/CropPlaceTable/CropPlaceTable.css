@@ -1,0 +1,20 @@
+table {
+    text-align: center;
+    border: 0.5px solid black;
+}
+thead {
+    font-size: 1.2rem;
+    font-weight: bolder;
+}
+
+tr,
+th,
+td {
+    border: 0.5px solid black;
+    border-collapse: collapse;
+    padding: 1rem;
+}
+
+.crop-selected {
+    background-color: var(--lime-green);
+}
