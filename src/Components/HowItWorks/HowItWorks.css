@@ -1,0 +1,33 @@
+.how-it-works {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--pastel-beige);
+    width: 60%;
+    height: 60%;
+    border-radius: 1rem;
+    z-index: 50;
+}
+
+.how-it-works__screen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    padding: 2rem;
+    text-align: center;
+}
+
+.how-it-works__close {
+    font-size: 1.5rem;
+    position: absolute;
+    top: 5%;
+    right: 5%;
+}
+
+.how-it-works__close:hover {
+    cursor: pointer;
+}

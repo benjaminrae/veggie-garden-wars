@@ -1,0 +1,42 @@
+.hide-screen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--pastel-beige);
+    width: 60%;
+    height: 60%;
+    border-radius: 1rem;
+}
+
+.hide-screen__screen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    padding: 2rem;
+    text-align: center;
+}
+
+.hide-screen__title {
+    font-size: 1.5rem;
+}
+
+.hide-screen__icon {
+    font-size: 2rem;
+}
+
+.hide-screen__button {
+    background-color: var(--lime-green);
+    padding: 1rem;
+    color: white;
+    font-weight: 700;
+    border-radius: 0.5rem;
+    border: 3px solid var(--lime-green);
+}
+
+.hide-screen__button:hover {
+    cursor: pointer;
+    background-color: var(--pastel-lime);
+}

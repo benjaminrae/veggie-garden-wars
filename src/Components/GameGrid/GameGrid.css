@@ -7,12 +7,21 @@
 .game-grid__cell {
     border: 1px solid black;
     background-color: var(--pastel-beige);
+    font-size: 0.8rem;
 }
 
+.game-grid__inner-cell {
+    font-size: 1.6rem;
+    padding-left: 0.5rem;
+}
 .game-grid__cell--red {
     background-color: red;
 }
 
 .game-grid__cell--green {
     background-color: green;
+}
+
+.game-grid__cell--carrot {
+    content: "🥕";
 }
