@@ -16,14 +16,23 @@ const GameGrid = (props) => {
 
     const handleCellClick = (event) => {
         event.preventDefault();
-        if (props.arePlayerCropsPlaced) {
+        const playerVeggies = props.playerVeggies;
+        if (props.arePlayerVeggiesPlaced) {
             event.target.classList.add("game-grid__cell--red");
         } else {
-            fillCellsWithSymbol(props.currentCrop, event);
+            fillCellsWithVeggies(props.currentVeggie, event);
         }
+        const newPlayerVeggies = playerVeggies.map((veggie, index) => {
+            if (veggie.veggieName === props.currentVeggie.veggieName) {
+                veggie.isSelected = false;
+                veggie.isPlaced = true;
+            }
+            return veggie;
+        });
+        props.onUpdateVeggies(newPlayerVeggies);
     };
 
-    const fillCellsWithSymbol = (currentCrop, event) => {
+    const fillCellsWithVeggies = (currentVeggie, event) => {
         let playerGrid = props.playerGrid;
         const targetId = +event.target.id;
         if (targetId === selectedCellId) {
@@ -31,7 +40,7 @@ const GameGrid = (props) => {
             setSelectedCellId(+event.target.id);
         }
 
-        for (let i = 0; i < currentCrop.spaces; i++) {
+        for (let i = 0; i < currentVeggie.spaces; i++) {
             playerGrid = playerGrid.map((cell) => {
                 if (
                     cell.id ===
@@ -43,7 +52,7 @@ const GameGrid = (props) => {
                                 ).direction
                             ]
                 ) {
-                    cell.cropSymbol = currentCrop.cropSymbol;
+                    cell.veggieSymbol = currentVeggie.veggieSymbol;
                 }
                 return cell;
             });
@@ -63,7 +72,7 @@ const GameGrid = (props) => {
                 >
                     {cell.id}
                     <div className="game-grid__inner-cell">
-                        {cell.cropSymbol}
+                        {cell.veggieSymbol}
                     </div>
                 </div>
             ))}

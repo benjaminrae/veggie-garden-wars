@@ -65,7 +65,7 @@ const Welcome = (props) => {
                     </div>
                     <div>
                         Use your catapult to fire on VegBot's garden and try to
-                        destroy all its crops, before it destroys yours!
+                        destroy all its veggies, before it destroys yours!
                     </div>
                     <div className="welcome__button-container">
                         <button
@@ -102,7 +102,7 @@ const Welcome = (props) => {
                     </div>
                     <div>
                         Use your catapults to fire on your neighbour's garden
-                        and try to destroy all their crops.
+                        and try to destroy all their veggies.
                     </div>
                     <div className="welcome__button-container">
                         <button

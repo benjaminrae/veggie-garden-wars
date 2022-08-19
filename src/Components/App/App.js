@@ -8,42 +8,42 @@ import { useState, useEffect } from "react";
 import HighScores from "../HighScores/HighScores";
 import GameScreen from "../GameScreen/GameScreen";
 
-const crops = [
+const veggies = [
     {
-        cropName: "Carrots",
-        cropSymbol: "🥕",
+        veggieName: "Carrots",
+        veggieSymbol: "🥕",
         spaces: 5,
         isPlaced: false,
         isSelected: true,
         cells: [],
     },
     {
-        cropName: "Onions",
-        cropSymbol: "🧅",
+        veggieName: "Onions",
+        veggieSymbol: "🧅",
         spaces: 4,
         isPlaced: false,
         isSelected: false,
         cells: [],
     },
     {
-        cropName: "Potatoes",
-        cropSymbol: "🥔",
+        veggieName: "Potatoes",
+        veggieSymbol: "🥔",
         spaces: 3,
         isPlaced: false,
         isSelected: false,
         cells: [],
     },
     {
-        cropName: "Corn",
-        cropSymbol: "🌽",
+        veggieName: "Corn",
+        veggieSymbol: "🌽",
         spaces: 3,
         isPlaced: false,
         isSelected: false,
         cells: [],
     },
     {
-        cropName: "Broccoli",
-        cropSymbol: "🥦",
+        veggieName: "Broccoli",
+        veggieSymbol: "🥦",
         spaces: 2,
         isPlaced: false,
         isSelected: false,
@@ -62,10 +62,12 @@ const App = () => {
     const [showGameScreen, setShowGameScreen] = useState(false);
     const [showHowItWorks, setShowHowItWorks] = useState(false);
     const [showHighScores, setShowHighScores] = useState(false);
-    const [arePlayer1CropsPlaced, setArePlayer1CropsPlaced] = useState(false);
-    const [arePlayer2CropsPlaced, setArePlayer2CropsPlaced] = useState(false);
-    const [player1Crops, setPlayer1Crops] = useState([...crops]);
-    const [player2Crops, setPlayer2Crops] = useState([...crops]);
+    const [arePlayer1VeggiesPlaced, setArePlayer1VeggiesPlaced] =
+        useState(false);
+    const [arePlayer2VeggiesPlaced, setArePlayer2VeggiesPlaced] =
+        useState(false);
+    const [player1Veggies, setPlayer1Veggies] = useState([...veggies]);
+    const [player2Veggies, setPlayer2Veggies] = useState([...veggies]);
     const [player1Grid, setPlayer1Grid] = useState([]);
     const [player2Grid, setPlayer2Grid] = useState([]);
 
@@ -79,7 +81,7 @@ const App = () => {
         for (let i = 0; i < gridHeight * gridWidth; i++) {
             playerGrid.push({
                 id: i + 1,
-                cropSymbol: "",
+                veggieSymbol: "",
             });
         }
         return playerGrid;
@@ -115,10 +117,10 @@ const App = () => {
         setShowHowItWorks(true);
     };
 
-    const updatePlayerCropSelection = (newCrops) => {
+    const updatePlayerVeggieSelection = (newVeggies) => {
         isPlayer1Turn
-            ? setPlayer1Crops([...newCrops])
-            : setPlayer2Crops([...newCrops]);
+            ? setPlayer1Veggies([...newVeggies])
+            : setPlayer2Veggies([...newVeggies]);
     };
 
     const updatePlayerGrid = (newPlayerGrid) => {
@@ -130,11 +132,11 @@ const App = () => {
     const onResetGridAndPlacement = () => {
         if (isPlayer1Turn) {
             setPlayer1Grid(createPlayerGrid());
-            setPlayer1Crops([...crops]);
+            setPlayer1Veggies([...veggies]);
             return;
         }
         setPlayer2Grid(createPlayerGrid());
-        setPlayer2Crops([...crops]);
+        setPlayer2Veggies([...veggies]);
     };
 
     return (
@@ -167,16 +169,16 @@ const App = () => {
                         height={gridHeight}
                         width={gridWidth}
                         player1Turn={isPlayer1Turn}
-                        arePlayerCropsPlaced={
+                        arePlayerVeggiesPlaced={
                             isPlayer1Turn
-                                ? arePlayer1CropsPlaced
-                                : arePlayer2CropsPlaced
+                                ? arePlayer1VeggiesPlaced
+                                : arePlayer2VeggiesPlaced
                         }
-                        playerCrops={
-                            isPlayer1Turn ? player1Crops : player2Crops
+                        playerVeggies={
+                            isPlayer1Turn ? player1Veggies : player2Veggies
                         }
                         playerGrid={isPlayer1Turn ? player1Grid : player2Grid}
-                        onUpdateCrops={updatePlayerCropSelection}
+                        onUpdateVeggies={updatePlayerVeggieSelection}
                         onPlayerGridChange={updatePlayerGrid}
                         onReset={onResetGridAndPlacement}
                     />
