@@ -13,36 +13,34 @@ const VeggiePlaceTable = (props) => {
         props.onUpdateVeggies([...playerVeggies]);
     };
 
-    const tableHeader = (
-        <>
-            <tr>
-                <th>Vegetable</th>
-                <th>Placed?</th>
-            </tr>
-        </>
-    );
-
-    const tableContent = props.playerVeggies.map((veggie, index) => {
-        return (
-            <tr key={index}>
-                <td
-                    className={
-                        veggie.isSelected ? "veggie-selected" : "vegetable-name"
-                    }
-                    onClick={handleVeggieSelection}
-                    id={veggie.veggieSymbol}
-                >
-                    {`${veggie.veggieSymbol} (${veggie.spaces})`}
-                </td>
-                <td>{veggie.isPlaced ? "✅" : "❌"}</td>
-            </tr>
-        );
-    });
-
     return (
         <table>
-            <thead>{tableHeader}</thead>
-            <tbody>{tableContent}</tbody>
+            <thead>
+                <tr>
+                    <th>Vegetable</th>
+                    <th>Placed?</th>
+                </tr>
+            </thead>
+            <tbody>
+                {props.playerVeggies.map((veggie, index) => {
+                    return (
+                        <tr key={index}>
+                            <td
+                                className={
+                                    veggie.isSelected
+                                        ? "veggie-selected"
+                                        : "vegetable-name"
+                                }
+                                onClick={handleVeggieSelection}
+                                id={veggie.veggieSymbol}
+                            >
+                                {`${veggie.veggieSymbol} (${veggie.spaces})`}
+                            </td>
+                            <td>{veggie.isPlaced ? "✅" : "❌"}</td>
+                        </tr>
+                    );
+                })}
+            </tbody>
         </table>
     );
 };

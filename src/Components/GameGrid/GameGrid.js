@@ -20,24 +20,74 @@ const GameGrid = (props) => {
         if (props.arePlayerVeggiesPlaced) {
             event.target.classList.add("game-grid__cell--red");
         } else {
-            fillCellsWithVeggies(props.currentVeggie, event);
+            if (!fillCellsWithVeggies(props.currentVeggie, event)) {
+                return;
+            }
         }
         const newPlayerVeggies = playerVeggies.map((veggie, index) => {
             if (veggie.veggieName === props.currentVeggie.veggieName) {
                 veggie.isSelected = false;
                 veggie.isPlaced = true;
+                if (!playerVeggies[index + 1].isPlaced) {
+                    playerVeggies[index + 1].isSelected = true;
+                }
             }
             return veggie;
         });
+
         props.onUpdateVeggies(newPlayerVeggies);
+    };
+
+    const checkCellsToFill = (currentVeggie, targetId, playerGrid) => {
+        const cellsToFill = [];
+        for (let i = 0; i < currentVeggie.spaces; i++) {
+            playerGrid.forEach((cell) => {
+                if (
+                    cell.id ===
+                    targetId +
+                        i *
+                            cellDifference[
+                                props.buttonDirections.find(
+                                    (direction) => direction.isSelected
+                                ).direction
+                            ]
+                ) {
+                    cellsToFill.push(cell);
+                }
+            });
+        }
+        // console.log("cellstofill", cellsToFill);
+        if (cellsToFill.some((cell) => cell.veggieSymbol)) {
+            // console.log("veggie clash");
+            return false;
+        }
+        if (cellsToFill.length !== currentVeggie.spaces) {
+            // console.log("out of grid");
+            return false;
+        }
+        if (cellsToFill[cellsToFill.length - 1].id % 10 === 0) {
+            // console.log("end of line edge case");
+            return cellsToFill[0].id < cellsToFill[cellsToFill.length - 1].id;
+        }
+        if (
+            Math.floor(cellsToFill[0].id / 10) !==
+            Math.floor(cellsToFill[cellsToFill.length - 1].id / 10)
+        ) {
+            // console.log("end of line");
+            return false;
+        }
+        return true;
     };
 
     const fillCellsWithVeggies = (currentVeggie, event) => {
         let playerGrid = props.playerGrid;
         const targetId = +event.target.id;
-        if (targetId === selectedCellId) {
-        } else {
-            setSelectedCellId(+event.target.id);
+        // if (targetId === selectedCellId) {
+        // } else {
+        //     setSelectedCellId(+event.target.id);
+        // }
+        if (!checkCellsToFill(currentVeggie, targetId, playerGrid)) {
+            return false;
         }
 
         for (let i = 0; i < currentVeggie.spaces; i++) {
@@ -59,6 +109,7 @@ const GameGrid = (props) => {
         }
 
         props.onPlayerGridChange(playerGrid);
+        return true;
     };
 
     return (

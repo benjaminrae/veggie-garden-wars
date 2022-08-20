@@ -8,50 +8,87 @@ import { useState, useEffect } from "react";
 import HighScores from "../HighScores/HighScores";
 import GameScreen from "../GameScreen/GameScreen";
 
-const veggies = [
-    {
-        veggieName: "Carrots",
-        veggieSymbol: "🥕",
-        spaces: 5,
-        isPlaced: false,
-        isSelected: true,
-        cells: [],
-    },
-    {
-        veggieName: "Onions",
-        veggieSymbol: "🧅",
-        spaces: 4,
-        isPlaced: false,
-        isSelected: false,
-        cells: [],
-    },
-    {
-        veggieName: "Potatoes",
-        veggieSymbol: "🥔",
-        spaces: 3,
-        isPlaced: false,
-        isSelected: false,
-        cells: [],
-    },
-    {
-        veggieName: "Corn",
-        veggieSymbol: "🌽",
-        spaces: 3,
-        isPlaced: false,
-        isSelected: false,
-        cells: [],
-    },
-    {
-        veggieName: "Broccoli",
-        veggieSymbol: "🥦",
-        spaces: 2,
-        isPlaced: false,
-        isSelected: false,
-        cells: [],
-    },
-];
+// const veggies = [
+//     {
+//         veggieName: "Carrots",
+//         veggieSymbol: "🥕",
+//         spaces: 5,
+//         isPlaced: false,
+//         isSelected: true,
+//
+//     },
+//     {
+//         veggieName: "Onions",
+//         veggieSymbol: "🧅",
+//         spaces: 4,
+//         isPlaced: false,
+//         isSelected: false,
+//
+//     },
+//     {
+//         veggieName: "Potatoes",
+//         veggieSymbol: "🥔",
+//         spaces: 3,
+//         isPlaced: false,
+//         isSelected: false,
+//
+//     },
+//     {
+//         veggieName: "Corn",
+//         veggieSymbol: "🌽",
+//         spaces: 3,
+//         isPlaced: false,
+//         isSelected: false,
+//
+//     },
+//     {
+//         veggieName: "Broccoli",
+//         veggieSymbol: "🥦",
+//         spaces: 2,
+//         isPlaced: false,
+//         isSelected: false,
+//
+//     },
+// ];
 
 const App = () => {
+    const [veggies] = useState([
+        {
+            veggieName: "Carrots",
+            veggieSymbol: "🥕",
+            spaces: 5,
+            isPlaced: false,
+            isSelected: true,
+        },
+        {
+            veggieName: "Onions",
+            veggieSymbol: "🧅",
+            spaces: 4,
+            isPlaced: false,
+            isSelected: false,
+        },
+        {
+            veggieName: "Potatoes",
+            veggieSymbol: "🥔",
+            spaces: 3,
+            isPlaced: false,
+            isSelected: false,
+        },
+        {
+            veggieName: "Corn",
+            veggieSymbol: "🌽",
+            spaces: 3,
+            isPlaced: false,
+            isSelected: false,
+        },
+        {
+            veggieName: "Broccoli",
+            veggieSymbol: "🥦",
+            spaces: 2,
+            isPlaced: false,
+            isSelected: false,
+        },
+    ]);
     const [gridHeight, setGridHeight] = useState(10);
     const [gridWidth, setGridWidth] = useState(10);
     const [isVersusCPU, setIsVersusCPU] = useState(null);
@@ -66,15 +103,35 @@ const App = () => {
         useState(false);
     const [arePlayer2VeggiesPlaced, setArePlayer2VeggiesPlaced] =
         useState(false);
-    const [player1Veggies, setPlayer1Veggies] = useState([...veggies]);
-    const [player2Veggies, setPlayer2Veggies] = useState([...veggies]);
+    const [player1Veggies, setPlayer1Veggies] = useState([]);
+    const [player2Veggies, setPlayer2Veggies] = useState([]);
     const [player1Grid, setPlayer1Grid] = useState([]);
     const [player2Grid, setPlayer2Grid] = useState([]);
+    const [isReset, setIsReset] = useState(false);
 
     useEffect(() => {
         setPlayer1Grid(createPlayerGrid());
         setPlayer2Grid(createPlayerGrid());
+        setPlayer1Veggies(createNewVeggies());
+        setPlayer2Veggies(createNewVeggies());
     }, []);
+
+    useEffect(() => {
+        console.log("veggies updated");
+    }, [veggies]);
+
+    useEffect(() => {
+        if (isPlayer1Turn) {
+            setPlayer1Grid(createPlayerGrid());
+            setPlayer1Veggies(createNewVeggies());
+        } else {
+            setPlayer2Grid(createPlayerGrid());
+            setPlayer2Veggies(createNewVeggies());
+        }
+        return () => {
+            setIsReset(false);
+        };
+    }, [isReset]);
 
     const createPlayerGrid = () => {
         const playerGrid = [];
@@ -85,6 +142,47 @@ const App = () => {
             });
         }
         return playerGrid;
+    };
+
+    const createNewVeggies = () => {
+        const newVeggies = [
+            {
+                veggieName: "Carrots",
+                veggieSymbol: "🥕",
+                spaces: 5,
+                isPlaced: false,
+                isSelected: true,
+            },
+            {
+                veggieName: "Onions",
+                veggieSymbol: "🧅",
+                spaces: 4,
+                isPlaced: false,
+                isSelected: false,
+            },
+            {
+                veggieName: "Potatoes",
+                veggieSymbol: "🥔",
+                spaces: 3,
+                isPlaced: false,
+                isSelected: false,
+            },
+            {
+                veggieName: "Corn",
+                veggieSymbol: "🌽",
+                spaces: 3,
+                isPlaced: false,
+                isSelected: false,
+            },
+            {
+                veggieName: "Broccoli",
+                veggieSymbol: "🥦",
+                spaces: 2,
+                isPlaced: false,
+                isSelected: false,
+            },
+        ];
+        return newVeggies;
     };
 
     const selectPlayers = (numberOfPLayers) => {
@@ -130,13 +228,7 @@ const App = () => {
     };
 
     const onResetGridAndPlacement = () => {
-        if (isPlayer1Turn) {
-            setPlayer1Grid(createPlayerGrid());
-            setPlayer1Veggies([...veggies]);
-            return;
-        }
-        setPlayer2Grid(createPlayerGrid());
-        setPlayer2Veggies([...veggies]);
+        setIsReset(true);
     };
 
     return (
