@@ -2,7 +2,7 @@ import "./GameGrid.css";
 import { useState, useEffect } from "react";
 
 const GameGrid = (props) => {
-    const [selectedCellId, setSelectedCellId] = useState("");
+    // const [selectedCellId, setSelectedCellId] = useState("");
     const [cellDifference, setCellDifference] = useState({});
 
     useEffect(() => {
@@ -16,6 +16,9 @@ const GameGrid = (props) => {
 
     const handleCellClick = (event) => {
         event.preventDefault();
+        if (props.currentVeggie.isPlaced) {
+            return;
+        }
         const playerVeggies = props.playerVeggies;
         if (props.arePlayerVeggiesPlaced) {
             event.target.classList.add("game-grid__cell--red");
@@ -28,8 +31,10 @@ const GameGrid = (props) => {
             if (veggie.veggieName === props.currentVeggie.veggieName) {
                 veggie.isSelected = false;
                 veggie.isPlaced = true;
-                if (!playerVeggies[index + 1].isPlaced) {
-                    playerVeggies[index + 1].isSelected = true;
+                if (playerVeggies.some((veggie) => !veggie.isPlaced)) {
+                    playerVeggies[
+                        playerVeggies.findIndex((veggie) => !veggie.isPlaced)
+                    ].isSelected = true;
                 }
             }
             return veggie;
@@ -38,7 +43,12 @@ const GameGrid = (props) => {
         props.onUpdateVeggies(newPlayerVeggies);
     };
 
-    const checkCellsToFill = (currentVeggie, targetId, playerGrid) => {
+    const checkCellsToFill = (
+        currentVeggie,
+        targetId,
+        playerGrid,
+        direction
+    ) => {
         const cellsToFill = [];
         for (let i = 0; i < currentVeggie.spaces; i++) {
             playerGrid.forEach((cell) => {
@@ -65,6 +75,9 @@ const GameGrid = (props) => {
             // console.log("out of grid");
             return false;
         }
+        if (direction === "up" || direction === "down") {
+            return true;
+        }
         if (cellsToFill[cellsToFill.length - 1].id % 10 === 0) {
             // console.log("end of line edge case");
             return cellsToFill[0].id < cellsToFill[cellsToFill.length - 1].id;
@@ -86,7 +99,15 @@ const GameGrid = (props) => {
         // } else {
         //     setSelectedCellId(+event.target.id);
         // }
-        if (!checkCellsToFill(currentVeggie, targetId, playerGrid)) {
+        if (
+            !checkCellsToFill(
+                currentVeggie,
+                targetId,
+                playerGrid,
+                props.buttonDirections.find((direction) => direction.isSelected)
+                    .direction
+            )
+        ) {
             return false;
         }
 

@@ -34,6 +34,9 @@
 }
 
 .game-screen__button,
+.game-screen__button--active,
+.game-screen__button--inactive,
+.game-screen__button--blocked,
 .game-screen__button--small,
 .game-screen__button--small-active {
     background-color: var(--lime-green);
@@ -44,13 +47,23 @@
     border: 3px solid var(--lime-green);
 }
 
+.game-screen__button--blocked {
+    background-color: var(--pastel-lime);
+}
+
+.game-screen__button--blocked:hover {
+    cursor: not-allowed;
+}
+
 .game-screen__button:hover,
+.game-screen__button--active:hover,
 .game-screen__button--small-active:hover {
     cursor: pointer;
     background-color: var(--pastel-lime);
 }
 
-.game-screen__button--small {
+.game-screen__button--small,
+.game-screen__button--inactive {
     background-color: var(--pastel-lime);
 }
 .game-screen__button--small,
@@ -58,6 +71,7 @@
     padding: 0.5rem;
 }
 
-.game-screen__button--small:hover {
+.game-screen__button--small:hover,
+.game-screen__button--inactive:hover {
     background-color: var(--lime-green);
 }

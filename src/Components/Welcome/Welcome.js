@@ -1,8 +1,7 @@
 import "./Welcome.css";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 const Welcome = (props) => {
-    const [displayMode, setDisplayMode] = useState(0); // first: 0, single player: 1, two player: 2
     const [showWelcome, setShowWelcome] = useState(true);
     const [showSinglePlayer, setShowSinglePlayer] = useState(false);
     const [showTwoPlayer, setShowTwoPlayer] = useState(false);

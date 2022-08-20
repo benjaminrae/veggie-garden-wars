@@ -3,12 +3,17 @@ import "./VeggiePlaceTable.css";
 const VeggiePlaceTable = (props) => {
     const handleVeggieSelection = (event) => {
         console.log(event);
+
         const playerVeggies = [...props.playerVeggies];
-        playerVeggies.forEach((veggie) =>
-            veggie.veggieSymbol === event.target.id
-                ? (veggie.isSelected = true)
-                : (veggie.isSelected = false)
-        );
+        playerVeggies.forEach((veggie) => {
+            if (veggie.isPlaced) {
+                return;
+            } else {
+                veggie.veggieSymbol === event.target.id
+                    ? (veggie.isSelected = true)
+                    : (veggie.isSelected = false);
+            }
+        });
         console.log(playerVeggies);
         props.onUpdateVeggies([...playerVeggies]);
     };
@@ -31,7 +36,11 @@ const VeggiePlaceTable = (props) => {
                                         ? "veggie-selected"
                                         : "vegetable-name"
                                 }
-                                onClick={handleVeggieSelection}
+                                onClick={
+                                    veggie.isPlaced
+                                        ? () => {}
+                                        : handleVeggieSelection
+                                }
                                 id={veggie.veggieSymbol}
                             >
                                 {`${veggie.veggieSymbol} (${veggie.spaces})`}

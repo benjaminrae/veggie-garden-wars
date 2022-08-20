@@ -1,5 +1,4 @@
 import "./App.css";
-import GameGrid from "../GameGrid/GameGrid";
 import Header from "../Header/Header";
 import Welcome from "../Welcome/Welcome";
 import HideScreen from "../HideScreen/HideScreen";
@@ -7,49 +6,6 @@ import HowItWorks from "../HowItWorks/HowItWorks";
 import { useState, useEffect } from "react";
 import HighScores from "../HighScores/HighScores";
 import GameScreen from "../GameScreen/GameScreen";
-
-// const veggies = [
-//     {
-//         veggieName: "Carrots",
-//         veggieSymbol: "🥕",
-//         spaces: 5,
-//         isPlaced: false,
-//         isSelected: true,
-//
-//     },
-//     {
-//         veggieName: "Onions",
-//         veggieSymbol: "🧅",
-//         spaces: 4,
-//         isPlaced: false,
-//         isSelected: false,
-//
-//     },
-//     {
-//         veggieName: "Potatoes",
-//         veggieSymbol: "🥔",
-//         spaces: 3,
-//         isPlaced: false,
-//         isSelected: false,
-//
-//     },
-//     {
-//         veggieName: "Corn",
-//         veggieSymbol: "🌽",
-//         spaces: 3,
-//         isPlaced: false,
-//         isSelected: false,
-//
-//     },
-//     {
-//         veggieName: "Broccoli",
-//         veggieSymbol: "🥦",
-//         spaces: 2,
-//         isPlaced: false,
-//         isSelected: false,
-//
-//     },
-// ];
 
 const App = () => {
     const [veggies] = useState([
@@ -89,11 +45,10 @@ const App = () => {
             isSelected: false,
         },
     ]);
-    const [gridHeight, setGridHeight] = useState(10);
-    const [gridWidth, setGridWidth] = useState(10);
+    const [gridHeight] = useState(10);
+    const [gridWidth] = useState(10);
     const [isVersusCPU, setIsVersusCPU] = useState(null);
     const [isPlayer1Turn, setIsPlayer1Turn] = useState(true);
-    const [isPlayer2Turn, setIsPlayer2Turn] = useState(false);
     const [showWelcome, setShowWelcome] = useState(true);
     const [showHideScreen, setShowHideScreen] = useState(false);
     const [showGameScreen, setShowGameScreen] = useState(false);
@@ -115,10 +70,6 @@ const App = () => {
         setPlayer1Veggies(createNewVeggies());
         setPlayer2Veggies(createNewVeggies());
     }, []);
-
-    useEffect(() => {
-        console.log("veggies updated");
-    }, [veggies]);
 
     useEffect(() => {
         if (isPlayer1Turn) {
@@ -231,6 +182,20 @@ const App = () => {
         setIsReset(true);
     };
 
+    const onConfirmVeggiePlacement = () => {
+        if (isPlayer1Turn) {
+            setArePlayer1VeggiesPlaced(true);
+            setIsPlayer1Turn(false);
+            setShowGameScreen(false);
+            setShowHideScreen(true);
+        } else {
+            setArePlayer2VeggiesPlaced(true);
+            setIsPlayer1Turn(true);
+            setShowGameScreen(false);
+            setShowHideScreen(true);
+        }
+    };
+
     return (
         <div className="app">
             <Header
@@ -273,6 +238,7 @@ const App = () => {
                         onUpdateVeggies={updatePlayerVeggieSelection}
                         onPlayerGridChange={updatePlayerGrid}
                         onReset={onResetGridAndPlacement}
+                        onConfirmPlacement={onConfirmVeggiePlacement}
                     />
                 )}
             </div>
