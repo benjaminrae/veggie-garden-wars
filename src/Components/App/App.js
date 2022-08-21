@@ -3,7 +3,7 @@ import Header from "../Header/Header";
 import Welcome from "../Welcome/Welcome";
 import HideScreen from "../HideScreen/HideScreen";
 import HowItWorks from "../HowItWorks/HowItWorks";
-import { useState, useEffect } from "react";
+import { useState, useEffect, cloneElement } from "react";
 import HighScores from "../HighScores/HighScores";
 import GameScreen from "../GameScreen/GameScreen";
 
@@ -202,6 +202,54 @@ const App = () => {
         }
     };
 
+    const onFire = (targetId) => {
+        if (isPlayer1Turn) {
+            const newPlayer1Grid = [...player1Grid];
+            const newPlayer2Grid = player2Grid.map((cell, index) => {
+                if (cell.id === targetId) {
+                    if (cell.veggieSymbol) {
+                        alert("hit");
+                        cell.isDefendingHit = true;
+                        newPlayer1Grid[index].isAttackingHit = true;
+                    } else {
+                        alert("miss");
+                        cell.isDefendingMiss = true;
+                        newPlayer1Grid[index].isAttackingMiss = true;
+                    }
+                    newPlayer1Grid[index].isSelected = false;
+                }
+                return cell;
+            });
+            setPlayer1Grid(newPlayer1Grid);
+            setPlayer2Grid(newPlayer2Grid);
+            setIsPlayer1Turn(false);
+            setShowGameScreen(false);
+            setShowHideScreen(true);
+        } else {
+            const newPlayer2Grid = [...player2Grid];
+            const newPlayer1Grid = player1Grid.map((cell, index) => {
+                if (cell.id === targetId) {
+                    if (cell.veggieSymbol) {
+                        alert("hit");
+                        cell.isDefendingHit = true;
+                        newPlayer1Grid[index].isAttackingHit = true;
+                    } else {
+                        alert("miss");
+                        cell.isDefendingMiss = true;
+                        newPlayer2Grid[index].isAttackingMiss = true;
+                    }
+                    newPlayer2Grid[index].isSelected = false;
+                }
+                return cell;
+            });
+            setPlayer1Grid(newPlayer1Grid);
+            setPlayer2Grid(newPlayer2Grid);
+            setIsPlayer1Turn(true);
+            setShowGameScreen(false);
+            setShowHideScreen(true);
+        }
+    };
+
     return (
         <div className="app">
             <Header
@@ -245,6 +293,7 @@ const App = () => {
                         onPlayerGridChange={updatePlayerGrid}
                         onReset={onResetGridAndPlacement}
                         onConfirmPlacement={onConfirmVeggiePlacement}
+                        onFire={onFire}
                     />
                 )}
             </div>

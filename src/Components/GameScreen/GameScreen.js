@@ -37,6 +37,11 @@ const GameScreen = (props) => {
         setIsAttacking(false);
     };
 
+    const handleFireClick = () => {
+        const targetId = props.playerGrid.find((cell) => cell.isSelected).id;
+        props.onFire(targetId);
+    };
+
     return (
         <div className="game-screen">
             <div className="game-screen__left-container">
@@ -134,7 +139,11 @@ const GameScreen = (props) => {
                                 ? "game-screen__button"
                                 : "game-screen__button--blocked"
                         }
-                        onClick={props.onConfirmPlacement}
+                        onClick={
+                            props.arePlayerVeggiesPlaced
+                                ? handleFireClick
+                                : props.onConfirmPlacement
+                        }
                     >
                         {props.arePlayerVeggiesPlaced ? "Fire!" : "Confirm"}
                     </button>
