@@ -14,19 +14,30 @@ const GameGrid = (props) => {
         });
     }, []);
 
-    const handleCellClick = (event) => {
+    const handleAttackingCellClick = (event) => {
+        const targetId = +event.target.id;
+        const newPlayerGrid = props.playerGrid.map((cell) => {
+            if (targetId === cell.id && !cell.isAttacked) {
+                cell.isSelected = true;
+            } else {
+                cell.isSelected = false;
+            }
+            return cell;
+        });
+        props.onPlayerGridChange(newPlayerGrid);
+    };
+
+    const handleSetUpCellClick = (event) => {
         event.preventDefault();
         if (props.currentVeggie.isPlaced) {
             return;
         }
         const playerVeggies = props.playerVeggies;
-        if (props.arePlayerVeggiesPlaced) {
-            event.target.classList.add("game-grid__cell--red");
-        } else {
-            if (!fillCellsWithVeggies(props.currentVeggie, event)) {
-                return;
-            }
+        debugger;
+        if (!fillCellsWithVeggies(props.currentVeggie, event)) {
+            return;
         }
+        debugger;
         const newPlayerVeggies = playerVeggies.map((veggie, index) => {
             if (veggie.veggieName === props.currentVeggie.veggieName) {
                 veggie.isSelected = false;
@@ -123,6 +134,7 @@ const GameGrid = (props) => {
                                 ).direction
                             ]
                 ) {
+                    debugger;
                     cell.veggieSymbol = currentVeggie.veggieSymbol;
                 }
                 return cell;
@@ -133,18 +145,54 @@ const GameGrid = (props) => {
         return true;
     };
 
+    const renderGridInnerCell = (cell) => {
+        if (props.arePlayerVeggiesPlaced) {
+            if (props.isAttacking && cell.isSelected) {
+                return "🎯";
+            }
+            if (props.isAttacking) {
+                return cell.isAttackingHit
+                    ? "💥"
+                    : cell.isAttackingMiss
+                    ? "🕳"
+                    : "";
+            }
+            return cell.isDefendingHit
+                ? "💥"
+                : cell.isDefendingMiss
+                ? "🕳"
+                : cell.veggieSymbol;
+        }
+        return cell.veggieSymbol;
+    };
+
     return (
         <div className="game-grid">
             {props.playerGrid.map((cell) => (
                 <div
                     className="game-grid__cell"
                     key={cell.id}
-                    onClick={handleCellClick}
+                    onClick={
+                        props.arePlayerVeggiesPlaced
+                            ? handleAttackingCellClick
+                            : handleSetUpCellClick
+                    }
                     id={cell.id}
                 >
                     {cell.id}
                     <div className="game-grid__inner-cell">
-                        {cell.veggieSymbol}
+                        {() => {
+                            if (props.arePlayerVeggiesPlaced) {
+                                if (props.isAttacking) {
+                                }
+                                return cell.veggieSymbol;
+                            }
+                            return cell.veggieSymbol;
+                        }}
+                        {/* {props.arePlayerVeggiesPlaced
+                            ? !props.isAttacking && cell.veggieSymbol
+                            : cell.veggieSymbol} */}
+                        {renderGridInnerCell(cell)}
                     </div>
                 </div>
             ))}

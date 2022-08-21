@@ -55,11 +55,14 @@
     cursor: not-allowed;
 }
 
-.game-screen__button:hover,
-.game-screen__button--active:hover,
-.game-screen__button--small-active:hover {
+.game-screen__button:hover {
     cursor: pointer;
     background-color: var(--pastel-lime);
+}
+
+.game-screen__button--active:hover,
+.game-screen__button--small-active:hover {
+    cursor: not-allowed;
 }
 
 .game-screen__button--small,

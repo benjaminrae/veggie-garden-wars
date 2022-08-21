@@ -90,6 +90,12 @@ const App = () => {
             playerGrid.push({
                 id: i + 1,
                 veggieSymbol: "",
+                isAttackingHit: false,
+                isAttackingMiss: false,
+                isDefendingHit: false,
+                isDefendingMiss: false,
+                isSelected: false,
+                isAttacked: false,
             });
         }
         return playerGrid;

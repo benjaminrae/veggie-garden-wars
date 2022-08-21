@@ -100,6 +100,7 @@ const GameScreen = (props) => {
                     onUpdateVeggies={props.onUpdateVeggies}
                     playerVeggies={props.playerVeggies}
                     buttonDirections={buttonDirections}
+                    isAttacking={isAttacking}
                 />
             </div>
 
@@ -117,12 +118,14 @@ const GameScreen = (props) => {
                     />
                 )}
                 <div className="game-screen__button-container">
-                    <button
-                        className="game-screen__button"
-                        onClick={handleResetClick}
-                    >
-                        Reset
-                    </button>
+                    {!props.arePlayerVeggiesPlaced && (
+                        <button
+                            className="game-screen__button"
+                            onClick={handleResetClick}
+                        >
+                            Reset
+                        </button>
+                    )}
                     <button
                         className={
                             props.playerVeggies.every(
