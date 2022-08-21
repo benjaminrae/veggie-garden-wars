@@ -6,6 +6,7 @@ import HowItWorks from "../HowItWorks/HowItWorks";
 import { useState, useEffect, cloneElement } from "react";
 import HighScores from "../HighScores/HighScores";
 import GameScreen from "../GameScreen/GameScreen";
+import HitOrMiss from "../HitOrMiss/HitOrMiss";
 
 const App = () => {
     const [veggies] = useState([
@@ -63,6 +64,8 @@ const App = () => {
     const [player1Grid, setPlayer1Grid] = useState([]);
     const [player2Grid, setPlayer2Grid] = useState([]);
     const [isReset, setIsReset] = useState(false);
+    const [isHit, setIsHit] = useState(false);
+    const [showHitOrMiss, setShowHitOrMiss] = useState(false);
 
     useEffect(() => {
         setPlayer1Grid(createPlayerGrid());
@@ -191,11 +194,19 @@ const App = () => {
     const onConfirmVeggiePlacement = () => {
         if (isPlayer1Turn) {
             setArePlayer1VeggiesPlaced(true);
+            togglePlayer();
+        } else {
+            setArePlayer2VeggiesPlaced(true);
+            togglePlayer();
+        }
+    };
+
+    const togglePlayer = () => {
+        if (isPlayer1Turn && !isVersusCPU) {
             setIsPlayer1Turn(false);
             setShowGameScreen(false);
             setShowHideScreen(true);
-        } else {
-            setArePlayer2VeggiesPlaced(true);
+        } else if (!isPlayer1Turn && !isVersusCPU) {
             setIsPlayer1Turn(true);
             setShowGameScreen(false);
             setShowHideScreen(true);
@@ -208,13 +219,13 @@ const App = () => {
             const newPlayer2Grid = player2Grid.map((cell, index) => {
                 if (cell.id === targetId) {
                     if (cell.veggieSymbol) {
-                        alert("hit");
                         cell.isDefendingHit = true;
                         newPlayer1Grid[index].isAttackingHit = true;
+                        setIsHit(true);
                     } else {
-                        alert("miss");
                         cell.isDefendingMiss = true;
                         newPlayer1Grid[index].isAttackingMiss = true;
+                        setIsHit(false);
                     }
                     newPlayer1Grid[index].isSelected = false;
                 }
@@ -222,21 +233,18 @@ const App = () => {
             });
             setPlayer1Grid(newPlayer1Grid);
             setPlayer2Grid(newPlayer2Grid);
-            setIsPlayer1Turn(false);
-            setShowGameScreen(false);
-            setShowHideScreen(true);
         } else {
             const newPlayer2Grid = [...player2Grid];
             const newPlayer1Grid = player1Grid.map((cell, index) => {
                 if (cell.id === targetId) {
                     if (cell.veggieSymbol) {
-                        alert("hit");
                         cell.isDefendingHit = true;
-                        newPlayer1Grid[index].isAttackingHit = true;
+                        newPlayer2Grid[index].isAttackingHit = true;
+                        setIsHit(true);
                     } else {
-                        alert("miss");
                         cell.isDefendingMiss = true;
                         newPlayer2Grid[index].isAttackingMiss = true;
+                        setIsHit(false);
                     }
                     newPlayer2Grid[index].isSelected = false;
                 }
@@ -244,10 +252,12 @@ const App = () => {
             });
             setPlayer1Grid(newPlayer1Grid);
             setPlayer2Grid(newPlayer2Grid);
-            setIsPlayer1Turn(true);
-            setShowGameScreen(false);
-            setShowHideScreen(true);
         }
+        setShowHitOrMiss(true);
+    };
+    const handleHitOrMissContinue = () => {
+        setShowHitOrMiss(false);
+        togglePlayer();
     };
 
     return (
@@ -294,6 +304,12 @@ const App = () => {
                         onReset={onResetGridAndPlacement}
                         onConfirmPlacement={onConfirmVeggiePlacement}
                         onFire={onFire}
+                    />
+                )}
+                {showHitOrMiss && (
+                    <HitOrMiss
+                        isHit={isHit}
+                        onContinue={handleHitOrMissContinue}
                     />
                 )}
             </div>

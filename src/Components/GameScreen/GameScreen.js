@@ -42,6 +42,12 @@ const GameScreen = (props) => {
         props.onFire(targetId);
     };
 
+    const handleConfirmClick = () => {
+        if (props.playerVeggies.every((veggie) => veggie.isPlaced)) {
+            props.onConfirmPlacement();
+        }
+    };
+
     return (
         <div className="game-screen">
             <div className="game-screen__left-container">
@@ -111,6 +117,8 @@ const GameScreen = (props) => {
 
             <div className="game-screen__right-container">
                 <h2 className="game-screen__title">
+                    {props.player1Turn ? "Player 1" : "Player 2"}
+                    <br />
                     {props.arePlayerVeggiesPlaced
                         ? "Take your turn"
                         : "Place your veggies"}
@@ -142,7 +150,7 @@ const GameScreen = (props) => {
                         onClick={
                             props.arePlayerVeggiesPlaced
                                 ? handleFireClick
-                                : props.onConfirmPlacement
+                                : handleConfirmClick
                         }
                     >
                         {props.arePlayerVeggiesPlaced ? "Fire!" : "Confirm"}

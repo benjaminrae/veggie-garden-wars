@@ -1,0 +1,45 @@
+.hit-or-miss {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--pastel-beige);
+    width: 60%;
+    height: 60%;
+    border-radius: 1rem;
+    z-index: 45;
+}
+
+.hit-or-miss__screen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    padding: 2rem;
+    text-align: center;
+}
+
+.hit-or-miss__title {
+    font-size: 1.5rem;
+    font-weight: bolder;
+}
+
+.hit-or-miss__button {
+    background-color: var(--lime-green);
+    padding: 1rem;
+    color: white;
+    font-weight: 700;
+    border-radius: 0.5rem;
+    border: 3px solid var(--lime-green);
+}
+
+.hit-or-miss__button:hover {
+    cursor: pointer;
+    background-color: var(--pastel-lime);
+}
+
+.hit-or-miss__gif {
+    width: 90%;
+}

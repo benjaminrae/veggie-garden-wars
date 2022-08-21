@@ -25,6 +25,7 @@
 .game-screen__title {
     font-size: 2rem;
     font-weight: bolder;
+    text-align: center;
 }
 
 .game-screen__button-container {

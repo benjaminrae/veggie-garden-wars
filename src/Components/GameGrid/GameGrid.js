@@ -77,7 +77,6 @@ const GameGrid = (props) => {
                 }
             });
         }
-        // console.log("cellstofill", cellsToFill);
         if (cellsToFill.some((cell) => cell.veggieSymbol)) {
             // console.log("veggie clash");
             return false;
@@ -154,13 +153,13 @@ const GameGrid = (props) => {
                 return cell.isAttackingHit
                     ? "💥"
                     : cell.isAttackingMiss
-                    ? "🕳"
+                    ? "⚫"
                     : "";
             }
             return cell.isDefendingHit
                 ? "💥"
                 : cell.isDefendingMiss
-                ? "🕳"
+                ? "⚫"
                 : cell.veggieSymbol;
         }
         return cell.veggieSymbol;
