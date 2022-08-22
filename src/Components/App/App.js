@@ -7,6 +7,7 @@ import { useState, useEffect, cloneElement } from "react";
 import HighScores from "../HighScores/HighScores";
 import GameScreen from "../GameScreen/GameScreen";
 import HitOrMiss from "../HitOrMiss/HitOrMiss";
+import GameOver from "../GameOver/GameOver";
 
 const App = () => {
     const [veggies] = useState([
@@ -90,12 +91,17 @@ const App = () => {
     }, [isReset]);
 
     useEffect(() => {
-        const player1Veggies = player1Grid.filter((cell) => cell.veggieSymbol);
-        const player2Veggies = player2Grid.filter((cell) => cell.veggieSymbol);
-        if (player1Veggies.every((cell) => cell.isDefendingHit)) {
+        if (!arePlayer1VeggiesPlaced || !arePlayer2VeggiesPlaced) {
+            return;
+        }
+        const player1Cells = player1Grid.filter((cell) => cell.veggieSymbol);
+        const player2Cells = player2Grid.filter((cell) => cell.veggieSymbol);
+        console.log("p1", player1Cells);
+        console.log("p2", player2Cells);
+        if (player1Cells && player1Cells.every((cell) => cell.isDefendingHit)) {
             setIsWon(true);
         }
-        if (player2Veggies.every((cell) => cell.isDefendingHit)) {
+        if (player2Cells && player2Cells.every((cell) => cell.isDefendingHit)) {
             setIsWon(true);
         }
     }, [player1Grid, player2Grid]);
@@ -330,6 +336,13 @@ const App = () => {
                     <HitOrMiss
                         isHit={isHit}
                         onContinue={handleHitOrMissContinue}
+                    />
+                )}
+                {isWon && (
+                    <GameOver
+                        isPlayer1Turn={isPlayer1Turn}
+                        isVersusCPU={isVersusCPU}
+                        onHighScoresClick={openHighScores}
                     />
                 )}
             </div>
