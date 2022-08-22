@@ -33,11 +33,9 @@ const GameGrid = (props) => {
             return;
         }
         const playerVeggies = props.playerVeggies;
-        debugger;
         if (!fillCellsWithVeggies(props.currentVeggie, event)) {
             return;
         }
-        debugger;
         const newPlayerVeggies = playerVeggies.map((veggie, index) => {
             if (veggie.veggieName === props.currentVeggie.veggieName) {
                 veggie.isSelected = false;
@@ -133,7 +131,6 @@ const GameGrid = (props) => {
                                 ).direction
                             ]
                 ) {
-                    debugger;
                     cell.veggieSymbol = currentVeggie.veggieSymbol;
                 }
                 return cell;

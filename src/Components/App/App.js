@@ -67,6 +67,7 @@ const App = () => {
     const [isHit, setIsHit] = useState(false);
     const [showHitOrMiss, setShowHitOrMiss] = useState(false);
     const [isMuted, setIsMuted] = useState(false);
+    const [isWon, setIsWon] = useState(false);
 
     useEffect(() => {
         setPlayer1Grid(createPlayerGrid());
@@ -87,6 +88,17 @@ const App = () => {
             setIsReset(false);
         };
     }, [isReset]);
+
+    useEffect(() => {
+        const player1Veggies = player1Grid.filter((cell) => cell.veggieSymbol);
+        const player2Veggies = player2Grid.filter((cell) => cell.veggieSymbol);
+        if (player1Veggies.every((cell) => cell.isDefendingHit)) {
+            setIsWon(true);
+        }
+        if (player2Veggies.every((cell) => cell.isDefendingHit)) {
+            setIsWon(true);
+        }
+    }, [player1Grid, player2Grid]);
 
     const createPlayerGrid = () => {
         const playerGrid = [];
@@ -254,7 +266,7 @@ const App = () => {
             setPlayer1Grid(newPlayer1Grid);
             setPlayer2Grid(newPlayer2Grid);
         }
-        setShowHitOrMiss(true);
+        if (!isWon) setShowHitOrMiss(true);
     };
 
     const handleHitOrMissContinue = () => {
