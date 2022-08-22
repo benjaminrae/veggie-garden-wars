@@ -11,14 +11,28 @@
 }
 
 .welcome__screen {
+    height: 80%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
     gap: 2rem;
     padding: 2rem;
     text-align: center;
     overflow-y: scroll;
+    overflow-clip-margin: 0;
+}
+
+.welcome__screen::-webkit-scrollbar {
+    background-color: var(--pastel-beige);
+    width: 1rem;
+    /* border: 1px solid #2ec4b6; */
+    border-radius: 0.5rem;
+}
+.welcome__screen::-webkit-scrollbar-thumb {
+    background-color: var(--dark-brown);
+    border: 0.3rem solid rgba(0, 0, 0, 0);
+    border-radius: 0.5rem;
+    background-clip: padding-box;
 }
 
 .welcome__title {

@@ -1,13 +1,24 @@
 .game-screen {
-    position: relative;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
     width: 100%;
-    height: 90%;
+    height: 100%;
     gap: 1rem;
     overflow-y: scroll;
+    padding: 1rem;
+}
+
+.game-screen::-webkit-scrollbar {
+    background-color: var(--pastel-beige);
+    width: 1rem;
+    border-radius: 0.5rem;
+}
+.game-screen::-webkit-scrollbar-thumb {
+    background-color: var(--dark-brown);
+    border: 0.3rem solid rgba(0, 0, 0, 0);
+    border-radius: 0.5rem;
+    background-clip: padding-box;
 }
 
 .game-screen__container {
@@ -15,7 +26,7 @@
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-    flex-wrap: wrap-reverse;
+    flex-wrap: wrap;
     gap: 2rem;
 }
 
@@ -25,7 +36,7 @@
     justify-content: center;
     align-items: center;
     /* flex-grow: 2; */
-    flex-shrink: 1;
+    flex-shrink: 2;
     gap: 1rem;
 }
 
