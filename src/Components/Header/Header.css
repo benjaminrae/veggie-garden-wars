@@ -7,17 +7,43 @@
     font-family: "Rubik Dirt", cursive;
 }
 
+.header__nav {
+    animation: moveToLeft 1s ease-in-out;
+    animation-delay: 10ms;
+}
+
+@keyframes moveToLeft {
+    0% {
+        transform: translateX(200px);
+    }
+    100% {
+        transform: translateX(0px);
+    }
+}
+
+@keyframes moveToRight {
+    0% {
+        transform: translateX(-200px);
+    }
+    100% {
+        transform: translateX(0px);
+    }
+}
+
 .header__title {
     font-size: 1.5rem;
     color: var(--dark-brown);
     font-weight: bolder;
+    animation: moveToRight 1s ease-in-out;
+    animation-delay: 10ms;
 }
 
 .nav__ul {
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-    gap: 2rem;
+    gap: 1rem;
+    padding-right: 1rem;
 }
 
 .nav__li {
@@ -29,4 +55,15 @@
 .nav__li:hover {
     cursor: pointer;
     text-shadow: 1px 1px 10px var(--lime-green);
+}
+
+.hamburger__icon {
+    font-size: 2rem;
+    transition: 1s;
+}
+
+.hamburger__icon--open {
+    font-size: 2rem;
+    transform: rotate(90deg);
+    transition: 1s;
 }
