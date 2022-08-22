@@ -26,6 +26,7 @@ const Welcome = (props) => {
         <div className="welcome ">
             {showWelcome && (
                 <div className="welcome__first-screen welcome__screen">
+                    <div className="welcome__icon">👩‍🌾🏡</div>
                     <h2 className="welcome__title">
                         Welcome to the neighborhood!
                     </h2>
@@ -93,11 +94,11 @@ const Welcome = (props) => {
                         to win.
                     </div>
                     <div>
-                        There's only one way to win that ribbon, you've got to
-                        destroy your neighbour's garden. But be careful, if you
-                        still want that trophy, you'll not only have to destroy
-                        your neighbour's garden, but{" "}
-                        <strong>50% of your garden must remain intact.</strong>
+                        There's only one way to win that trophy,
+                        <strong>
+                            you've got to destroy your neighbour's garden before
+                            he destroys yours.
+                        </strong>
                     </div>
                     <div>
                         Use your catapults to fire on your neighbour's garden
