@@ -25,7 +25,10 @@ const GameOver = (props) => {
                     alt=""
                 />
                 <div className="game-over__button-container">
-                    <button className="game-over__button" onClick={() => {}}>
+                    <button
+                        className="game-over__button"
+                        onClick={props.onShowBoards}
+                    >
                         See Boards
                     </button>
                     <button
@@ -34,7 +37,10 @@ const GameOver = (props) => {
                     >
                         See High Scores
                     </button>
-                    <button className="game-over__button" onClick={() => {}}>
+                    <button
+                        className="game-over__button"
+                        onClick={props.onPlayAgain}
+                    >
                         Play Again
                     </button>
                 </div>

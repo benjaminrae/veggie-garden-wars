@@ -69,6 +69,7 @@ const App = () => {
     const [showHitOrMiss, setShowHitOrMiss] = useState(false);
     const [isMuted, setIsMuted] = useState(false);
     const [isWon, setIsWon] = useState(false);
+    const [showBoardComparison, setShowBoardComparison] = useState(false);
 
     useEffect(() => {
         setPlayer1Grid(createPlayerGrid());
@@ -96,8 +97,6 @@ const App = () => {
         }
         const player1Cells = player1Grid.filter((cell) => cell.veggieSymbol);
         const player2Cells = player2Grid.filter((cell) => cell.veggieSymbol);
-        console.log("p1", player1Cells);
-        console.log("p2", player2Cells);
         if (player1Cells && player1Cells.every((cell) => cell.isDefendingHit)) {
             setIsWon(true);
         }
@@ -284,6 +283,27 @@ const App = () => {
         setIsMuted(!isMuted);
     };
 
+    const handlePlayAgain = () => {
+        setPlayer1Grid(createPlayerGrid());
+        setPlayer1Veggies(createNewVeggies());
+        setArePlayer1VeggiesPlaced(false);
+        setIsPlayer1Turn(true);
+        setPlayer2Grid(createPlayerGrid());
+        setPlayer2Veggies(createNewVeggies());
+        setArePlayer1VeggiesPlaced(false);
+        setIsWon(false);
+        setShowBoardComparison(false);
+        setShowGameScreen(false);
+        setShowWelcome(true);
+    };
+
+    const handleShowBoards = () => {
+        setShowHideScreen(false);
+        setShowGameScreen(true);
+        setIsWon(false);
+        setShowBoardComparison(true);
+    };
+
     return (
         <div className="app">
             <Header
@@ -330,6 +350,11 @@ const App = () => {
                         onReset={onResetGridAndPlacement}
                         onConfirmPlacement={onConfirmVeggiePlacement}
                         onFire={onFire}
+                        showBoardComparison={showBoardComparison}
+                        secondPlayerGrid={
+                            isPlayer1Turn ? player2Grid : player1Grid
+                        }
+                        onPlayAgain={handlePlayAgain}
                     />
                 )}
                 {showHitOrMiss && (
@@ -343,6 +368,8 @@ const App = () => {
                         isPlayer1Turn={isPlayer1Turn}
                         isVersusCPU={isVersusCPU}
                         onHighScoresClick={openHighScores}
+                        onPlayAgain={handlePlayAgain}
+                        onShowBoards={handleShowBoards}
                     />
                 )}
             </div>

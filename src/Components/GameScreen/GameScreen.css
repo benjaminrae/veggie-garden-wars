@@ -1,7 +1,16 @@
 .game-screen {
     display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     width: 100%;
     height: 90%;
+    gap: 1rem;
+}
+
+.game-screen__container {
+    display: flex;
+    gap: 2rem;
 }
 
 .game-screen__left-container {
