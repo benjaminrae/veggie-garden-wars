@@ -66,6 +66,7 @@ const App = () => {
     const [isReset, setIsReset] = useState(false);
     const [isHit, setIsHit] = useState(false);
     const [showHitOrMiss, setShowHitOrMiss] = useState(false);
+    const [isMuted, setIsMuted] = useState(false);
 
     useEffect(() => {
         setPlayer1Grid(createPlayerGrid());
@@ -255,9 +256,14 @@ const App = () => {
         }
         setShowHitOrMiss(true);
     };
+
     const handleHitOrMissContinue = () => {
         setShowHitOrMiss(false);
         togglePlayer();
+    };
+
+    const onVolumeClick = () => {
+        setIsMuted(!isMuted);
     };
 
     return (
@@ -265,6 +271,8 @@ const App = () => {
             <Header
                 onHowItWorksClick={openHowItWorks}
                 onHighScoresClick={openHighScores}
+                isMuted={isMuted}
+                onVolumeClick={onVolumeClick}
             />
             <div className="app__main-container">
                 {showHowItWorks && (

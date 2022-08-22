@@ -1,6 +1,7 @@
 import "./HitOrMiss.css";
 import miss from "../../assets/gifs/will-ferrell-the-house.gif";
 import hit from "../../assets/gifs/explosion-boom.gif";
+
 const HitOrMiss = (props) => {
     return (
         <div className="hit-or-miss">
