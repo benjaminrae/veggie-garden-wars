@@ -75,6 +75,7 @@ const GameGrid = (props) => {
                 }
             });
         }
+
         if (cellsToFill.some((cell) => cell.veggieSymbol)) {
             // console.log("veggie clash");
             return false;
@@ -84,12 +85,23 @@ const GameGrid = (props) => {
             return false;
         }
         if (direction === "up" || direction === "down") {
+            // console.log("end of line edge case");
+
             return true;
         }
-        if (cellsToFill[cellsToFill.length - 1].id % 10 === 0) {
+        const sortedCellsToFill = cellsToFill.sort((a, b) => a.id - b.id);
+        if (sortedCellsToFill[sortedCellsToFill.length - 1].id % 10 === 0) {
             // console.log("end of line edge case");
-            return cellsToFill[0].id < cellsToFill[cellsToFill.length - 1].id;
+            return true;
         }
+        if (sortedCellsToFill[0].id % 10 === 0) {
+            // console.log("end of line edge case");
+            return false;
+        }
+        // if (cellsToFill[cellsToFill.length - 1].id % 10 === 0) {
+        //     console.log("end of line edge case");
+        //     return cellsToFill[0].id < cellsToFill[cellsToFill.length - 1].id;
+        // }
         if (
             Math.floor(cellsToFill[0].id / 10) !==
             Math.floor(cellsToFill[cellsToFill.length - 1].id / 10)
