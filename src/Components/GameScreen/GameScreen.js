@@ -2,6 +2,20 @@ import "./GameScreen.css";
 import GameGrid from "../GameGrid/GameGrid";
 import VeggiePlaceTable from "../VeggiePlaceTable/VeggiePlaceTable";
 import { useState } from "react";
+import robotGif from "../../assets/gifs/starbase-angry-robot-sound.gif";
+
+const ComputerTurn = () => {
+    return (
+        <div className="computer-turn">
+            <div className="computer-turn__container">
+                <div className="computer-turn__title">
+                    The Robot is taking its turn
+                </div>
+                <div className="computer-turn__icon">🤖</div>
+            </div>
+        </div>
+    );
+};
 
 const GameScreen = (props) => {
     const [buttonDirections, setButtonDirections] = useState([
@@ -55,6 +69,21 @@ const GameScreen = (props) => {
 
     return (
         <div className="game-screen">
+            {!props.isPLayer1Turn && props.isVersusCPU && (
+                <div className="game-screen__computer-turn">
+                    <div className="computer-turn__container">
+                        <div className="computer-turn__icon">🤖</div>
+                        <div className="computer-turn__title">
+                            "Me cago en tus huertos!"
+                        </div>
+                        <img
+                            className="computer-turn__gif"
+                            src={robotGif}
+                            alt=""
+                        />
+                    </div>
+                </div>
+            )}
             {props.showBoardComparison && (
                 <div className="game-screen__button-container">
                     <button className="game-screen__button" onClick={() => {}}>
@@ -68,6 +97,7 @@ const GameScreen = (props) => {
                     </button>
                 </div>
             )}
+
             <div className="game-screen__container">
                 <div className="game-screen__left-container">
                     {props.showBoardComparison && (

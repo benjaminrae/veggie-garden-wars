@@ -34,7 +34,7 @@
 .header__title {
     font-size: 1.5rem;
     color: var(--dark-brown);
-    font-weight: bolder;
+    /* font-weight: bolder; */
     animation: moveToRight 1s ease-in-out;
     animation-delay: 10ms;
 }
@@ -50,7 +50,7 @@
 .nav__li {
     font-size: 1.2rem;
     color: var(--dark-brown);
-    font-weight: bolder;
+    /* font-weight: bolder; */
 }
 
 .nav__li:hover {

@@ -228,6 +228,9 @@ const App = () => {
             setIsPlayer1Turn(true);
             setShowGameScreen(false);
             setShowHideScreen(true);
+        } else if (isPlayer1Turn && isVersusCPU) {
+            setIsPlayer1Turn(false);
+            setShowGameScreen(true);
         }
     };
 
@@ -303,6 +306,8 @@ const App = () => {
         setIsWon(false);
         setShowBoardComparison(true);
     };
+
+    const takeComputerTurn = () => {};
 
     return (
         <div className="app">

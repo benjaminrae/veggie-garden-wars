@@ -52,7 +52,7 @@
 
 .game-screen__title {
     font-size: 2rem;
-    font-weight: bolder;
+    /* font-weight: bolder; */
     text-align: center;
     font-family: "Rubik Dirt", cursive;
     color: var(--dark-brown);
@@ -108,4 +108,38 @@
 .game-screen__button--small:hover,
 .game-screen__button--inactive:hover {
     background-color: var(--lime-green);
+}
+
+.game-screen__computer-turn {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.computer-turn__container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    padding: 2rem;
+    text-align: center;
+    background-color: var(--pastel-beige);
+    border-radius: 1rem;
+}
+
+.computer-turn__title {
+    font-family: "Rubik Dirt", cursive;
+    font-size: 1.5rem;
+}
+.computer-turn__icon {
+    font-size: 2rem;
+}
+
+.computer-turn__gif {
+    max-width: 80%;
 }
