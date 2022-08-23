@@ -24,6 +24,8 @@
 .hit-or-miss__title {
     font-size: 1.5rem;
     font-weight: bolder;
+    font-family: "Rubik Dirt", cursive;
+    color: var(--dark-brown);
 }
 
 .hit-or-miss__button {

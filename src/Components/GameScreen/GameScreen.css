@@ -54,6 +54,8 @@
     font-size: 2rem;
     font-weight: bolder;
     text-align: center;
+    font-family: "Rubik Dirt", cursive;
+    color: var(--dark-brown);
 }
 
 .game-screen__button-container {

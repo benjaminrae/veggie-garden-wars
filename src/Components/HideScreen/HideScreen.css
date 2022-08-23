@@ -21,6 +21,8 @@
 
 .hide-screen__title {
     font-size: 1.5rem;
+    font-family: "Rubik Dirt", cursive;
+    color: var(--dark-brown);
 }
 
 .hide-screen__icon {
