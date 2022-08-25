@@ -4,7 +4,7 @@
     justify-content: center;
     align-items: center;
     background-color: var(--pastel-beige);
-    width: 60%;
+    width: 80%;
     height: 60%;
     border-radius: 1rem;
 }
@@ -26,7 +26,7 @@
 }
 
 .hide-screen__icon {
-    font-size: 2rem;
+    font-size: 4rem;
 }
 
 .hide-screen__button {

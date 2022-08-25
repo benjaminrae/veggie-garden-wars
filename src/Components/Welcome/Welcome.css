@@ -11,7 +11,8 @@
 }
 
 .welcome__screen {
-    height: 80%;
+    height: 100%;
+    width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
@@ -19,8 +20,8 @@
     gap: 2rem;
     padding: 2rem;
     text-align: center;
-    overflow-y: scroll;
-    overflow-clip-margin: 0;
+    overflow-y: overlay;
+    overflow-x: hidden;
 }
 
 .welcome__screen::-webkit-scrollbar {
@@ -62,7 +63,7 @@
 }
 
 .welcome__icon {
-    font-size: 2rem;
+    font-size: 4rem;
 }
 
 strong {
