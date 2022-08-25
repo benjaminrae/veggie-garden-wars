@@ -1,21 +1,9 @@
 import "./GameScreen.css";
 import GameGrid from "../GameGrid/GameGrid";
 import VeggiePlaceTable from "../VeggiePlaceTable/VeggiePlaceTable";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import robotGif from "../../assets/gifs/starbase-angry-robot-sound.gif";
-
-const ComputerTurn = () => {
-    return (
-        <div className="computer-turn">
-            <div className="computer-turn__container">
-                <div className="computer-turn__title">
-                    The Robot is taking its turn
-                </div>
-                <div className="computer-turn__icon">🤖</div>
-            </div>
-        </div>
-    );
-};
+import loading from "../../assets/gifs/loading-loading-forever.gif";
 
 const GameScreen = (props) => {
     const [buttonDirections, setButtonDirections] = useState([
@@ -25,6 +13,22 @@ const GameScreen = (props) => {
         { direction: "right", directionSymbol: "➡", isSelected: false },
     ]);
     const [isAttacking, setIsAttacking] = useState(true);
+    const [isComputerContinue, setIsComputerContinue] = useState(false);
+
+    useEffect(() => {
+        if (!isComputerContinue) {
+            return;
+        }
+        const timeout = setTimeout(() => {
+            props.onConfirmPlacement();
+            console.log("done");
+        }, 3000);
+
+        return () => {
+            setIsComputerContinue(false);
+            clearTimeout(timeout);
+        };
+    }, [isComputerContinue, props, setIsComputerContinue]);
 
     const handleResetClick = (event) => {
         props.onReset();
@@ -57,6 +61,10 @@ const GameScreen = (props) => {
     };
 
     const handleConfirmClick = () => {
+        if (props.isVersusCPU) {
+            props.onConfirmPlacement();
+            setIsComputerContinue(true);
+        }
         if (props.playerVeggies.every((veggie) => veggie.isPlaced)) {
             props.onConfirmPlacement();
         }
@@ -69,10 +77,17 @@ const GameScreen = (props) => {
 
     return (
         <div className="game-screen">
-            {!props.isPLayer1Turn && props.isVersusCPU && (
+            {!props.isPlayer1Turn && props.isVersusCPU && (
                 <div className="game-screen__computer-turn">
                     <div className="computer-turn__container">
-                        <div className="computer-turn__icon">🤖</div>
+                        <div className="computer-turn__icon">
+                            🤖
+                            <img
+                                className="computer-turn__loading"
+                                src={loading}
+                                alt=""
+                            />
+                        </div>
                         <div className="computer-turn__title">
                             "Me cago en tus huertos!"
                         </div>
@@ -202,7 +217,7 @@ const GameScreen = (props) => {
                     {!props.showBoardComparison && (
                         <>
                             <h2 className="game-screen__title">
-                                {props.player1Turn ? "Player 1" : "Player 2"}
+                                {props.isPlayer1Turn ? "Player 1" : "Player 2"}
                                 <br />
                                 {props.arePlayerVeggiesPlaced
                                     ? "Take your turn"

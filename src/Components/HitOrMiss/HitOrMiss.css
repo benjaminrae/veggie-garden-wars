@@ -6,7 +6,7 @@
     align-items: center;
     background-color: var(--pastel-beige);
     width: 60%;
-    height: 60%;
+    /* height: 60%; */
     border-radius: 1rem;
     z-index: 45;
 }
@@ -43,5 +43,5 @@
 }
 
 .hit-or-miss__gif {
-    width: 90%;
+    width: 80%;
 }

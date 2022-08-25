@@ -112,12 +112,13 @@
 
 .game-screen__computer-turn {
     position: absolute;
-    height: 100%;
-    width: 100%;
-    background-color: white;
+    height: 85%;
+    width: 85%;
+    background-color: var(--off-white);
     display: flex;
     justify-content: center;
     align-items: center;
+    /* transform: translateX(-50%) translateY(-50%); */
 }
 
 .computer-turn__container {
@@ -138,6 +139,10 @@
 }
 .computer-turn__icon {
     font-size: 2rem;
+}
+
+.computer-turn__loading {
+    max-width: 2rem;
 }
 
 .computer-turn__gif {

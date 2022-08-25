@@ -70,6 +70,7 @@ const App = () => {
     const [isMuted, setIsMuted] = useState(false);
     const [isWon, setIsWon] = useState(false);
     const [showBoardComparison, setShowBoardComparison] = useState(false);
+    const [isComputerFire, setIsComputerFire] = useState(false);
 
     useEffect(() => {
         setPlayer1Grid(createPlayerGrid());
@@ -103,7 +104,30 @@ const App = () => {
         if (player2Cells && player2Cells.every((cell) => cell.isDefendingHit)) {
             setIsWon(true);
         }
-    }, [player1Grid, player2Grid]);
+    }, [
+        arePlayer1VeggiesPlaced,
+        arePlayer2VeggiesPlaced,
+        player1Grid,
+        player2Grid,
+    ]);
+
+    useEffect(() => {
+        if (!isComputerFire) {
+            return;
+        }
+        let fireId;
+        do {
+            fireId = createComputerId();
+        } while (checkComputerId(fireId));
+        const fireTimeout = setTimeout(() => {
+            onFire(fireId);
+            setIsComputerFire(false);
+        }, 3000);
+
+        return () => {
+            clearTimeout(fireTimeout);
+        };
+    }, [isComputerFire]);
 
     const createPlayerGrid = () => {
         const playerGrid = [];
@@ -169,7 +193,12 @@ const App = () => {
 
     const startGame = () => {
         setShowWelcome(false);
-        isVersusCPU ? setShowGameScreen(true) : setShowHideScreen(true);
+        if (isVersusCPU) {
+            setShowGameScreen(true);
+            setUpComputerGrid();
+            return;
+        }
+        setShowHideScreen(true);
     };
 
     const takeTurn = () => {
@@ -231,6 +260,8 @@ const App = () => {
         } else if (isPlayer1Turn && isVersusCPU) {
             setIsPlayer1Turn(false);
             setShowGameScreen(true);
+        } else {
+            setIsPlayer1Turn(true);
         }
     };
 
@@ -241,10 +272,12 @@ const App = () => {
                 if (cell.id === targetId) {
                     if (cell.veggieSymbol) {
                         cell.isDefendingHit = true;
+                        cell.isAttacked = true;
                         newPlayer1Grid[index].isAttackingHit = true;
                         setIsHit(true);
                     } else {
                         cell.isDefendingMiss = true;
+                        cell.isAttacked = true;
                         newPlayer1Grid[index].isAttackingMiss = true;
                         setIsHit(false);
                     }
@@ -260,10 +293,14 @@ const App = () => {
                 if (cell.id === targetId) {
                     if (cell.veggieSymbol) {
                         cell.isDefendingHit = true;
+                        cell.isAttacked = true;
+
                         newPlayer2Grid[index].isAttackingHit = true;
                         setIsHit(true);
                     } else {
                         cell.isDefendingMiss = true;
+                        cell.isAttacked = true;
+
                         newPlayer2Grid[index].isAttackingMiss = true;
                         setIsHit(false);
                     }
@@ -273,11 +310,20 @@ const App = () => {
             });
             setPlayer1Grid(newPlayer1Grid);
             setPlayer2Grid(newPlayer2Grid);
+            if (!isWon && isVersusCPU) {
+            }
         }
-        if (!isWon) setShowHitOrMiss(true);
+        // if (!isWon && !isVersusCPU) setShowHitOrMiss(true);
+        // if (!isWon && isVersusCPU) {
+        //     isPlayer1Turn ? setShowHitOrMiss(true) : togglePlayer();
+        // }
+        setShowHitOrMiss(true);
     };
 
     const handleHitOrMissContinue = () => {
+        if (isPlayer1Turn && isVersusCPU) {
+            setIsComputerFire(true);
+        }
         setShowHitOrMiss(false);
         togglePlayer();
     };
@@ -305,6 +351,118 @@ const App = () => {
         setShowGameScreen(true);
         setIsWon(false);
         setShowBoardComparison(true);
+    };
+
+    const createComputerId = () => {
+        const randomId = Math.floor(Math.random() * player2Grid.length);
+        return randomId;
+    };
+
+    const checkComputerId = (randomId) => {
+        return player1Grid[randomId].isAttacked;
+    };
+
+    const createComputerDirection = () => {
+        const randomDirection = [1, -1, gridHeight, gridHeight * -1][
+            Math.floor(Math.random() * 4)
+        ];
+        return randomDirection;
+    };
+
+    const setUpComputerGrid = () => {
+        for (let playerVeggie of player2Veggies) {
+            let randomId, randomDirection;
+            do {
+                randomId = createComputerId();
+                randomDirection = createComputerDirection();
+            } while (
+                !checkComputerCellsToFill(
+                    playerVeggie,
+                    randomId,
+                    player2Grid,
+                    randomDirection
+                )
+            );
+
+            fillComputerCellsWithVeggies(
+                playerVeggie,
+                randomId,
+                randomDirection
+            );
+        }
+    };
+
+    const fillComputerCellsWithVeggies = (
+        playerVeggie,
+        randomId,
+        randomDirection
+    ) => {
+        let playerGrid = player2Grid;
+
+        for (let i = 0; i < playerVeggie.spaces; i++) {
+            playerGrid = playerGrid.map((cell) => {
+                if (cell.id === randomId + i * randomDirection) {
+                    cell.veggieSymbol = playerVeggie.veggieSymbol;
+                }
+                return cell;
+            });
+        }
+        setPlayer2Grid(playerGrid);
+    };
+
+    const checkComputerCellsToFill = (
+        playerVeggie,
+        randomId,
+        playerGrid,
+        randomDirection
+    ) => {
+        console.log(playerVeggie);
+        const cellsToFill = [];
+        for (let i = 0; i < playerVeggie.spaces; i++) {
+            playerGrid.forEach((cell) => {
+                if (cell.id === randomId + i * randomDirection) {
+                    cellsToFill.push(cell);
+                }
+            });
+        }
+
+        if (cellsToFill.some((cell) => cell.veggieSymbol)) {
+            // console.log("veggie clash");
+            return false;
+        }
+        if (cellsToFill.length !== playerVeggie.spaces) {
+            // console.log("out of grid");
+            return false;
+        }
+        if (
+            randomDirection === gridHeight ||
+            randomDirection === gridHeight * -1
+        ) {
+            // console.log("end of line edge case");
+
+            return true;
+        }
+        const sortedCellsToFill = cellsToFill.sort((a, b) => a.id - b.id);
+        if (sortedCellsToFill[sortedCellsToFill.length - 1].id % 10 === 0) {
+            // console.log("end of line edge case");
+            return true;
+        }
+        if (sortedCellsToFill[0].id % 10 === 0) {
+            // console.log("end of line edge case");
+            return false;
+        }
+        // if (cellsToFill[cellsToFill.length - 1].id % 10 === 0) {
+        //     console.log("end of line edge case");
+        //     return cellsToFill[0].id < cellsToFill[cellsToFill.length - 1].id;
+        // }
+        if (
+            Math.floor(cellsToFill[0].id / 10) !==
+            Math.floor(cellsToFill[cellsToFill.length - 1].id / 10)
+        ) {
+            // console.log("end of line");
+            return false;
+        }
+        return true;
     };
 
     const takeComputerTurn = () => {};
@@ -340,7 +498,7 @@ const App = () => {
                     <GameScreen
                         height={gridHeight}
                         width={gridWidth}
-                        player1Turn={isPlayer1Turn}
+                        isPlayer1Turn={isPlayer1Turn}
                         arePlayerVeggiesPlaced={
                             isPlayer1Turn
                                 ? arePlayer1VeggiesPlaced
@@ -360,6 +518,7 @@ const App = () => {
                             isPlayer1Turn ? player2Grid : player1Grid
                         }
                         onPlayAgain={handlePlayAgain}
+                        isVersusCPU={isVersusCPU}
                     />
                 )}
                 {showHitOrMiss && (
