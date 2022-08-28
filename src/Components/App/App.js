@@ -63,8 +63,8 @@ const App = () => {
     // const [showHideScreen, setShowHideScreen] = useState(false);
     // const [showGameScreen, setShowGameScreen] = useState(false);
     // const [showHowItWorks, setShowHowItWorks] = useState(false);
-    const [showHighScores, setShowHighScores] = useState(false);
-    const [showHitOrMiss, setShowHitOrMiss] = useState(false);
+    // const [showHighScores, setShowHighScores] = useState(false);
+    // const [showHitOrMiss, setShowHitOrMiss] = useState(false);
     const [showBoardComparison, setShowBoardComparison] = useState(false);
     const [arePlayer1VeggiesPlaced, setArePlayer1VeggiesPlaced] =
         useState(false);
@@ -227,7 +227,8 @@ const App = () => {
     };
 
     const handleCloseHighScoresClick = () => {
-        setShowHighScores(false);
+        setDisplay((prev) => ({ ...prev, showHighScores: false }));
+        // setShowHighScores(false);
     };
 
     const handleCloseHowItWorksClick = () => {
@@ -236,7 +237,8 @@ const App = () => {
     };
 
     const openHighScores = () => {
-        setShowHighScores(true);
+        setDisplay((prev) => ({ ...prev, showHighScores: true }));
+        // setShowHighScores(true);
     };
 
     const openHowItWorks = () => {
@@ -350,14 +352,16 @@ const App = () => {
         // if (!isWon && isVersusCPU) {
         //     isPlayer1Turn ? setShowHitOrMiss(true) : togglePlayer();
         // }
-        setShowHitOrMiss(true);
+        setDisplay((prev) => ({ ...prev, showHitOrMiss: true }));
+        // setShowHitOrMiss(true);
     };
 
     const handleHitOrMissContinue = () => {
         if (isPlayer1Turn && isVersusCPU) {
             setIsComputerFire(true);
         }
-        setShowHitOrMiss(false);
+        setDisplay((prev) => ({ ...prev, showHitOrMiss: false }));
+        // setShowHitOrMiss(false);
         togglePlayer();
     };
 
@@ -525,7 +529,7 @@ const App = () => {
                 {display.showHowItWorks && (
                     <HowItWorks onClose={handleCloseHowItWorksClick} />
                 )}
-                {showHighScores && (
+                {display.showHighScores && (
                     <HighScores onClose={handleCloseHighScoresClick} />
                 )}
                 {display.showWelcome && (
@@ -567,7 +571,7 @@ const App = () => {
                         isVersusCPU={isVersusCPU}
                     />
                 )}
-                {showHitOrMiss && (
+                {display.showHitOrMiss && (
                     <HitOrMiss
                         isHit={isHit}
                         onContinue={handleHitOrMissContinue}
