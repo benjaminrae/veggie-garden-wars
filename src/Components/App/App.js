@@ -50,11 +50,22 @@ const App = () => {
     const [gridDimensions] = useState({ gridHeight: 10, gridWidth: 10 });
     const [isVersusCPU, setIsVersusCPU] = useState(false);
     const [isPlayer1Turn, setIsPlayer1Turn] = useState(true);
+    const [display, setDisplay] = useState({
+        showWelcome: true,
+        showHideScreen: false,
+        showGameScreen: false,
+        showHowItWorks: false,
+        showHighScores: false,
+        showHitOrMiss: false,
+        showBoardComparison: false,
+    });
     const [showWelcome, setShowWelcome] = useState(true);
     const [showHideScreen, setShowHideScreen] = useState(false);
     const [showGameScreen, setShowGameScreen] = useState(false);
     const [showHowItWorks, setShowHowItWorks] = useState(false);
     const [showHighScores, setShowHighScores] = useState(false);
+    const [showHitOrMiss, setShowHitOrMiss] = useState(false);
+    const [showBoardComparison, setShowBoardComparison] = useState(false);
     const [arePlayer1VeggiesPlaced, setArePlayer1VeggiesPlaced] =
         useState(false);
     const [arePlayer2VeggiesPlaced, setArePlayer2VeggiesPlaced] =
@@ -65,10 +76,8 @@ const App = () => {
     const [player2Grid, setPlayer2Grid] = useState([]);
     const [isReset, setIsReset] = useState(false);
     const [isHit, setIsHit] = useState(false);
-    const [showHitOrMiss, setShowHitOrMiss] = useState(false);
     const [isMuted, setIsMuted] = useState(false);
     const [isWon, setIsWon] = useState(false);
-    const [showBoardComparison, setShowBoardComparison] = useState(false);
     const [isComputerFire, setIsComputerFire] = useState(false);
 
     useEffect(() => {
@@ -195,7 +204,8 @@ const App = () => {
     };
 
     const startGame = () => {
-        setShowWelcome(false);
+        setDisplay((prev) => ({ ...prev, showWelcome: false }));
+        // setShowWelcome(false);
         if (isVersusCPU) {
             setShowGameScreen(true);
             setUpComputerGrid();
@@ -346,7 +356,8 @@ const App = () => {
         setIsWon(false);
         setShowBoardComparison(false);
         setShowGameScreen(false);
-        setShowWelcome(true);
+        // setShowWelcome(true);
+        setDisplay((prev) => ({ ...prev, showWelcome: true }));
     };
 
     const handleShowBoards = () => {
@@ -488,7 +499,7 @@ const App = () => {
                 {showHighScores && (
                     <HighScores onClose={handleCloseHighScoresClick} />
                 )}
-                {showWelcome && (
+                {display.showWelcome && (
                     <Welcome
                         onPlayerSelect={selectPlayers}
                         onStartGame={startGame}
