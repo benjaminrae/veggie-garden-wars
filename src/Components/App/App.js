@@ -65,7 +65,7 @@ const App = () => {
     // const [showHowItWorks, setShowHowItWorks] = useState(false);
     // const [showHighScores, setShowHighScores] = useState(false);
     // const [showHitOrMiss, setShowHitOrMiss] = useState(false);
-    const [showBoardComparison, setShowBoardComparison] = useState(false);
+    // const [showBoardComparison, setShowBoardComparison] = useState(false);
     const [arePlayer1VeggiesPlaced, setArePlayer1VeggiesPlaced] =
         useState(false);
     const [arePlayer2VeggiesPlaced, setArePlayer2VeggiesPlaced] =
@@ -378,12 +378,13 @@ const App = () => {
         setPlayer2Veggies(createNewVeggies());
         setArePlayer1VeggiesPlaced(false);
         setIsWon(false);
-        setShowBoardComparison(false);
         setDisplay((prev) => ({
             ...prev,
             showWelcome: true,
             showGameScreen: false,
+            showBoardComparison: false,
         }));
+        // setShowBoardComparison(false);
         // setShowGameScreen(false);
         // setShowWelcome(true);
     };
@@ -393,11 +394,12 @@ const App = () => {
             ...prev,
             showHideScreen: false,
             showGameScreen: true,
+            showBoardComparison: true,
         }));
+        setIsWon(false);
         // setShowHideScreen(false);
         // setShowGameScreen(true);
-        setIsWon(false);
-        setShowBoardComparison(true);
+        // setShowBoardComparison(true);
     };
 
     const createComputerId = () => {
@@ -563,7 +565,7 @@ const App = () => {
                         onReset={onResetGridAndPlacement}
                         onConfirmPlacement={onConfirmVeggiePlacement}
                         onFire={onFire}
-                        showBoardComparison={showBoardComparison}
+                        showBoardComparison={display.showBoardComparison}
                         secondPlayerGrid={
                             isPlayer1Turn ? player2Grid : player1Grid
                         }
