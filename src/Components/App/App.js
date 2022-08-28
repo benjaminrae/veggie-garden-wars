@@ -156,6 +156,7 @@ const App = () => {
                 isDefendingMiss: false,
                 isSelected: false,
                 isAttacked: false,
+                isDefended: false,
             });
         }
         return playerGrid;
@@ -319,13 +320,15 @@ const App = () => {
                 if (cell.id === targetId) {
                     if (cell.veggieSymbol) {
                         cell.isDefendingHit = true;
-                        cell.isAttacked = true;
+                        cell.isDefended = true;
                         newPlayer1Grid[index].isAttackingHit = true;
+                        newPlayer1Grid[index].isAttacked = true;
                         setIsHit(true);
                     } else {
                         cell.isDefendingMiss = true;
-                        cell.isAttacked = true;
+                        cell.isDefended = true;
                         newPlayer1Grid[index].isAttackingMiss = true;
+                        newPlayer1Grid[index].isAttacked = true;
                         setIsHit(false);
                     }
                     newPlayer1Grid[index].isSelected = false;
@@ -340,15 +343,15 @@ const App = () => {
                 if (cell.id === targetId) {
                     if (cell.veggieSymbol) {
                         cell.isDefendingHit = true;
-                        cell.isAttacked = true;
-
+                        cell.isDefended = true;
                         newPlayer2Grid[index].isAttackingHit = true;
+                        newPlayer2Grid[index].isAttacked = true;
                         setIsHit(true);
                     } else {
                         cell.isDefendingMiss = true;
-                        cell.isAttacked = true;
-
+                        cell.isDefended = true;
                         newPlayer2Grid[index].isAttackingMiss = true;
+                        newPlayer2Grid[index].isAttacked = true;
                         setIsHit(false);
                     }
                     newPlayer2Grid[index].isSelected = false;
