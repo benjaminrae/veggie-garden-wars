@@ -61,7 +61,7 @@ const App = () => {
     });
     // const [showWelcome, setShowWelcome] = useState(true);
     // const [showHideScreen, setShowHideScreen] = useState(false);
-    const [showGameScreen, setShowGameScreen] = useState(false);
+    // const [showGameScreen, setShowGameScreen] = useState(false);
     const [showHowItWorks, setShowHowItWorks] = useState(false);
     const [showHighScores, setShowHighScores] = useState(false);
     const [showHitOrMiss, setShowHitOrMiss] = useState(false);
@@ -207,7 +207,8 @@ const App = () => {
         setDisplay((prev) => ({ ...prev, showWelcome: false }));
         // setShowWelcome(false);
         if (isVersusCPU) {
-            setShowGameScreen(true);
+            setDisplay((prev) => ({ ...prev, showGameScreen: true }));
+            // setShowGameScreen(true);
             setUpComputerGrid();
             return;
         }
@@ -216,9 +217,13 @@ const App = () => {
     };
 
     const takeTurn = () => {
-        setDisplay((prev) => ({ ...prev, showHideScreen: false }));
+        setDisplay((prev) => ({
+            ...prev,
+            showHideScreen: false,
+            showGameScreen: true,
+        }));
         // setShowHideScreen(false);
-        setShowGameScreen(true);
+        // setShowGameScreen(true);
     };
 
     const handleCloseHighScoresClick = () => {
@@ -266,17 +271,26 @@ const App = () => {
     const togglePlayer = () => {
         if (isPlayer1Turn && !isVersusCPU) {
             setIsPlayer1Turn(false);
-            setShowGameScreen(false);
-            setDisplay((prev) => ({ ...prev, showHideScreen: true }));
+            setDisplay((prev) => ({
+                ...prev,
+                showHideScreen: true,
+                showGameScreen: false,
+            }));
+            // setShowGameScreen(false);
             // setShowHideScreen(true);
         } else if (!isPlayer1Turn && !isVersusCPU) {
             setIsPlayer1Turn(true);
-            setShowGameScreen(false);
-            setDisplay((prev) => ({ ...prev, showHideScreen: true }));
+            setDisplay((prev) => ({
+                ...prev,
+                showHideScreen: true,
+                showGameScreen: false,
+            }));
+            // setShowGameScreen(false);
             // setShowHideScreen(true);
         } else if (isPlayer1Turn && isVersusCPU) {
             setIsPlayer1Turn(false);
-            setShowGameScreen(true);
+            setDisplay((prev) => ({ ...prev, showGameScreen: true }));
+            // setShowGameScreen(true);
         } else {
             setIsPlayer1Turn(true);
         }
@@ -359,15 +373,23 @@ const App = () => {
         setArePlayer1VeggiesPlaced(false);
         setIsWon(false);
         setShowBoardComparison(false);
-        setShowGameScreen(false);
+        setDisplay((prev) => ({
+            ...prev,
+            showWelcome: true,
+            showGameScreen: false,
+        }));
+        // setShowGameScreen(false);
         // setShowWelcome(true);
-        setDisplay((prev) => ({ ...prev, showWelcome: true }));
     };
 
     const handleShowBoards = () => {
-        setDisplay((prev) => ({ ...prev, showHideScreen: false }));
+        setDisplay((prev) => ({
+            ...prev,
+            showHideScreen: false,
+            showGameScreen: true,
+        }));
         // setShowHideScreen(false);
-        setShowGameScreen(true);
+        // setShowGameScreen(true);
         setIsWon(false);
         setShowBoardComparison(true);
     };
@@ -516,7 +538,7 @@ const App = () => {
                         onTakeTurn={takeTurn}
                     />
                 )}
-                {showGameScreen && (
+                {display.showGameScreen && (
                     <GameScreen
                         height={gridDimensions.gridHeight}
                         width={gridDimensions.gridWidth}
