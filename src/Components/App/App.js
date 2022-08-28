@@ -57,9 +57,12 @@ const App = () => {
         showHitOrMiss: false,
         showBoardComparison: false,
     });
-    const [gameStatus, setGameStatus] = useState({ isVersusCPU: false });
+    const [gameStatus, setGameStatus] = useState({
+        isVersusCPU: false,
+        isPlayer1Turn: true,
+    });
     // const [isVersusCPU, setIsVersusCPU] = useState(false);
-    const [isPlayer1Turn, setIsPlayer1Turn] = useState(true);
+    // const [isPlayer1Turn, setIsPlayer1Turn] = useState(true);
     const [isReset, setIsReset] = useState(false);
     const [isHit, setIsHit] = useState(false);
     const [isMuted, setIsMuted] = useState(false);
@@ -86,7 +89,7 @@ const App = () => {
     }, []);
 
     useEffect(() => {
-        if (isPlayer1Turn) {
+        if (gameStatus.isPlayer1Turn) {
             setPlayer1Grid(createPlayerGrid());
             setPlayer1Veggies(createNewVeggies());
         } else {
@@ -249,13 +252,13 @@ const App = () => {
     };
 
     const updatePlayerVeggieSelection = (newVeggies) => {
-        isPlayer1Turn
+        gameStatus.isPlayer1Turn
             ? setPlayer1Veggies([...newVeggies])
             : setPlayer2Veggies([...newVeggies]);
     };
 
     const updatePlayerGrid = (newPlayerGrid) => {
-        isPlayer1Turn
+        gameStatus.isPlayer1Turn
             ? setPlayer1Grid(newPlayerGrid)
             : setPlayer2Grid(newPlayerGrid);
     };
@@ -265,7 +268,7 @@ const App = () => {
     };
 
     const onConfirmVeggiePlacement = () => {
-        if (isPlayer1Turn) {
+        if (gameStatus.isPlayer1Turn) {
             setArePlayer1VeggiesPlaced(true);
             togglePlayer();
         } else {
@@ -275,8 +278,9 @@ const App = () => {
     };
 
     const togglePlayer = () => {
-        if (isPlayer1Turn && !gameStatus.isVersusCPU) {
-            setIsPlayer1Turn(false);
+        if (gameStatus.isPlayer1Turn && !gameStatus.isVersusCPU) {
+            setGameStatus((prev) => ({ ...prev, isPlayer1Turn: false }));
+            // setIsPlayer1Turn(false);
             setDisplay((prev) => ({
                 ...prev,
                 showHideScreen: true,
@@ -284,8 +288,9 @@ const App = () => {
             }));
             // setShowGameScreen(false);
             // setShowHideScreen(true);
-        } else if (!isPlayer1Turn && !gameStatus.isVersusCPU) {
-            setIsPlayer1Turn(true);
+        } else if (!gameStatus.isPlayer1Turn && !gameStatus.isVersusCPU) {
+            setGameStatus((prev) => ({ ...prev, isPlayer1Turn: true }));
+            // setIsPlayer1Turn(true);
             setDisplay((prev) => ({
                 ...prev,
                 showHideScreen: true,
@@ -293,17 +298,19 @@ const App = () => {
             }));
             // setShowGameScreen(false);
             // setShowHideScreen(true);
-        } else if (isPlayer1Turn && gameStatus.isVersusCPU) {
-            setIsPlayer1Turn(false);
+        } else if (gameStatus.isPlayer1Turn && gameStatus.isVersusCPU) {
+            setGameStatus((prev) => ({ ...prev, isPlayer1Turn: false }));
+            // setIsPlayer1Turn(false);
             setDisplay((prev) => ({ ...prev, showGameScreen: true }));
             // setShowGameScreen(true);
         } else {
-            setIsPlayer1Turn(true);
+            setGameStatus((prev) => ({ ...prev, isPlayer1Turn: true }));
+            // setIsPlayer1Turn(true);
         }
     };
 
     const onFire = (targetId) => {
-        if (isPlayer1Turn) {
+        if (gameStatus.isPlayer1Turn) {
             const newPlayer1Grid = [...player1Grid];
             const newPlayer2Grid = player2Grid.map((cell, index) => {
                 if (cell.id === targetId) {
@@ -355,7 +362,7 @@ const App = () => {
     };
 
     const handleHitOrMissContinue = () => {
-        if (isPlayer1Turn && gameStatus.isVersusCPU) {
+        if (gameStatus.isPlayer1Turn && gameStatus.isVersusCPU) {
             setIsComputerFire(true);
         }
         setDisplay((prev) => ({ ...prev, showHitOrMiss: false }));
@@ -371,7 +378,8 @@ const App = () => {
         setPlayer1Grid(createPlayerGrid());
         setPlayer1Veggies(createNewVeggies());
         setArePlayer1VeggiesPlaced(false);
-        setIsPlayer1Turn(true);
+        setGameStatus((prev) => ({ ...prev, isPlayer1Turn: true }));
+        // setIsPlayer1Turn(true);
         setPlayer2Grid(createPlayerGrid());
         setPlayer2Veggies(createNewVeggies());
         setArePlayer1VeggiesPlaced(false);
@@ -540,7 +548,7 @@ const App = () => {
                 )}
                 {display.showHideScreen && (
                     <HideScreen
-                        player1Turn={isPlayer1Turn}
+                        isPlayer1Turn={gameStatus.isPlayer1Turn}
                         onTakeTurn={takeTurn}
                     />
                 )}
@@ -548,16 +556,20 @@ const App = () => {
                     <GameScreen
                         height={gridDimensions.gridHeight}
                         width={gridDimensions.gridWidth}
-                        isPlayer1Turn={isPlayer1Turn}
+                        isPlayer1Turn={gameStatus.isPlayer1Turn}
                         arePlayerVeggiesPlaced={
-                            isPlayer1Turn
+                            gameStatus.isPlayer1Turn
                                 ? arePlayer1VeggiesPlaced
                                 : arePlayer2VeggiesPlaced
                         }
                         playerVeggies={
-                            isPlayer1Turn ? player1Veggies : player2Veggies
+                            gameStatus.isPlayer1Turn
+                                ? player1Veggies
+                                : player2Veggies
                         }
-                        playerGrid={isPlayer1Turn ? player1Grid : player2Grid}
+                        playerGrid={
+                            gameStatus.isPlayer1Turn ? player1Grid : player2Grid
+                        }
                         onUpdateVeggies={updatePlayerVeggieSelection}
                         onPlayerGridChange={updatePlayerGrid}
                         onReset={onResetGridAndPlacement}
@@ -565,7 +577,7 @@ const App = () => {
                         onFire={onFire}
                         showBoardComparison={display.showBoardComparison}
                         secondPlayerGrid={
-                            isPlayer1Turn ? player2Grid : player1Grid
+                            gameStatus.isPlayer1Turn ? player2Grid : player1Grid
                         }
                         onPlayAgain={handlePlayAgain}
                         isVersusCPU={gameStatus.isVersusCPU}
@@ -579,7 +591,7 @@ const App = () => {
                 )}
                 {isWon && (
                     <GameOver
-                        isPlayer1Turn={isPlayer1Turn}
+                        isPlayer1Turn={gameStatus.isPlayer1Turn}
                         isVersusCPU={gameStatus.isVersusCPU}
                         onHighScoresClick={openHighScores}
                         onPlayAgain={handlePlayAgain}
