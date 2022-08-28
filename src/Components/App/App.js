@@ -47,8 +47,9 @@ const App = () => {
             isSelected: false,
         },
     ]);
-    const [gridHeight] = useState(10);
-    const [gridWidth] = useState(10);
+    const [gridDimensions] = useState({ gridHeight: 10, gridWidth: 10 });
+    // const [gridHeight] = useState(10);
+    // const [gridWidth] = useState(10);
     const [isVersusCPU, setIsVersusCPU] = useState(null);
     const [isPlayer1Turn, setIsPlayer1Turn] = useState(true);
     const [showWelcome, setShowWelcome] = useState(true);
@@ -131,7 +132,11 @@ const App = () => {
 
     const createPlayerGrid = () => {
         const playerGrid = [];
-        for (let i = 0; i < gridHeight * gridWidth; i++) {
+        for (
+            let i = 0;
+            i < gridDimensions.gridHeight * gridDimensions.gridWidth;
+            i++
+        ) {
             playerGrid.push({
                 id: i + 1,
                 veggieSymbol: "",
@@ -363,9 +368,12 @@ const App = () => {
     };
 
     const createComputerDirection = () => {
-        const randomDirection = [1, -1, gridHeight, gridHeight * -1][
-            Math.floor(Math.random() * 4)
-        ];
+        const randomDirection = [
+            1,
+            -1,
+            gridDimensions.gridHeight,
+            gridDimensions.gridHeight * -1,
+        ][Math.floor(Math.random() * 4)];
         return randomDirection;
     };
 
@@ -435,8 +443,8 @@ const App = () => {
             return false;
         }
         if (
-            randomDirection === gridHeight ||
-            randomDirection === gridHeight * -1
+            randomDirection === gridDimensions.gridHeight ||
+            randomDirection === gridDimensions.gridHeight * -1
         ) {
             // console.log("end of line edge case");
 
@@ -496,8 +504,8 @@ const App = () => {
                 )}
                 {showGameScreen && (
                     <GameScreen
-                        height={gridHeight}
-                        width={gridWidth}
+                        height={gridDimensions.gridHeight}
+                        width={gridDimensions.gridWidth}
                         isPlayer1Turn={isPlayer1Turn}
                         arePlayerVeggiesPlaced={
                             isPlayer1Turn
