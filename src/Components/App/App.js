@@ -48,9 +48,7 @@ const App = () => {
         },
     ]);
     const [gridDimensions] = useState({ gridHeight: 10, gridWidth: 10 });
-    // const [gridHeight] = useState(10);
-    // const [gridWidth] = useState(10);
-    const [isVersusCPU, setIsVersusCPU] = useState(null);
+    const [isVersusCPU, setIsVersusCPU] = useState(false);
     const [isPlayer1Turn, setIsPlayer1Turn] = useState(true);
     const [showWelcome, setShowWelcome] = useState(true);
     const [showHideScreen, setShowHideScreen] = useState(false);
