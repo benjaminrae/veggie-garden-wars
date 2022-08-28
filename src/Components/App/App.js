@@ -59,8 +59,8 @@ const App = () => {
         showHitOrMiss: false,
         showBoardComparison: false,
     });
-    const [showWelcome, setShowWelcome] = useState(true);
-    const [showHideScreen, setShowHideScreen] = useState(false);
+    // const [showWelcome, setShowWelcome] = useState(true);
+    // const [showHideScreen, setShowHideScreen] = useState(false);
     const [showGameScreen, setShowGameScreen] = useState(false);
     const [showHowItWorks, setShowHowItWorks] = useState(false);
     const [showHighScores, setShowHighScores] = useState(false);
@@ -211,11 +211,13 @@ const App = () => {
             setUpComputerGrid();
             return;
         }
-        setShowHideScreen(true);
+        setDisplay((prev) => ({ ...prev, showHideScreen: true }));
+        // setShowHideScreen(true);
     };
 
     const takeTurn = () => {
-        setShowHideScreen(false);
+        setDisplay((prev) => ({ ...prev, showHideScreen: false }));
+        // setShowHideScreen(false);
         setShowGameScreen(true);
     };
 
@@ -265,11 +267,13 @@ const App = () => {
         if (isPlayer1Turn && !isVersusCPU) {
             setIsPlayer1Turn(false);
             setShowGameScreen(false);
-            setShowHideScreen(true);
+            setDisplay((prev) => ({ ...prev, showHideScreen: true }));
+            // setShowHideScreen(true);
         } else if (!isPlayer1Turn && !isVersusCPU) {
             setIsPlayer1Turn(true);
             setShowGameScreen(false);
-            setShowHideScreen(true);
+            setDisplay((prev) => ({ ...prev, showHideScreen: true }));
+            // setShowHideScreen(true);
         } else if (isPlayer1Turn && isVersusCPU) {
             setIsPlayer1Turn(false);
             setShowGameScreen(true);
@@ -361,7 +365,8 @@ const App = () => {
     };
 
     const handleShowBoards = () => {
-        setShowHideScreen(false);
+        setDisplay((prev) => ({ ...prev, showHideScreen: false }));
+        // setShowHideScreen(false);
         setShowGameScreen(true);
         setIsWon(false);
         setShowBoardComparison(true);
@@ -505,7 +510,7 @@ const App = () => {
                         onStartGame={startGame}
                     />
                 )}
-                {showHideScreen && (
+                {display.showHideScreen && (
                     <HideScreen
                         player1Turn={isPlayer1Turn}
                         onTakeTurn={takeTurn}
