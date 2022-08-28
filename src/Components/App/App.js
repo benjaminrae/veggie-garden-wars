@@ -62,7 +62,7 @@ const App = () => {
     // const [showWelcome, setShowWelcome] = useState(true);
     // const [showHideScreen, setShowHideScreen] = useState(false);
     // const [showGameScreen, setShowGameScreen] = useState(false);
-    const [showHowItWorks, setShowHowItWorks] = useState(false);
+    // const [showHowItWorks, setShowHowItWorks] = useState(false);
     const [showHighScores, setShowHighScores] = useState(false);
     const [showHitOrMiss, setShowHitOrMiss] = useState(false);
     const [showBoardComparison, setShowBoardComparison] = useState(false);
@@ -231,7 +231,8 @@ const App = () => {
     };
 
     const handleCloseHowItWorksClick = () => {
-        setShowHowItWorks(false);
+        setDisplay((prev) => ({ ...prev, showHowItWorks: false }));
+        // setShowHowItWorks(false);
     };
 
     const openHighScores = () => {
@@ -239,7 +240,8 @@ const App = () => {
     };
 
     const openHowItWorks = () => {
-        setShowHowItWorks(true);
+        setDisplay((prev) => ({ ...prev, showHowItWorks: true }));
+        // setShowHowItWorks(true);
     };
 
     const updatePlayerVeggieSelection = (newVeggies) => {
@@ -520,7 +522,7 @@ const App = () => {
                 onVolumeClick={onVolumeClick}
             />
             <div className="app__main-container">
-                {showHowItWorks && (
+                {display.showHowItWorks && (
                     <HowItWorks onClose={handleCloseHowItWorksClick} />
                 )}
                 {showHighScores && (
