@@ -48,8 +48,6 @@ const App = () => {
         },
     ]);
     const [gridDimensions] = useState({ gridHeight: 10, gridWidth: 10 });
-    const [isVersusCPU, setIsVersusCPU] = useState(false);
-    const [isPlayer1Turn, setIsPlayer1Turn] = useState(true);
     const [display, setDisplay] = useState({
         showWelcome: true,
         showHideScreen: false,
@@ -59,26 +57,26 @@ const App = () => {
         showHitOrMiss: false,
         showBoardComparison: false,
     });
-    // const [showWelcome, setShowWelcome] = useState(true);
-    // const [showHideScreen, setShowHideScreen] = useState(false);
-    // const [showGameScreen, setShowGameScreen] = useState(false);
-    // const [showHowItWorks, setShowHowItWorks] = useState(false);
-    // const [showHighScores, setShowHighScores] = useState(false);
-    // const [showHitOrMiss, setShowHitOrMiss] = useState(false);
-    // const [showBoardComparison, setShowBoardComparison] = useState(false);
-    const [arePlayer1VeggiesPlaced, setArePlayer1VeggiesPlaced] =
-        useState(false);
-    const [arePlayer2VeggiesPlaced, setArePlayer2VeggiesPlaced] =
-        useState(false);
-    const [player1Veggies, setPlayer1Veggies] = useState([]);
-    const [player2Veggies, setPlayer2Veggies] = useState([]);
-    const [player1Grid, setPlayer1Grid] = useState([]);
-    const [player2Grid, setPlayer2Grid] = useState([]);
+    const [gameStatus, setGameStatus] = useState({ isVersusCPU: false });
+    // const [isVersusCPU, setIsVersusCPU] = useState(false);
+    const [isPlayer1Turn, setIsPlayer1Turn] = useState(true);
     const [isReset, setIsReset] = useState(false);
     const [isHit, setIsHit] = useState(false);
     const [isMuted, setIsMuted] = useState(false);
     const [isWon, setIsWon] = useState(false);
     const [isComputerFire, setIsComputerFire] = useState(false);
+    // player 1
+    const [player1Data, setPlayer1Data] = useState({});
+    const [arePlayer1VeggiesPlaced, setArePlayer1VeggiesPlaced] =
+        useState(false);
+    const [player1Veggies, setPlayer1Veggies] = useState([]);
+    const [player1Grid, setPlayer1Grid] = useState([]);
+    // player 2
+    const [player2Data, setPlayer2Data] = useState({});
+    const [arePlayer2VeggiesPlaced, setArePlayer2VeggiesPlaced] =
+        useState(false);
+    const [player2Veggies, setPlayer2Veggies] = useState([]);
+    const [player2Grid, setPlayer2Grid] = useState([]);
 
     useEffect(() => {
         setPlayer1Grid(createPlayerGrid());
@@ -200,13 +198,17 @@ const App = () => {
     };
 
     const selectPlayers = (numberOfPLayers) => {
-        setIsVersusCPU(numberOfPLayers === 1);
+        setGameStatus((prev) => ({
+            ...prev,
+            isVersusCPU: numberOfPLayers === 1,
+        }));
+        // setIsVersusCPU(numberOfPLayers === 1);
     };
 
     const startGame = () => {
         setDisplay((prev) => ({ ...prev, showWelcome: false }));
         // setShowWelcome(false);
-        if (isVersusCPU) {
+        if (gameStatus.isVersusCPU) {
             setDisplay((prev) => ({ ...prev, showGameScreen: true }));
             // setShowGameScreen(true);
             setUpComputerGrid();
@@ -273,7 +275,7 @@ const App = () => {
     };
 
     const togglePlayer = () => {
-        if (isPlayer1Turn && !isVersusCPU) {
+        if (isPlayer1Turn && !gameStatus.isVersusCPU) {
             setIsPlayer1Turn(false);
             setDisplay((prev) => ({
                 ...prev,
@@ -282,7 +284,7 @@ const App = () => {
             }));
             // setShowGameScreen(false);
             // setShowHideScreen(true);
-        } else if (!isPlayer1Turn && !isVersusCPU) {
+        } else if (!isPlayer1Turn && !gameStatus.isVersusCPU) {
             setIsPlayer1Turn(true);
             setDisplay((prev) => ({
                 ...prev,
@@ -291,7 +293,7 @@ const App = () => {
             }));
             // setShowGameScreen(false);
             // setShowHideScreen(true);
-        } else if (isPlayer1Turn && isVersusCPU) {
+        } else if (isPlayer1Turn && gameStatus.isVersusCPU) {
             setIsPlayer1Turn(false);
             setDisplay((prev) => ({ ...prev, showGameScreen: true }));
             // setShowGameScreen(true);
@@ -345,19 +347,15 @@ const App = () => {
             });
             setPlayer1Grid(newPlayer1Grid);
             setPlayer2Grid(newPlayer2Grid);
-            if (!isWon && isVersusCPU) {
+            if (!isWon && gameStatus.isVersusCPU) {
             }
         }
-        // if (!isWon && !isVersusCPU) setShowHitOrMiss(true);
-        // if (!isWon && isVersusCPU) {
-        //     isPlayer1Turn ? setShowHitOrMiss(true) : togglePlayer();
-        // }
         setDisplay((prev) => ({ ...prev, showHitOrMiss: true }));
         // setShowHitOrMiss(true);
     };
 
     const handleHitOrMissContinue = () => {
-        if (isPlayer1Turn && isVersusCPU) {
+        if (isPlayer1Turn && gameStatus.isVersusCPU) {
             setIsComputerFire(true);
         }
         setDisplay((prev) => ({ ...prev, showHitOrMiss: false }));
@@ -570,7 +568,7 @@ const App = () => {
                             isPlayer1Turn ? player2Grid : player1Grid
                         }
                         onPlayAgain={handlePlayAgain}
-                        isVersusCPU={isVersusCPU}
+                        isVersusCPU={gameStatus.isVersusCPU}
                     />
                 )}
                 {display.showHitOrMiss && (
@@ -582,7 +580,7 @@ const App = () => {
                 {isWon && (
                     <GameOver
                         isPlayer1Turn={isPlayer1Turn}
-                        isVersusCPU={isVersusCPU}
+                        isVersusCPU={gameStatus.isVersusCPU}
                         onHighScoresClick={openHighScores}
                         onPlayAgain={handlePlayAgain}
                         onShowBoards={handleShowBoards}
