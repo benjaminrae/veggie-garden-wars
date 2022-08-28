@@ -60,10 +60,11 @@ const App = () => {
     const [gameStatus, setGameStatus] = useState({
         isVersusCPU: false,
         isPlayer1Turn: true,
+        isReset: false,
     });
     // const [isVersusCPU, setIsVersusCPU] = useState(false);
     // const [isPlayer1Turn, setIsPlayer1Turn] = useState(true);
-    const [isReset, setIsReset] = useState(false);
+    // const [isReset, setIsReset] = useState(false);
     const [isHit, setIsHit] = useState(false);
     const [isMuted, setIsMuted] = useState(false);
     const [isWon, setIsWon] = useState(false);
@@ -97,9 +98,10 @@ const App = () => {
             setPlayer2Veggies(createNewVeggies());
         }
         return () => {
-            setIsReset(false);
+            setGameStatus((prev) => ({ ...prev, isReset: false }));
+            // setIsReset(false);
         };
-    }, [isReset]);
+    }, [gameStatus.isReset]);
 
     useEffect(() => {
         if (!arePlayer1VeggiesPlaced || !arePlayer2VeggiesPlaced) {
@@ -264,7 +266,8 @@ const App = () => {
     };
 
     const onResetGridAndPlacement = () => {
-        setIsReset(true);
+        setGameStatus((prev) => ({ ...prev, isReset: true }));
+        // setIsReset(true);
     };
 
     const onConfirmVeggiePlacement = () => {
