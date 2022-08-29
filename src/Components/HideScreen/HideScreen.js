@@ -1,8 +1,8 @@
 import "./HideScreen.css";
 
-const HideScreen = (props) => {
+const HideScreen = ({ isPlayer1Turn, onTakeTurn }) => {
     const handleTakeTurnClick = () => {
-        props.onTakeTurn();
+        onTakeTurn();
     };
 
     return (
@@ -10,12 +10,11 @@ const HideScreen = (props) => {
             <div className="hide-screen__screen">
                 <div className="hide-screen__icon">🙈</div>
                 <h2 className="hide-screen__title">
-                    {props.isPlayer1Turn ? "Player 1" : "Player 2"} it's your
-                    turn
+                    {isPlayer1Turn ? "Player 1" : "Player 2"} it's your turn
                 </h2>
                 <div>
                     Hide the screen from{" "}
-                    {props.isPlayer1Turn ? "player 2" : "player 1"}!
+                    {isPlayer1Turn ? "player 2" : "player 1"}!
                 </div>
                 <button
                     className="hide-screen__button"
