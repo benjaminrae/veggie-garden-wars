@@ -1,11 +1,27 @@
 import "./GameScreen.css";
+import { useState, useEffect } from "react";
 import GameGrid from "../GameGrid/GameGrid";
 import VeggiePlaceTable from "../VeggiePlaceTable/VeggiePlaceTable";
-import { useState, useEffect } from "react";
 import robotGif from "../../assets/gifs/starbase-angry-robot-sound.gif";
 import loading from "../../assets/gifs/loading-loading-forever.gif";
 
-const GameScreen = (props) => {
+const GameScreen = ({
+    height,
+    width,
+    isPlayer1Turn,
+    arePlayerVeggiesPlaced,
+    playerVeggies,
+    playerGrid,
+    onUpdateVeggies,
+    onPlayerGridChange,
+    onReset,
+    onConfirmPlacement,
+    onFire,
+    showBoardComparison,
+    secondPlayerGrid,
+    onPlayAgain,
+    isVersusCPU,
+}) => {
     const [buttonDirections, setButtonDirections] = useState([
         { direction: "up", directionSymbol: "⬆", isSelected: true },
         { direction: "down", directionSymbol: "⬇", isSelected: false },
@@ -20,7 +36,7 @@ const GameScreen = (props) => {
             return;
         }
         const timeout = setTimeout(() => {
-            props.onConfirmPlacement();
+            onConfirmPlacement();
             console.log("done");
         }, 3000);
 
@@ -28,10 +44,10 @@ const GameScreen = (props) => {
             setIsComputerContinue(false);
             clearTimeout(timeout);
         };
-    }, [isComputerContinue, props, setIsComputerContinue]);
+    }, [isComputerContinue, onConfirmPlacement, setIsComputerContinue]);
 
     const handleResetClick = (event) => {
-        props.onReset();
+        onReset();
     };
 
     const handleDirectionClick = (event) => {
@@ -56,28 +72,28 @@ const GameScreen = (props) => {
     };
 
     const handleFireClick = () => {
-        const targetId = props.playerGrid.find((cell) => cell.isSelected).id;
-        props.onFire(targetId);
+        const targetId = playerGrid.find((cell) => cell.isSelected).id;
+        onFire(targetId);
     };
 
     const handleConfirmClick = () => {
-        if (props.isVersusCPU) {
-            props.onConfirmPlacement();
+        if (isVersusCPU) {
+            onConfirmPlacement();
             setIsComputerContinue(true);
         }
-        if (props.playerVeggies.every((veggie) => veggie.isPlaced)) {
-            props.onConfirmPlacement();
+        if (playerVeggies.every((veggie) => veggie.isPlaced)) {
+            onConfirmPlacement();
         }
     };
 
     const handlePlayAgainClick = () => {
         setIsAttacking(true);
-        props.onPlayAgain();
+        onPlayAgain();
     };
 
     return (
         <div className="game-screen">
-            {!props.isPlayer1Turn && props.isVersusCPU && (
+            {!isPlayer1Turn && isVersusCPU && (
                 <div className="game-screen__computer-turn">
                     <div className="computer-turn__container">
                         <div className="computer-turn__icon">
@@ -99,7 +115,7 @@ const GameScreen = (props) => {
                     </div>
                 </div>
             )}
-            {props.showBoardComparison && (
+            {showBoardComparison && (
                 <div className="game-screen__button-container">
                     <button className="game-screen__button" onClick={() => {}}>
                         See high scores
@@ -115,14 +131,12 @@ const GameScreen = (props) => {
 
             <div className="game-screen__container">
                 <div className="game-screen__left-container">
-                    {props.showBoardComparison && (
+                    {showBoardComparison && (
                         <h2 className="game-screen__title">
-                            {props.isPlayer1Turn
-                                ? "Player 1 🏆"
-                                : "Player 2 🏆"}
+                            {isPlayer1Turn ? "Player 1 🏆" : "Player 2 🏆"}
                         </h2>
                     )}
-                    {!props.arePlayerVeggiesPlaced && (
+                    {!arePlayerVeggiesPlaced && (
                         <div className="game-screen__button-container">
                             <div>Set direction:</div>
                             {buttonDirections.map((direction, index) => {
@@ -143,94 +157,91 @@ const GameScreen = (props) => {
                             })}
                         </div>
                     )}
-                    {props.arePlayerVeggiesPlaced &&
-                        !props.showBoardComparison && (
-                            <div className="game-screen__button-container">
-                                <button
-                                    className={
-                                        isAttacking
-                                            ? "game-screen__button--inactive"
-                                            : "game-screen__button--active"
-                                    }
-                                    onClick={handleMyVeggiesClick}
-                                >
-                                    My veggies
-                                </button>
-                                <button
-                                    className={
-                                        isAttacking
-                                            ? "game-screen__button--active"
-                                            : "game-screen__button--inactive"
-                                    }
-                                    onClick={handleAttackingClick}
-                                >
-                                    Attacking
-                                </button>
-                            </div>
-                        )}
+                    {arePlayerVeggiesPlaced && !showBoardComparison && (
+                        <div className="game-screen__button-container">
+                            <button
+                                className={
+                                    isAttacking
+                                        ? "game-screen__button--inactive"
+                                        : "game-screen__button--active"
+                                }
+                                onClick={handleMyVeggiesClick}
+                            >
+                                My veggies
+                            </button>
+                            <button
+                                className={
+                                    isAttacking
+                                        ? "game-screen__button--active"
+                                        : "game-screen__button--inactive"
+                                }
+                                onClick={handleAttackingClick}
+                            >
+                                Attacking
+                            </button>
+                        </div>
+                    )}
                     <GameGrid
-                        height={props.height}
-                        width={props.width}
-                        arePlayerVeggiesPlaced={props.arePlayerVeggiesPlaced}
-                        currentVeggie={props.playerVeggies.find(
+                        height={height}
+                        width={width}
+                        arePlayerVeggiesPlaced={arePlayerVeggiesPlaced}
+                        currentVeggie={playerVeggies.find(
                             (veggie) => veggie.isSelected
                         )}
-                        number={props.playerVeggies.filter((veggie) =>
+                        number={playerVeggies.filter((veggie) =>
                             veggie.isSelected ? veggie.number : ""
                         )}
-                        playerGrid={props.playerGrid}
-                        onPlayerGridChange={props.onPlayerGridChange}
-                        onUpdateVeggies={props.onUpdateVeggies}
-                        playerVeggies={props.playerVeggies}
+                        playerGrid={playerGrid}
+                        onPlayerGridChange={onPlayerGridChange}
+                        onUpdateVeggies={onUpdateVeggies}
+                        playerVeggies={playerVeggies}
                         buttonDirections={buttonDirections}
                         isAttacking={isAttacking}
                     />
                 </div>
                 <div className="game-screen__right-container">
-                    {props.showBoardComparison && (
+                    {showBoardComparison && (
                         <>
                             <h2 className="game-screen__title">
-                                {props.isPlayer1Turn ? "Player 2" : "Player 1"}
+                                {isPlayer1Turn ? "Player 2" : "Player 1"}
                             </h2>
 
                             <GameGrid
-                                height={props.height}
-                                width={props.width}
-                                arePlayerVeggiesPlaced={
-                                    props.arePlayerVeggiesPlaced
-                                }
-                                currentVeggie={props.playerVeggies.find(
+                                height={height}
+                                width={width}
+                                arePlayerVeggiesPlaced={arePlayerVeggiesPlaced}
+                                currentVeggie={playerVeggies.find(
                                     (veggie) => veggie.isSelected
                                 )}
-                                number={props.playerVeggies.filter((veggie) =>
+                                number={playerVeggies.filter((veggie) =>
                                     veggie.isSelected ? veggie.number : ""
                                 )}
-                                playerGrid={props.secondPlayerGrid}
-                                onPlayerGridChange={props.onPlayerGridChange}
-                                onUpdateVeggies={props.onUpdateVeggies}
-                                playerVeggies={props.playerVeggies}
+                                playerGrid={secondPlayerGrid}
+                                onPlayerGridChange={onPlayerGridChange}
+                                onUpdateVeggies={onUpdateVeggies}
+                                playerVeggies={playerVeggies}
                                 buttonDirections={buttonDirections}
                                 isAttacking={isAttacking}
                             />
                         </>
                     )}
-                    {!props.showBoardComparison && (
+                    {!showBoardComparison && (
                         <>
                             <h2 className="game-screen__title">
-                                {props.isPlayer1Turn ? "Player 1" : "Player 2"}
+                                {isPlayer1Turn ? "Player 1" : "Player 2"}
                                 <br />
-                                {props.arePlayerVeggiesPlaced
+                                {arePlayerVeggiesPlaced
                                     ? "Take your turn"
                                     : "Place your veggies"}
                             </h2>
-                            {props.arePlayerVeggiesPlaced || (
+                            {arePlayerVeggiesPlaced || (
                                 <VeggiePlaceTable
-                                    playerVeggies={props.playerVeggies}
-                                    onUpdateVeggies={props.onUpdateVeggies}
+                                    playerVeggies={playerVeggies}
+                                    onUpdateVeggies={onUpdateVeggies}
                                 />
                             )}
                             <div className="game-screen__button-container">
-                                {!props.arePlayerVeggiesPlaced && (
+                                {!arePlayerVeggiesPlaced && (
                                     <button
                                         className="game-screen__button"
                                         onClick={handleResetClick}
@@ -240,19 +251,19 @@ const GameScreen = (props) => {
                                 )}
                                 <button
                                     className={
-                                        props.playerVeggies.every(
+                                        playerVeggies.every(
                                             (veggie) => veggie.isPlaced
                                         )
                                             ? "game-screen__button"
                                             : "game-screen__button--blocked"
                                     }
                                     onClick={
-                                        props.arePlayerVeggiesPlaced
+                                        arePlayerVeggiesPlaced
                                             ? handleFireClick
                                             : handleConfirmClick
                                     }
                                 >
-                                    {props.arePlayerVeggiesPlaced
+                                    {arePlayerVeggiesPlaced
                                         ? "Fire!"
                                         : "Confirm"}
                                 </button>

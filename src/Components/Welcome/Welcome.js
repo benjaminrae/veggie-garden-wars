@@ -1,7 +1,7 @@
 import "./Welcome.css";
 import { useState } from "react";
 
-const Welcome = (props) => {
+const Welcome = ({ onPlayerSelect, onStartGame }) => {
     const [showWelcome, setShowWelcome] = useState(true);
     const [showSinglePlayer, setShowSinglePlayer] = useState(false);
     const [showTwoPlayer, setShowTwoPlayer] = useState(false);
@@ -16,12 +16,13 @@ const Welcome = (props) => {
             setShowWelcome(false);
             setShowTwoPlayer(true);
         }
-        props.onPlayerSelect(+event.target.value);
+        onPlayerSelect(+event.target.value);
     };
 
-    const handleStartGameButtonClick = (event) => {
-        props.onStartGame();
+    const handleStartGameButtonClick = () => {
+        onStartGame();
     };
+
     return (
         <div className="welcome ">
             {showWelcome && (
