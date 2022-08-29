@@ -2,8 +2,6 @@ import "./VeggiePlaceTable.css";
 
 const VeggiePlaceTable = (props) => {
     const handleVeggieSelection = (event) => {
-        console.log(event);
-
         const playerVeggies = [...props.playerVeggies];
         playerVeggies.forEach((veggie) => {
             if (veggie.isPlaced) {
@@ -14,7 +12,6 @@ const VeggiePlaceTable = (props) => {
                     : (veggie.isSelected = false);
             }
         });
-        console.log(playerVeggies);
         props.onUpdateVeggies([...playerVeggies]);
     };
 

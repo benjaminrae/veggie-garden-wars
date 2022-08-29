@@ -2,7 +2,6 @@ import "./GameGrid.css";
 import { useState, useEffect } from "react";
 
 const GameGrid = (props) => {
-    // const [selectedCellId, setSelectedCellId] = useState("");
     const [cellDifference, setCellDifference] = useState({});
 
     useEffect(() => {

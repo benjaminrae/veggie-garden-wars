@@ -37,7 +37,6 @@ const GameScreen = ({
         }
         const timeout = setTimeout(() => {
             onConfirmPlacement();
-            console.log("done");
         }, 3000);
 
         return () => {

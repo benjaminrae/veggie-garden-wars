@@ -76,6 +76,7 @@ const App = () => {
         player2Grid: [],
         arePlayer2VeggiesPlaced: false,
     });
+    const [highScores, setHighScores] = useState([]);
 
     useEffect(() => {
         setPlayer1Data((prev) => ({
@@ -566,8 +567,6 @@ const App = () => {
         }
         return true;
     };
-
-    // const takeComputerTurn = () => {};
 
     return (
         <div className="app">
