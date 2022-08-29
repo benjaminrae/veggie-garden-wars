@@ -263,11 +263,11 @@ const App = () => {
         gameStatus.isPlayer1Turn
             ? setPlayer1Data((prev) => ({
                   ...prev,
-                  player1Veggies: [...newVeggies],
+                  player1Veggies: newVeggies,
               }))
             : setPlayer2Data((prev) => ({
                   ...prev,
-                  player2Veggies: [...newVeggies],
+                  player2Veggies: newVeggies,
               }));
     };
 
@@ -275,11 +275,11 @@ const App = () => {
         gameStatus.isPlayer1Turn
             ? setPlayer1Data((prev) => ({
                   ...prev,
-                  player1Grid: [...newPlayerGrid],
+                  player1Grid: newPlayerGrid,
               }))
             : setPlayer2Data((prev) => ({
                   ...prev,
-                  player2Grid: [...newPlayerGrid],
+                  player2Grid: newPlayerGrid,
               }));
     };
 
@@ -512,9 +512,7 @@ const App = () => {
                 return cell;
             });
         }
-        setPlayer2Data((prev) => ({
-            player2Grid: [...playerGrid],
-        }));
+        setPlayer2Data((prev) => ({ ...prev, player2Grid: [...playerGrid] }));
     };
 
     const checkComputerCellsToFill = (
