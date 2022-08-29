@@ -12,6 +12,7 @@ const GameGrid = (props) => {
             [props.buttonDirections[2].direction]: -1,
             [props.buttonDirections[3].direction]: 1,
         });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const handleAttackingCellClick = (event) => {

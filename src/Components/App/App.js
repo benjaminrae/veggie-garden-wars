@@ -1,15 +1,16 @@
 import "./App.css";
+import { useState, useEffect } from "react";
 import Header from "../Header/Header";
 import Welcome from "../Welcome/Welcome";
 import HideScreen from "../HideScreen/HideScreen";
 import HowItWorks from "../HowItWorks/HowItWorks";
-import { useState, useEffect } from "react";
 import HighScores from "../HighScores/HighScores";
 import GameScreen from "../GameScreen/GameScreen";
 import HitOrMiss from "../HitOrMiss/HitOrMiss";
 import GameOver from "../GameOver/GameOver";
 
 const App = () => {
+    // eslint-disable-next-line no-unused-vars
     const [veggies] = useState([
         {
             veggieName: "Carrots",
@@ -65,14 +66,11 @@ const App = () => {
         isMuted: false,
         isComputerFire: false,
     });
-    // player 1
     const [player1Data, setPlayer1Data] = useState({
         player1Veggies: [],
         player1Grid: [],
         arePlayer1VeggiesPlaced: false,
     });
-
-    // player 2
     const [player2Data, setPlayer2Data] = useState({
         player2Veggies: [],
         player2Grid: [],
@@ -90,6 +88,7 @@ const App = () => {
             player2Veggies: createNewVeggies(),
             player2Grid: createPlayerGrid(),
         }));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {
@@ -109,6 +108,7 @@ const App = () => {
         return () => {
             setGameStatus((prev) => ({ ...prev, isReset: false }));
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [gameStatus.isReset]);
 
     useEffect(() => {
@@ -153,6 +153,7 @@ const App = () => {
         return () => {
             clearTimeout(fireTimeout);
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [gameStatus.isComputerFire]);
 
     const createPlayerGrid = () => {
