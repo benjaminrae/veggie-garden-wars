@@ -69,7 +69,7 @@ const App = () => {
     // const [isReset, setIsReset] = useState(false);
     // const [isHit, setIsHit] = useState(false);
     // const [isMuted, setIsMuted] = useState(false);
-    const [isWon, setIsWon] = useState(false);
+    // const [isWon, setIsWon] = useState(false);
     const [isComputerFire, setIsComputerFire] = useState(false);
     // player 1
     const [player1Data, setPlayer1Data] = useState({});
@@ -112,10 +112,12 @@ const App = () => {
         const player1Cells = player1Grid.filter((cell) => cell.veggieSymbol);
         const player2Cells = player2Grid.filter((cell) => cell.veggieSymbol);
         if (player1Cells && player1Cells.every((cell) => cell.isDefendingHit)) {
-            setIsWon(true);
+            setGameStatus((prev) => ({ ...prev, isWon: true }));
+            // setIsWon(true);
         }
         if (player2Cells && player2Cells.every((cell) => cell.isDefendingHit)) {
-            setIsWon(true);
+            setGameStatus((prev) => ({ ...prev, isWon: true }));
+            // setIsWon(true);
         }
     }, [
         arePlayer1VeggiesPlaced,
@@ -391,12 +393,16 @@ const App = () => {
         setPlayer1Grid(createPlayerGrid());
         setPlayer1Veggies(createNewVeggies());
         setArePlayer1VeggiesPlaced(false);
-        setGameStatus((prev) => ({ ...prev, isPlayer1Turn: true }));
-        // setIsPlayer1Turn(true);
+        setGameStatus((prev) => ({
+            ...prev,
+            isPlayer1Turn: true,
+            isWon: false,
+        }));
         setPlayer2Grid(createPlayerGrid());
         setPlayer2Veggies(createNewVeggies());
         setArePlayer1VeggiesPlaced(false);
-        setIsWon(false);
+        // setIsPlayer1Turn(true);
+        // setIsWon(false);
         setDisplay((prev) => ({
             ...prev,
             showWelcome: true,
@@ -415,7 +421,11 @@ const App = () => {
             showGameScreen: true,
             showBoardComparison: true,
         }));
-        setIsWon(false);
+        setGameStatus((prev) => ({
+            ...prev,
+            isWon: false,
+        }));
+        // setIsWon(false);
         // setShowHideScreen(false);
         // setShowGameScreen(true);
         // setShowBoardComparison(true);
