@@ -1,7 +1,12 @@
 import "./Header.css";
 import { useState, useRef, useEffect } from "react";
 
-const Header = (props) => {
+const Header = ({
+    onHowItWorksClick,
+    onHighScoresClick,
+    isMuted,
+    onVolumeClick,
+}) => {
     const [showNav, setShowNav] = useState(true);
     const [hamburgerOpen, setHamburgerOpen] = useState(false);
     const [width, setWidth] = useState(0);
@@ -39,20 +44,14 @@ const Header = (props) => {
             {(showNav || hamburgerOpen) && (
                 <nav className="header__nav">
                     <ul className="nav__ul">
-                        <li
-                            className="nav__li"
-                            onClick={props.onHowItWorksClick}
-                        >
+                        <li className="nav__li" onClick={onHowItWorksClick}>
                             How it works
                         </li>
-                        <li
-                            className="nav__li"
-                            onClick={props.onHighScoresClick}
-                        >
+                        <li className="nav__li" onClick={onHighScoresClick}>
                             High scores
                         </li>
-                        <li className="nav__li" onClick={props.onVolumeClick}>
-                            {props.isMuted ? "🔈" : "🔊"}
+                        <li className="nav__li" onClick={onVolumeClick}>
+                            {isMuted ? "🔈" : "🔊"}
                         </li>
                     </ul>
                 </nav>
