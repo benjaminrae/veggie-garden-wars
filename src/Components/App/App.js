@@ -3,7 +3,7 @@ import Header from "../Header/Header";
 import Welcome from "../Welcome/Welcome";
 import HideScreen from "../HideScreen/HideScreen";
 import HowItWorks from "../HowItWorks/HowItWorks";
-import { useState, useEffect, cloneElement } from "react";
+import { useState, useEffect } from "react";
 import HighScores from "../HighScores/HighScores";
 import GameScreen from "../GameScreen/GameScreen";
 import HitOrMiss from "../HitOrMiss/HitOrMiss";
@@ -65,60 +65,76 @@ const App = () => {
         isMuted: false,
         isComputerFire: false,
     });
-    const [isComputerFire, setIsComputerFire] = useState(false);
     // player 1
-    const [player1Data, setPlayer1Data] = useState({});
-    const [arePlayer1VeggiesPlaced, setArePlayer1VeggiesPlaced] =
-        useState(false);
-    const [player1Veggies, setPlayer1Veggies] = useState([]);
-    const [player1Grid, setPlayer1Grid] = useState([]);
+    const [player1Data, setPlayer1Data] = useState({
+        player1Veggies: [],
+        player1Grid: [],
+        arePlayer1VeggiesPlaced: false,
+    });
+
     // player 2
-    const [player2Data, setPlayer2Data] = useState({});
-    const [arePlayer2VeggiesPlaced, setArePlayer2VeggiesPlaced] =
-        useState(false);
-    const [player2Veggies, setPlayer2Veggies] = useState([]);
-    const [player2Grid, setPlayer2Grid] = useState([]);
+    const [player2Data, setPlayer2Data] = useState({
+        player2Veggies: [],
+        player2Grid: [],
+        arePlayer2VeggiesPlaced: false,
+    });
 
     useEffect(() => {
-        setPlayer1Grid(createPlayerGrid());
-        setPlayer2Grid(createPlayerGrid());
-        setPlayer1Veggies(createNewVeggies());
-        setPlayer2Veggies(createNewVeggies());
+        setPlayer1Data((prev) => ({
+            ...prev,
+            player1Veggies: createNewVeggies(),
+            player1Grid: createPlayerGrid(),
+        }));
+        setPlayer2Data((prev) => ({
+            ...prev,
+            player2Veggies: createNewVeggies(),
+            player2Grid: createPlayerGrid(),
+        }));
     }, []);
 
     useEffect(() => {
         if (gameStatus.isPlayer1Turn) {
-            setPlayer1Grid(createPlayerGrid());
-            setPlayer1Veggies(createNewVeggies());
+            setPlayer1Data((prev) => ({
+                ...prev,
+                player1Veggies: createNewVeggies(),
+                player1Grid: createPlayerGrid(),
+            }));
         } else {
-            setPlayer2Grid(createPlayerGrid());
-            setPlayer2Veggies(createNewVeggies());
+            setPlayer2Data((prev) => ({
+                ...prev,
+                player2Veggies: createNewVeggies(),
+                player2Grid: createPlayerGrid(),
+            }));
         }
         return () => {
             setGameStatus((prev) => ({ ...prev, isReset: false }));
-            // setIsReset(false);
         };
     }, [gameStatus.isReset]);
 
     useEffect(() => {
-        if (!arePlayer1VeggiesPlaced || !arePlayer2VeggiesPlaced) {
+        if (
+            !player1Data.arePlayer1VeggiesPlaced ||
+            !player2Data.arePlayer2VeggiesPlaced
+        ) {
             return;
         }
-        const player1Cells = player1Grid.filter((cell) => cell.veggieSymbol);
-        const player2Cells = player2Grid.filter((cell) => cell.veggieSymbol);
+        const player1Cells = player1Data.player1Grid.filter(
+            (cell) => cell.veggieSymbol
+        );
+        const player2Cells = player2Data.player2Grid.filter(
+            (cell) => cell.veggieSymbol
+        );
         if (player1Cells && player1Cells.every((cell) => cell.isDefendingHit)) {
             setGameStatus((prev) => ({ ...prev, isWon: true }));
-            // setIsWon(true);
         }
         if (player2Cells && player2Cells.every((cell) => cell.isDefendingHit)) {
             setGameStatus((prev) => ({ ...prev, isWon: true }));
-            // setIsWon(true);
         }
     }, [
-        arePlayer1VeggiesPlaced,
-        arePlayer2VeggiesPlaced,
-        player1Grid,
-        player2Grid,
+        player1Data.arePlayer1VeggiesPlaced,
+        player1Data.player1Grid,
+        player2Data.arePlayer2VeggiesPlaced,
+        player2Data.player2Grid,
     ]);
 
     useEffect(() => {
@@ -132,7 +148,6 @@ const App = () => {
         const fireTimeout = setTimeout(() => {
             onFire(fireId);
             setGameStatus((prev) => ({ ...prev, isComputerFire: false }));
-            // setIsComputerFire(false);
         }, 3000);
 
         return () => {
@@ -208,20 +223,16 @@ const App = () => {
             ...prev,
             isVersusCPU: numberOfPLayers === 1,
         }));
-        // setIsVersusCPU(numberOfPLayers === 1);
     };
 
     const startGame = () => {
         setDisplay((prev) => ({ ...prev, showWelcome: false }));
-        // setShowWelcome(false);
         if (gameStatus.isVersusCPU) {
             setDisplay((prev) => ({ ...prev, showGameScreen: true }));
-            // setShowGameScreen(true);
             setUpComputerGrid();
             return;
         }
         setDisplay((prev) => ({ ...prev, showHideScreen: true }));
-        // setShowHideScreen(true);
     };
 
     const takeTurn = () => {
@@ -230,53 +241,64 @@ const App = () => {
             showHideScreen: false,
             showGameScreen: true,
         }));
-        // setShowHideScreen(false);
-        // setShowGameScreen(true);
     };
 
     const handleCloseHighScoresClick = () => {
         setDisplay((prev) => ({ ...prev, showHighScores: false }));
-        // setShowHighScores(false);
     };
 
     const handleCloseHowItWorksClick = () => {
         setDisplay((prev) => ({ ...prev, showHowItWorks: false }));
-        // setShowHowItWorks(false);
     };
 
     const openHighScores = () => {
         setDisplay((prev) => ({ ...prev, showHighScores: true }));
-        // setShowHighScores(true);
     };
 
     const openHowItWorks = () => {
         setDisplay((prev) => ({ ...prev, showHowItWorks: true }));
-        // setShowHowItWorks(true);
     };
 
     const updatePlayerVeggieSelection = (newVeggies) => {
         gameStatus.isPlayer1Turn
-            ? setPlayer1Veggies([...newVeggies])
-            : setPlayer2Veggies([...newVeggies]);
+            ? setPlayer1Data((prev) => ({
+                  ...prev,
+                  player1Veggies: [...newVeggies],
+              }))
+            : setPlayer2Data((prev) => ({
+                  ...prev,
+                  player2Veggies: [...newVeggies],
+              }));
     };
 
     const updatePlayerGrid = (newPlayerGrid) => {
         gameStatus.isPlayer1Turn
-            ? setPlayer1Grid(newPlayerGrid)
-            : setPlayer2Grid(newPlayerGrid);
+            ? setPlayer1Data((prev) => ({
+                  ...prev,
+                  player1Grid: [...newPlayerGrid],
+              }))
+            : setPlayer2Data((prev) => ({
+                  ...prev,
+                  player2Grid: [...newPlayerGrid],
+              }));
     };
 
     const onResetGridAndPlacement = () => {
         setGameStatus((prev) => ({ ...prev, isReset: true }));
-        // setIsReset(true);
     };
 
     const onConfirmVeggiePlacement = () => {
         if (gameStatus.isPlayer1Turn) {
-            setArePlayer1VeggiesPlaced(true);
+            setPlayer1Data((prev) => ({
+                ...prev,
+                arePlayer1VeggiesPlaced: true,
+            }));
             togglePlayer();
         } else {
-            setArePlayer2VeggiesPlaced(true);
+            setPlayer2Data((prev) => ({
+                ...prev,
+                arePlayer2VeggiesPlaced: true,
+            }));
             togglePlayer();
         }
     };
@@ -284,131 +306,138 @@ const App = () => {
     const togglePlayer = () => {
         if (gameStatus.isPlayer1Turn && !gameStatus.isVersusCPU) {
             setGameStatus((prev) => ({ ...prev, isPlayer1Turn: false }));
-            // setIsPlayer1Turn(false);
             setDisplay((prev) => ({
                 ...prev,
                 showHideScreen: true,
                 showGameScreen: false,
             }));
-            // setShowGameScreen(false);
-            // setShowHideScreen(true);
         } else if (!gameStatus.isPlayer1Turn && !gameStatus.isVersusCPU) {
             setGameStatus((prev) => ({ ...prev, isPlayer1Turn: true }));
-            // setIsPlayer1Turn(true);
             setDisplay((prev) => ({
                 ...prev,
                 showHideScreen: true,
                 showGameScreen: false,
             }));
-            // setShowGameScreen(false);
-            // setShowHideScreen(true);
         } else if (gameStatus.isPlayer1Turn && gameStatus.isVersusCPU) {
             setGameStatus((prev) => ({ ...prev, isPlayer1Turn: false }));
-            // setIsPlayer1Turn(false);
             setDisplay((prev) => ({ ...prev, showGameScreen: true }));
-            // setShowGameScreen(true);
         } else {
             setGameStatus((prev) => ({ ...prev, isPlayer1Turn: true }));
-            // setIsPlayer1Turn(true);
         }
     };
 
     const onFire = (targetId) => {
         if (gameStatus.isPlayer1Turn) {
-            const newPlayer1Grid = [...player1Grid];
-            const newPlayer2Grid = player2Grid.map((cell, index) => {
-                if (cell.id === targetId) {
-                    if (cell.veggieSymbol) {
-                        cell.isDefendingHit = true;
-                        cell.isDefended = true;
-                        newPlayer1Grid[index].isAttackingHit = true;
-                        newPlayer1Grid[index].isAttacked = true;
-                        setGameStatus((prev) => ({ ...prev, isHit: true }));
-                        // setIsHit(true);
-                    } else {
-                        cell.isDefendingMiss = true;
-                        cell.isDefended = true;
-                        newPlayer1Grid[index].isAttackingMiss = true;
-                        newPlayer1Grid[index].isAttacked = true;
-                        setGameStatus((prev) => ({ ...prev, isHit: false }));
-                        // setIsHit(false);
+            const newPlayer1Grid = [...player1Data.player1Grid];
+            const newPlayer2Grid = player2Data.player2Grid.map(
+                (cell, index) => {
+                    if (cell.id === targetId) {
+                        if (cell.veggieSymbol) {
+                            cell.isDefendingHit = true;
+                            cell.isDefended = true;
+                            newPlayer1Grid[index].isAttackingHit = true;
+                            newPlayer1Grid[index].isAttacked = true;
+                            setGameStatus((prev) => ({ ...prev, isHit: true }));
+                        } else {
+                            cell.isDefendingMiss = true;
+                            cell.isDefended = true;
+                            newPlayer1Grid[index].isAttackingMiss = true;
+                            newPlayer1Grid[index].isAttacked = true;
+                            setGameStatus((prev) => ({
+                                ...prev,
+                                isHit: false,
+                            }));
+                        }
+                        newPlayer1Grid[index].isSelected = false;
                     }
-                    newPlayer1Grid[index].isSelected = false;
+                    return cell;
                 }
-                return cell;
-            });
-            setPlayer1Grid(newPlayer1Grid);
-            setPlayer2Grid(newPlayer2Grid);
+            );
+            setPlayer1Data((prev) => ({
+                ...prev,
+                player1Grid: newPlayer1Grid,
+            }));
+            setPlayer2Data((prev) => ({
+                ...prev,
+                player2Grid: newPlayer2Grid,
+            }));
         } else {
-            const newPlayer2Grid = [...player2Grid];
-            const newPlayer1Grid = player1Grid.map((cell, index) => {
-                if (cell.id === targetId) {
-                    if (cell.veggieSymbol) {
-                        cell.isDefendingHit = true;
-                        cell.isDefended = true;
-                        newPlayer2Grid[index].isAttackingHit = true;
-                        newPlayer2Grid[index].isAttacked = true;
-                        setGameStatus((prev) => ({ ...prev, isHit: true }));
-                        // setIsHit(true);
-                    } else {
-                        cell.isDefendingMiss = true;
-                        cell.isDefended = true;
-                        newPlayer2Grid[index].isAttackingMiss = true;
-                        newPlayer2Grid[index].isAttacked = true;
-                        setGameStatus((prev) => ({ ...prev, isHit: false }));
-                        // setIsHit(false);
+            const newPlayer2Grid = [...player2Data.player2Grid];
+            const newPlayer1Grid = player1Data.player1Grid.map(
+                (cell, index) => {
+                    if (cell.id === targetId) {
+                        if (cell.veggieSymbol) {
+                            cell.isDefendingHit = true;
+                            cell.isDefended = true;
+                            newPlayer2Grid[index].isAttackingHit = true;
+                            newPlayer2Grid[index].isAttacked = true;
+                            setGameStatus((prev) => ({ ...prev, isHit: true }));
+                        } else {
+                            cell.isDefendingMiss = true;
+                            cell.isDefended = true;
+                            newPlayer2Grid[index].isAttackingMiss = true;
+                            newPlayer2Grid[index].isAttacked = true;
+                            setGameStatus((prev) => ({
+                                ...prev,
+                                isHit: false,
+                            }));
+                        }
+                        newPlayer2Grid[index].isSelected = false;
                     }
-                    newPlayer2Grid[index].isSelected = false;
+                    return cell;
                 }
-                return cell;
-            });
-            setPlayer1Grid(newPlayer1Grid);
-            setPlayer2Grid(newPlayer2Grid);
+            );
+            setPlayer1Data((prev) => ({
+                ...prev,
+                player1Grid: newPlayer1Grid,
+            }));
+            setPlayer2Data((prev) => ({
+                ...prev,
+                player2Grid: newPlayer2Grid,
+            }));
+
             if (!gameStatus.isWon && gameStatus.isVersusCPU) {
             }
         }
         setDisplay((prev) => ({ ...prev, showHitOrMiss: true }));
-        // setShowHitOrMiss(true);
     };
 
     const handleHitOrMissContinue = () => {
         if (gameStatus.isPlayer1Turn && gameStatus.isVersusCPU) {
             setGameStatus((prev) => ({ ...prev, isComputerFire: true }));
-            // setIsComputerFire(true);
         }
         setDisplay((prev) => ({ ...prev, showHitOrMiss: false }));
-        // setShowHitOrMiss(false);
         togglePlayer();
     };
 
     const onVolumeClick = () => {
         setGameStatus((prev) => ({ ...prev, isMuted: !prev.isMuted }));
-        // setIsMuted(!gameStatus.isMuted);
     };
 
     const handlePlayAgain = () => {
-        setPlayer1Grid(createPlayerGrid());
-        setPlayer1Veggies(createNewVeggies());
-        setArePlayer1VeggiesPlaced(false);
+        setPlayer1Data({
+            player1Grid: createPlayerGrid(),
+            player1Veggies: createNewVeggies(),
+            arePlayer1VeggiesPlaced: false,
+        });
+
         setGameStatus((prev) => ({
             ...prev,
             isPlayer1Turn: true,
             isWon: false,
         }));
-        setPlayer2Grid(createPlayerGrid());
-        setPlayer2Veggies(createNewVeggies());
-        setArePlayer1VeggiesPlaced(false);
-        // setIsPlayer1Turn(true);
-        // setIsWon(false);
+        setPlayer2Data({
+            player2Grid: createPlayerGrid(),
+            player2Veggies: createNewVeggies(),
+            arePlayer2VeggiesPlaced: false,
+        });
+
         setDisplay((prev) => ({
             ...prev,
             showWelcome: true,
             showGameScreen: false,
             showBoardComparison: false,
         }));
-        // setShowBoardComparison(false);
-        // setShowGameScreen(false);
-        // setShowWelcome(true);
     };
 
     const handleShowBoards = () => {
@@ -422,19 +451,17 @@ const App = () => {
             ...prev,
             isWon: false,
         }));
-        // setIsWon(false);
-        // setShowHideScreen(false);
-        // setShowGameScreen(true);
-        // setShowBoardComparison(true);
     };
 
     const createComputerId = () => {
-        const randomId = Math.floor(Math.random() * player2Grid.length);
+        const randomId = Math.floor(
+            Math.random() * player2Data.player2Grid.length
+        );
         return randomId;
     };
 
     const checkComputerId = (randomId) => {
-        return player1Grid[randomId].isAttacked;
+        return player1Data.player1Grid[randomId].isAttacked;
     };
 
     const createComputerDirection = () => {
@@ -448,7 +475,7 @@ const App = () => {
     };
 
     const setUpComputerGrid = () => {
-        for (let playerVeggie of player2Veggies) {
+        for (let playerVeggie of player2Data.player2Veggies) {
             let randomId, randomDirection;
             do {
                 randomId = createComputerId();
@@ -457,7 +484,7 @@ const App = () => {
                 !checkComputerCellsToFill(
                     playerVeggie,
                     randomId,
-                    player2Grid,
+                    player2Data.player2Grid,
                     randomDirection
                 )
             );
@@ -475,7 +502,7 @@ const App = () => {
         randomId,
         randomDirection
     ) => {
-        let playerGrid = player2Grid;
+        let playerGrid = player2Data.player2Grid;
 
         for (let i = 0; i < playerVeggie.spaces; i++) {
             playerGrid = playerGrid.map((cell) => {
@@ -485,7 +512,9 @@ const App = () => {
                 return cell;
             });
         }
-        setPlayer2Grid(playerGrid);
+        setPlayer2Data((prev) => ({
+            player2Grid: [...playerGrid],
+        }));
     };
 
     const checkComputerCellsToFill = (
@@ -494,7 +523,6 @@ const App = () => {
         playerGrid,
         randomDirection
     ) => {
-        console.log(playerVeggie);
         const cellsToFill = [];
         for (let i = 0; i < playerVeggie.spaces; i++) {
             playerGrid.forEach((cell) => {
@@ -529,10 +557,7 @@ const App = () => {
             // console.log("end of line edge case");
             return false;
         }
-        // if (cellsToFill[cellsToFill.length - 1].id % 10 === 0) {
-        //     console.log("end of line edge case");
-        //     return cellsToFill[0].id < cellsToFill[cellsToFill.length - 1].id;
-        // }
+
         if (
             Math.floor(cellsToFill[0].id / 10) !==
             Math.floor(cellsToFill[cellsToFill.length - 1].id / 10)
@@ -543,7 +568,7 @@ const App = () => {
         return true;
     };
 
-    const takeComputerTurn = () => {};
+    // const takeComputerTurn = () => {};
 
     return (
         <div className="app">
@@ -579,16 +604,18 @@ const App = () => {
                         isPlayer1Turn={gameStatus.isPlayer1Turn}
                         arePlayerVeggiesPlaced={
                             gameStatus.isPlayer1Turn
-                                ? arePlayer1VeggiesPlaced
-                                : arePlayer2VeggiesPlaced
+                                ? player1Data.arePlayer1VeggiesPlaced
+                                : player2Data.arePlayer2VeggiesPlaced
                         }
                         playerVeggies={
                             gameStatus.isPlayer1Turn
-                                ? player1Veggies
-                                : player2Veggies
+                                ? player1Data.player1Veggies
+                                : player2Data.player2Veggies
                         }
                         playerGrid={
-                            gameStatus.isPlayer1Turn ? player1Grid : player2Grid
+                            gameStatus.isPlayer1Turn
+                                ? player1Data.player1Grid
+                                : player2Data.player2Grid
                         }
                         onUpdateVeggies={updatePlayerVeggieSelection}
                         onPlayerGridChange={updatePlayerGrid}
@@ -597,7 +624,9 @@ const App = () => {
                         onFire={onFire}
                         showBoardComparison={display.showBoardComparison}
                         secondPlayerGrid={
-                            gameStatus.isPlayer1Turn ? player2Grid : player1Grid
+                            gameStatus.isPlayer1Turn
+                                ? player2Data.player2Grid
+                                : player1Data.player1Grid
                         }
                         onPlayAgain={handlePlayAgain}
                         isVersusCPU={gameStatus.isVersusCPU}
