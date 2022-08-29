@@ -63,13 +63,8 @@ const App = () => {
         isReset: false,
         isHit: false,
         isMuted: false,
+        isComputerFire: false,
     });
-    // const [isVersusCPU, setIsVersusCPU] = useState(false);
-    // const [isPlayer1Turn, setIsPlayer1Turn] = useState(true);
-    // const [isReset, setIsReset] = useState(false);
-    // const [isHit, setIsHit] = useState(false);
-    // const [isMuted, setIsMuted] = useState(false);
-    // const [isWon, setIsWon] = useState(false);
     const [isComputerFire, setIsComputerFire] = useState(false);
     // player 1
     const [player1Data, setPlayer1Data] = useState({});
@@ -127,7 +122,7 @@ const App = () => {
     ]);
 
     useEffect(() => {
-        if (!isComputerFire) {
+        if (!gameStatus.isComputerFire) {
             return;
         }
         let fireId;
@@ -136,13 +131,14 @@ const App = () => {
         } while (checkComputerId(fireId));
         const fireTimeout = setTimeout(() => {
             onFire(fireId);
-            setIsComputerFire(false);
+            setGameStatus((prev) => ({ ...prev, isComputerFire: false }));
+            // setIsComputerFire(false);
         }, 3000);
 
         return () => {
             clearTimeout(fireTimeout);
         };
-    }, [isComputerFire]);
+    }, [gameStatus.isComputerFire]);
 
     const createPlayerGrid = () => {
         const playerGrid = [];
@@ -377,7 +373,8 @@ const App = () => {
 
     const handleHitOrMissContinue = () => {
         if (gameStatus.isPlayer1Turn && gameStatus.isVersusCPU) {
-            setIsComputerFire(true);
+            setGameStatus((prev) => ({ ...prev, isComputerFire: true }));
+            // setIsComputerFire(true);
         }
         setDisplay((prev) => ({ ...prev, showHitOrMiss: false }));
         // setShowHitOrMiss(false);
