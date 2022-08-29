@@ -65,16 +65,19 @@ const App = () => {
         isHit: false,
         isMuted: false,
         isComputerFire: false,
+        isWon: false,
     });
     const [player1Data, setPlayer1Data] = useState({
         player1Veggies: [],
         player1Grid: [],
         arePlayer1VeggiesPlaced: false,
+        player1Name: "Player 1",
     });
     const [player2Data, setPlayer2Data] = useState({
         player2Veggies: [],
         player2Grid: [],
         arePlayer2VeggiesPlaced: false,
+        player2Name: "Player 2",
     });
     const [highScores, setHighScores] = useState([]);
 
@@ -127,10 +130,13 @@ const App = () => {
         );
         if (player1Cells && player1Cells.every((cell) => cell.isDefendingHit)) {
             setGameStatus((prev) => ({ ...prev, isWon: true }));
+            updateHighScores();
         }
         if (player2Cells && player2Cells.every((cell) => cell.isDefendingHit)) {
             setGameStatus((prev) => ({ ...prev, isWon: true }));
+            updateHighScores();
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [
         player1Data.arePlayer1VeggiesPlaced,
         player1Data.player1Grid,
@@ -188,34 +194,34 @@ const App = () => {
                 isPlaced: false,
                 isSelected: true,
             },
-            {
-                veggieName: "Onions",
-                veggieSymbol: "🧅",
-                spaces: 4,
-                isPlaced: false,
-                isSelected: false,
-            },
-            {
-                veggieName: "Potatoes",
-                veggieSymbol: "🥔",
-                spaces: 3,
-                isPlaced: false,
-                isSelected: false,
-            },
-            {
-                veggieName: "Corn",
-                veggieSymbol: "🌽",
-                spaces: 3,
-                isPlaced: false,
-                isSelected: false,
-            },
-            {
-                veggieName: "Broccoli",
-                veggieSymbol: "🥦",
-                spaces: 2,
-                isPlaced: false,
-                isSelected: false,
-            },
+            // {
+            //     veggieName: "Onions",
+            //     veggieSymbol: "🧅",
+            //     spaces: 4,
+            //     isPlaced: false,
+            //     isSelected: false,
+            // },
+            // {
+            //     veggieName: "Potatoes",
+            //     veggieSymbol: "🥔",
+            //     spaces: 3,
+            //     isPlaced: false,
+            //     isSelected: false,
+            // },
+            // {
+            //     veggieName: "Corn",
+            //     veggieSymbol: "🌽",
+            //     spaces: 3,
+            //     isPlaced: false,
+            //     isSelected: false,
+            // },
+            // {
+            //     veggieName: "Broccoli",
+            //     veggieSymbol: "🥦",
+            //     spaces: 2,
+            //     isPlaced: false,
+            //     isSelected: false,
+            // },
         ];
         return newVeggies;
     };
@@ -409,7 +415,7 @@ const App = () => {
             setGameStatus((prev) => ({ ...prev, isComputerFire: true }));
         }
         setDisplay((prev) => ({ ...prev, showHitOrMiss: false }));
-        togglePlayer();
+        if (!gameStatus.isWon) togglePlayer();
     };
 
     const onVolumeClick = () => {
@@ -568,6 +574,29 @@ const App = () => {
         return true;
     };
 
+    const updateHighScores = () => {
+        let winnerData, loserData, winnerTurns;
+        if (gameStatus.isPlayer1Turn) {
+            winnerData = player1Data;
+            loserData = player2Data;
+            winnerTurns = player1Data.player1Grid.filter(
+                (cell) => cell.isAttacked
+            ).length;
+        } else {
+            winnerData = player2Data;
+            loserData = player2Data;
+            winnerTurns = player2Data.player2Grid.filter(
+                (cell) => cell.isAttacked
+            ).length;
+        }
+        const newHighScore = {
+            winner: winnerData,
+            loser: loserData,
+            turns: winnerTurns,
+        };
+        setHighScores((prev) => [...prev, newHighScore]);
+    };
+
     return (
         <div className="app">
             <Header
@@ -581,7 +610,10 @@ const App = () => {
                     <HowItWorks onClose={handleCloseHowItWorksClick} />
                 )}
                 {display.showHighScores && (
-                    <HighScores onClose={handleCloseHighScoresClick} />
+                    <HighScores
+                        onClose={handleCloseHighScoresClick}
+                        highScores={highScores}
+                    />
                 )}
                 {display.showWelcome && (
                     <Welcome
