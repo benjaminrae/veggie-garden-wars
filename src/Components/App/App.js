@@ -62,12 +62,13 @@ const App = () => {
         isPlayer1Turn: true,
         isReset: false,
         isHit: false,
+        isMuted: false,
     });
     // const [isVersusCPU, setIsVersusCPU] = useState(false);
     // const [isPlayer1Turn, setIsPlayer1Turn] = useState(true);
     // const [isReset, setIsReset] = useState(false);
     // const [isHit, setIsHit] = useState(false);
-    const [isMuted, setIsMuted] = useState(false);
+    // const [isMuted, setIsMuted] = useState(false);
     const [isWon, setIsWon] = useState(false);
     const [isComputerFire, setIsComputerFire] = useState(false);
     // player 1
@@ -365,7 +366,7 @@ const App = () => {
             });
             setPlayer1Grid(newPlayer1Grid);
             setPlayer2Grid(newPlayer2Grid);
-            if (!isWon && gameStatus.isVersusCPU) {
+            if (!gameStatus.isWon && gameStatus.isVersusCPU) {
             }
         }
         setDisplay((prev) => ({ ...prev, showHitOrMiss: true }));
@@ -382,7 +383,8 @@ const App = () => {
     };
 
     const onVolumeClick = () => {
-        setIsMuted(!isMuted);
+        setGameStatus((prev) => ({ ...prev, isMuted: !prev.isMuted }));
+        // setIsMuted(!gameStatus.isMuted);
     };
 
     const handlePlayAgain = () => {
@@ -541,7 +543,7 @@ const App = () => {
             <Header
                 onHowItWorksClick={openHowItWorks}
                 onHighScoresClick={openHighScores}
-                isMuted={isMuted}
+                isMuted={gameStatus.isMuted}
                 onVolumeClick={onVolumeClick}
             />
             <div className="app__main-container">
@@ -600,7 +602,7 @@ const App = () => {
                         onContinue={handleHitOrMissContinue}
                     />
                 )}
-                {isWon && (
+                {gameStatus.isWon && (
                     <GameOver
                         isPlayer1Turn={gameStatus.isPlayer1Turn}
                         isVersusCPU={gameStatus.isVersusCPU}
