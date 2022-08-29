@@ -190,17 +190,6 @@ const GameGrid = (props) => {
                 >
                     {cell.id}
                     <div className="game-grid__inner-cell">
-                        {() => {
-                            if (props.arePlayerVeggiesPlaced) {
-                                if (props.isAttacking) {
-                                }
-                                return cell.veggieSymbol;
-                            }
-                            return cell.veggieSymbol;
-                        }}
-                        {/* {props.arePlayerVeggiesPlaced
-                            ? !props.isAttacking && cell.veggieSymbol
-                            : cell.veggieSymbol} */}
                         {renderGridInnerCell(cell)}
                     </div>
                 </div>
