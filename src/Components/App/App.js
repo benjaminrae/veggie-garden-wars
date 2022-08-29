@@ -61,11 +61,12 @@ const App = () => {
         isVersusCPU: false,
         isPlayer1Turn: true,
         isReset: false,
+        isHit: false,
     });
     // const [isVersusCPU, setIsVersusCPU] = useState(false);
     // const [isPlayer1Turn, setIsPlayer1Turn] = useState(true);
     // const [isReset, setIsReset] = useState(false);
-    const [isHit, setIsHit] = useState(false);
+    // const [isHit, setIsHit] = useState(false);
     const [isMuted, setIsMuted] = useState(false);
     const [isWon, setIsWon] = useState(false);
     const [isComputerFire, setIsComputerFire] = useState(false);
@@ -323,13 +324,15 @@ const App = () => {
                         cell.isDefended = true;
                         newPlayer1Grid[index].isAttackingHit = true;
                         newPlayer1Grid[index].isAttacked = true;
-                        setIsHit(true);
+                        setGameStatus((prev) => ({ ...prev, isHit: true }));
+                        // setIsHit(true);
                     } else {
                         cell.isDefendingMiss = true;
                         cell.isDefended = true;
                         newPlayer1Grid[index].isAttackingMiss = true;
                         newPlayer1Grid[index].isAttacked = true;
-                        setIsHit(false);
+                        setGameStatus((prev) => ({ ...prev, isHit: false }));
+                        // setIsHit(false);
                     }
                     newPlayer1Grid[index].isSelected = false;
                 }
@@ -346,13 +349,15 @@ const App = () => {
                         cell.isDefended = true;
                         newPlayer2Grid[index].isAttackingHit = true;
                         newPlayer2Grid[index].isAttacked = true;
-                        setIsHit(true);
+                        setGameStatus((prev) => ({ ...prev, isHit: true }));
+                        // setIsHit(true);
                     } else {
                         cell.isDefendingMiss = true;
                         cell.isDefended = true;
                         newPlayer2Grid[index].isAttackingMiss = true;
                         newPlayer2Grid[index].isAttacked = true;
-                        setIsHit(false);
+                        setGameStatus((prev) => ({ ...prev, isHit: false }));
+                        // setIsHit(false);
                     }
                     newPlayer2Grid[index].isSelected = false;
                 }
@@ -591,7 +596,7 @@ const App = () => {
                 )}
                 {display.showHitOrMiss && (
                     <HitOrMiss
-                        isHit={isHit}
+                        isHit={gameStatus.isHit}
                         onContinue={handleHitOrMissContinue}
                     />
                 )}
