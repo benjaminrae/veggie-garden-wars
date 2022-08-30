@@ -36,7 +36,7 @@ const HighScores = ({ onClose, highScores }) => {
                 &#10060;
             </div>
             <div className="high-scores__screen">
-                HighScores
+                <h2 className="high-scores__title">HighScores</h2>
                 <ScoreTable highScores={highScores} />
             </div>
         </div>

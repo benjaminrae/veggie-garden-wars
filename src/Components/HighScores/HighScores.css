@@ -20,7 +20,11 @@
     padding: 2rem;
     text-align: center;
 }
-
+.high-scores__title {
+    font-size: 2rem;
+    font-family: "Rubik Dirt", cursive;
+    color: var(--dark-brown);
+}
 .high-scores__close {
     font-size: 1.5rem;
     position: absolute;

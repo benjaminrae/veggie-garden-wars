@@ -15,7 +15,7 @@ const HowItWorks = ({ onClose }) => {
                 &#10060;
             </div>
             <div className="how-it-works__screen">
-                <h2 class="how-it-works__title">HowItWorks</h2>
+                <h2 className="how-it-works__title">HowItWorks</h2>
                 <ol className="how-it-works__list">
                     <li className="list__item">
                         Choose the number of players{" "}

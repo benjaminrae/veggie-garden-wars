@@ -50,6 +50,7 @@
     justify-content: space-between;
     align-items: center;
 }
+
 .list__image {
     max-height: 3rem;
 }
