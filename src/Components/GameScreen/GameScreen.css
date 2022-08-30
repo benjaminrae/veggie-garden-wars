@@ -76,6 +76,7 @@
     font-weight: 700;
     border-radius: 0.5rem;
     border: 3px solid var(--lime-green);
+    filter: drop-shadow(3px 3px 3px var(--dark-brown));
 }
 
 .game-screen__button--blocked {

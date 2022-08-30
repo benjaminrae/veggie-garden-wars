@@ -5,10 +5,11 @@
     justify-content: center;
     align-items: center;
     background-color: var(--pastel-beige);
-    width: 60%;
-    height: 60%;
+    width: 80%;
+    height: 80%;
     border-radius: 1rem;
     z-index: 45;
+    filter: drop-shadow(3px 3px 3px var(--dark-brown));
 }
 
 .high-scores__screen {

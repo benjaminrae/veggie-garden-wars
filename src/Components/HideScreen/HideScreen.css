@@ -5,8 +5,9 @@
     align-items: center;
     background-color: var(--pastel-beige);
     width: 80%;
-    height: 60%;
+    height: 80%;
     border-radius: 1rem;
+    filter: drop-shadow(3px 3px 3px var(--dark-brown));
 }
 
 .hide-screen__screen {
@@ -27,6 +28,7 @@
 
 .hide-screen__icon {
     font-size: 4rem;
+    filter: drop-shadow(3px 3px 3px var(--dark-brown));
 }
 
 .hide-screen__button {
@@ -36,6 +38,7 @@
     font-weight: 700;
     border-radius: 0.5rem;
     border: 3px solid var(--lime-green);
+    filter: drop-shadow(3px 3px 3px var(--dark-brown));
 }
 
 .hide-screen__button:hover {

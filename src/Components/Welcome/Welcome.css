@@ -8,6 +8,7 @@
     width: 80%;
     height: 80%;
     border-radius: 1rem;
+    filter: drop-shadow(3px 3px 3px var(--dark-brown));
 }
 
 .welcome__screen {
@@ -55,6 +56,7 @@
     font-weight: 700;
     border-radius: 0.5rem;
     border: 3px solid var(--lime-green);
+    filter: drop-shadow(3px 3px 3px var(--dark-brown));
 }
 
 .welcome__button:hover {
@@ -64,6 +66,7 @@
 
 .welcome__icon {
     font-size: 4rem;
+    filter: drop-shadow(3px 3px 3px var(--dark-brown));
 }
 
 strong {

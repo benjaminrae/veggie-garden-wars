@@ -6,9 +6,10 @@
     align-items: center;
     background-color: var(--pastel-beige);
     width: 80%;
-    /* height: 60%; */
+    height: 80%;
     border-radius: 1rem;
     z-index: 40;
+    filter: drop-shadow(3px 3px 3px var(--dark-brown));
 }
 
 .game-over__screen {
@@ -47,6 +48,7 @@
     font-weight: 700;
     border-radius: 0.5rem;
     border: 3px solid var(--lime-green);
+    filter: drop-shadow(3px 3px 3px var(--dark-brown));
 }
 
 .game-over__button:hover {
