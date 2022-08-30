@@ -8,6 +8,9 @@ import HighScores from "../HighScores/HighScores";
 import GameScreen from "../GameScreen/GameScreen";
 import HitOrMiss from "../HitOrMiss/HitOrMiss";
 import GameOver from "../GameOver/GameOver";
+import useSound from "use-sound";
+import explosionSound from "../../assets/sounds/zapsplat_explosion_big_heavy_dynomite_002_62566.mp3";
+import missSound from "../../assets/sounds/zapsplat_sound_design_cinematic_whoosh_fast_sudden_thud_vanish_85673.mp3";
 
 const App = () => {
     // eslint-disable-next-line no-unused-vars
@@ -198,34 +201,34 @@ const App = () => {
                 isPlaced: false,
                 isSelected: true,
             },
-            // {
-            //     veggieName: "Onions",
-            //     veggieSymbol: "🧅",
-            //     spaces: 4,
-            //     isPlaced: false,
-            //     isSelected: false,
-            // },
-            // {
-            //     veggieName: "Potatoes",
-            //     veggieSymbol: "🥔",
-            //     spaces: 3,
-            //     isPlaced: false,
-            //     isSelected: false,
-            // },
-            // {
-            //     veggieName: "Corn",
-            //     veggieSymbol: "🌽",
-            //     spaces: 3,
-            //     isPlaced: false,
-            //     isSelected: false,
-            // },
-            // {
-            //     veggieName: "Broccoli",
-            //     veggieSymbol: "🥦",
-            //     spaces: 2,
-            //     isPlaced: false,
-            //     isSelected: false,
-            // },
+            {
+                veggieName: "Onions",
+                veggieSymbol: "🧅",
+                spaces: 4,
+                isPlaced: false,
+                isSelected: false,
+            },
+            {
+                veggieName: "Potatoes",
+                veggieSymbol: "🥔",
+                spaces: 3,
+                isPlaced: false,
+                isSelected: false,
+            },
+            {
+                veggieName: "Corn",
+                veggieSymbol: "🌽",
+                spaces: 3,
+                isPlaced: false,
+                isSelected: false,
+            },
+            {
+                veggieName: "Broccoli",
+                veggieSymbol: "🥦",
+                spaces: 2,
+                isPlaced: false,
+                isSelected: false,
+            },
         ];
         return newVeggies;
     };
@@ -338,6 +341,13 @@ const App = () => {
         }
     };
 
+    const [playExplosion] = useSound(explosionSound, {
+        volume: gameStatus.isMuted ? 0 : 0.5,
+    });
+    const [playMiss] = useSound(missSound, {
+        volume: gameStatus.isMuted ? 0 : 0.5,
+    });
+
     const onFire = (targetId) => {
         if (gameStatus.isPlayer1Turn) {
             const newPlayer1Grid = [...player1Data.player1Grid];
@@ -350,6 +360,7 @@ const App = () => {
                             newPlayer1Grid[index].isAttackingHit = true;
                             newPlayer1Grid[index].isAttacked = true;
                             setGameStatus((prev) => ({ ...prev, isHit: true }));
+                            playExplosion();
                         } else {
                             cell.isDefendingMiss = true;
                             cell.isDefended = true;
@@ -359,6 +370,7 @@ const App = () => {
                                 ...prev,
                                 isHit: false,
                             }));
+                            playMiss();
                         }
                         newPlayer1Grid[index].isSelected = false;
                     }
@@ -388,6 +400,7 @@ const App = () => {
                                 ...prev,
                                 player2LastHitId: targetId,
                             }));
+                            playExplosion();
                         } else {
                             cell.isDefendingMiss = true;
                             cell.isDefended = true;
@@ -397,6 +410,7 @@ const App = () => {
                                 ...prev,
                                 isHit: false,
                             }));
+                            playMiss();
                         }
                         newPlayer2Grid[index].isSelected = false;
                     }
@@ -416,6 +430,11 @@ const App = () => {
             }
         }
         setDisplay((prev) => ({ ...prev, showHitOrMiss: true }));
+        // if (gameStatus.isHit) {
+        //     playExplosion();
+        // } else {
+        //     playMiss();
+        // }
     };
 
     const handleHitOrMissContinue = () => {
@@ -698,6 +717,7 @@ const App = () => {
                     <HitOrMiss
                         isHit={gameStatus.isHit}
                         onContinue={handleHitOrMissContinue}
+                        isMuted={gameStatus.isMuted}
                     />
                 )}
                 {gameStatus.isWon && (
