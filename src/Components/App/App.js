@@ -91,6 +91,7 @@ const App = () => {
             ...prev,
             player2Veggies: createNewVeggies(),
             player2Grid: createPlayerGrid(),
+            player2LastHitId: null,
         }));
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
@@ -383,6 +384,10 @@ const App = () => {
                             newPlayer2Grid[index].isAttackingHit = true;
                             newPlayer2Grid[index].isAttacked = true;
                             setGameStatus((prev) => ({ ...prev, isHit: true }));
+                            setPlayer2Data((prev) => ({
+                                ...prev,
+                                player2LastHitId: targetId,
+                            }));
                         } else {
                             cell.isDefendingMiss = true;
                             cell.isDefended = true;
