@@ -196,6 +196,7 @@ const GameScreen = ({
                         playerVeggies={playerVeggies}
                         buttonDirections={buttonDirections}
                         isAttacking={isAttacking}
+                        showBoardComparison={showBoardComparison}
                     />
                 </div>
                 <div className="game-screen__right-container">
@@ -221,6 +222,7 @@ const GameScreen = ({
                                 playerVeggies={playerVeggies}
                                 buttonDirections={buttonDirections}
                                 isAttacking={isAttacking}
+                                showBoardComparison={showBoardComparison}
                             />
                         </>
                     )}

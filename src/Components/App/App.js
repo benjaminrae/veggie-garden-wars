@@ -198,34 +198,34 @@ const App = () => {
                 isPlaced: false,
                 isSelected: true,
             },
-            {
-                veggieName: "Onions",
-                veggieSymbol: "🧅",
-                spaces: 4,
-                isPlaced: false,
-                isSelected: false,
-            },
-            {
-                veggieName: "Potatoes",
-                veggieSymbol: "🥔",
-                spaces: 3,
-                isPlaced: false,
-                isSelected: false,
-            },
-            {
-                veggieName: "Corn",
-                veggieSymbol: "🌽",
-                spaces: 3,
-                isPlaced: false,
-                isSelected: false,
-            },
-            {
-                veggieName: "Broccoli",
-                veggieSymbol: "🥦",
-                spaces: 2,
-                isPlaced: false,
-                isSelected: false,
-            },
+            // {
+            //     veggieName: "Onions",
+            //     veggieSymbol: "🧅",
+            //     spaces: 4,
+            //     isPlaced: false,
+            //     isSelected: false,
+            // },
+            // {
+            //     veggieName: "Potatoes",
+            //     veggieSymbol: "🥔",
+            //     spaces: 3,
+            //     isPlaced: false,
+            //     isSelected: false,
+            // },
+            // {
+            //     veggieName: "Corn",
+            //     veggieSymbol: "🌽",
+            //     spaces: 3,
+            //     isPlaced: false,
+            //     isSelected: false,
+            // },
+            // {
+            //     veggieName: "Broccoli",
+            //     veggieSymbol: "🥦",
+            //     spaces: 2,
+            //     isPlaced: false,
+            //     isSelected: false,
+            // },
         ];
         return newVeggies;
     };
@@ -481,7 +481,9 @@ const App = () => {
                 player2Data.player2LastHitId + gridDimensions.gridWidth * -1
             );
             console.log(adjacentIds);
-            const checkedIds = adjacentIds.filter((id) => !checkComputerId(id));
+            const checkedIds = adjacentIds.filter(
+                (id) => id > 0 && id < 100 && !checkComputerId(id)
+            );
             console.log(checkedIds);
             if (checkedIds.length) {
                 return checkedIds[
@@ -491,8 +493,9 @@ const App = () => {
         }
 
         const randomId = Math.floor(
-            Math.random() * player2Data.player2Grid.length
+            Math.random() * player2Data.player2Grid.length + 1
         );
+        console.log(randomId, "randId");
 
         return randomId;
     };

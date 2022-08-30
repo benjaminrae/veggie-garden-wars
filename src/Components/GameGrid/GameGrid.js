@@ -1,22 +1,35 @@
 import "./GameGrid.css";
 import { useState, useEffect } from "react";
 
-const GameGrid = (props) => {
+const GameGrid = ({
+    height,
+    width,
+    arePlayerVeggiesPlaced,
+    currentVeggie,
+    number,
+    playerGrid,
+    onPlayerGridChange,
+    onUpdateVeggies,
+    playerVeggies,
+    buttonDirections,
+    isAttacking,
+    showBoardComparison,
+}) => {
     const [cellDifference, setCellDifference] = useState({});
 
     useEffect(() => {
         setCellDifference({
-            [props.buttonDirections[0].direction]: props.height * -1,
-            [props.buttonDirections[1].direction]: props.height,
-            [props.buttonDirections[2].direction]: -1,
-            [props.buttonDirections[3].direction]: 1,
+            [buttonDirections[0].direction]: width * -1,
+            [buttonDirections[1].direction]: width,
+            [buttonDirections[2].direction]: -1,
+            [buttonDirections[3].direction]: 1,
         });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const handleAttackingCellClick = (event) => {
         const targetId = +event.target.id;
-        const newPlayerGrid = props.playerGrid.map((cell) => {
+        const newPlayerGrid = playerGrid.map((cell) => {
             if (targetId === cell.id && !cell.isAttacked) {
                 cell.isSelected = true;
             } else {
@@ -24,20 +37,19 @@ const GameGrid = (props) => {
             }
             return cell;
         });
-        props.onPlayerGridChange(newPlayerGrid);
+        onPlayerGridChange(newPlayerGrid);
     };
 
     const handleSetUpCellClick = (event) => {
         event.preventDefault();
-        if (props.currentVeggie.isPlaced) {
+        if (currentVeggie.isPlaced) {
             return;
         }
-        const playerVeggies = props.playerVeggies;
-        if (!fillCellsWithVeggies(props.currentVeggie, event)) {
+        if (!fillCellsWithVeggies(currentVeggie, event)) {
             return;
         }
         const newPlayerVeggies = playerVeggies.map((veggie, index) => {
-            if (veggie.veggieName === props.currentVeggie.veggieName) {
+            if (veggie.veggieName === currentVeggie.veggieName) {
                 veggie.isSelected = false;
                 veggie.isPlaced = true;
                 if (playerVeggies.some((veggie) => !veggie.isPlaced)) {
@@ -49,7 +61,7 @@ const GameGrid = (props) => {
             return veggie;
         });
 
-        props.onUpdateVeggies(newPlayerVeggies);
+        onUpdateVeggies(newPlayerVeggies);
     };
 
     const checkCellsToFill = (
@@ -66,7 +78,7 @@ const GameGrid = (props) => {
                     targetId +
                         i *
                             cellDifference[
-                                props.buttonDirections.find(
+                                buttonDirections.find(
                                     (direction) => direction.isSelected
                                 ).direction
                             ]
@@ -113,7 +125,6 @@ const GameGrid = (props) => {
     };
 
     const fillCellsWithVeggies = (currentVeggie, event) => {
-        let playerGrid = props.playerGrid;
         const targetId = +event.target.id;
         // if (targetId === selectedCellId) {
         // } else {
@@ -124,7 +135,7 @@ const GameGrid = (props) => {
                 currentVeggie,
                 targetId,
                 playerGrid,
-                props.buttonDirections.find((direction) => direction.isSelected)
+                buttonDirections.find((direction) => direction.isSelected)
                     .direction
             )
         ) {
@@ -138,7 +149,7 @@ const GameGrid = (props) => {
                     targetId +
                         i *
                             cellDifference[
-                                props.buttonDirections.find(
+                                buttonDirections.find(
                                     (direction) => direction.isSelected
                                 ).direction
                             ]
@@ -149,20 +160,22 @@ const GameGrid = (props) => {
             });
         }
 
-        props.onPlayerGridChange(playerGrid);
+        onPlayerGridChange(playerGrid);
         return true;
     };
 
     const renderGridInnerCell = (cell) => {
-        if (props.arePlayerVeggiesPlaced) {
-            if (props.isAttacking && cell.isSelected) {
+        if (arePlayerVeggiesPlaced) {
+            if (isAttacking && cell.isSelected) {
                 return "🎯";
             }
-            if (props.isAttacking) {
+            if (isAttacking) {
                 return cell.isAttackingHit
                     ? "💥"
                     : cell.isAttackingMiss
                     ? "⚫"
+                    : showBoardComparison
+                    ? cell.veggieSymbol
                     : "";
             }
             return cell.isDefendingHit
@@ -176,12 +189,12 @@ const GameGrid = (props) => {
 
     return (
         <div className="game-grid">
-            {props.playerGrid.map((cell) => (
+            {playerGrid.map((cell) => (
                 <div
                     className="game-grid__cell"
                     key={cell.id}
                     onClick={
-                        props.arePlayerVeggiesPlaced
+                        arePlayerVeggiesPlaced
                             ? handleAttackingCellClick
                             : handleSetUpCellClick
                     }
