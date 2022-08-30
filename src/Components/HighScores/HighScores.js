@@ -38,6 +38,9 @@ const HighScores = ({ onClose, highScores }) => {
             <div className="high-scores__screen">
                 <h2 className="high-scores__title">HighScores</h2>
                 <ScoreTable highScores={highScores} />
+                {!highScores.length && (
+                    <p>There's no high scores to display yet!</p>
+                )}
             </div>
         </div>
     );
