@@ -470,14 +470,35 @@ const App = () => {
     };
 
     const createComputerId = () => {
+        const adjacentIds = [];
+        if (player2Data.player2LastHitId) {
+            adjacentIds.push(player2Data.player2LastHitId + 1);
+            adjacentIds.push(player2Data.player2LastHitId - 1);
+            adjacentIds.push(
+                player2Data.player2LastHitId + gridDimensions.gridWidth
+            );
+            adjacentIds.push(
+                player2Data.player2LastHitId + gridDimensions.gridWidth * -1
+            );
+            console.log(adjacentIds);
+            const checkedIds = adjacentIds.filter((id) => !checkComputerId(id));
+            console.log(checkedIds);
+            if (checkedIds.length) {
+                return checkedIds[
+                    Math.floor(Math.random() * checkedIds.length)
+                ];
+            }
+        }
+
         const randomId = Math.floor(
             Math.random() * player2Data.player2Grid.length
         );
+
         return randomId;
     };
 
     const checkComputerId = (randomId) => {
-        return player1Data.player1Grid[randomId].isAttacked;
+        return player2Data.player2Grid[randomId - 1].isAttacked;
     };
 
     const createComputerDirection = () => {
