@@ -113,12 +113,16 @@
 
 .game-screen__computer-turn {
     position: absolute;
-    height: 85%;
-    width: 85%;
+    height: 80%;
+    width: 80%;
     background-color: var(--off-white);
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 40;
+    border-radius: 1rem;
+    filter: drop-shadow(3px 3px 3px var(--dark-brown));
+
     /* transform: translateX(-50%) translateY(-50%); */
 }
 
@@ -127,6 +131,8 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    height: 100%;
+    width: 100%;
     gap: 2rem;
     padding: 2rem;
     text-align: center;
@@ -140,6 +146,7 @@
 }
 .computer-turn__icon {
     font-size: 2rem;
+    filter: drop-shadow(3px 3px 3px var(--dark-brown));
 }
 
 .computer-turn__loading {

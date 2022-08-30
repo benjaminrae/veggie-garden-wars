@@ -3,9 +3,13 @@ import miss from "../../assets/gifs/will-ferrell-the-house.gif";
 import hit from "../../assets/gifs/explosion-boom.gif";
 
 const HitOrMiss = ({ isHit, onContinue }) => {
+    const explosionSound = new Audio(
+        "../../assets/sounds/zapsplat_explosion_big_heavy_dynomite_002_62566.mp3"
+    );
     return (
         <div className="hit-or-miss">
             <div className="hit-or-miss__screen">
+                {/* {isHit && explosionSound.play()} */}
                 <h2 className="hit-or-miss__title">
                     {isHit ? "HIT! 🔥" : "Miss 💔"}
                 </h2>
