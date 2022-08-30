@@ -21,6 +21,12 @@
     text-align: center;
 }
 
+.how-it-works__title {
+    font-size: 2rem;
+    font-family: "Rubik Dirt", cursive;
+    color: var(--dark-brown);
+}
+
 .how-it-works__close {
     font-size: 1.5rem;
     position: absolute;
@@ -30,4 +36,20 @@
 
 .how-it-works__close:hover {
     cursor: pointer;
+}
+
+.how-it-works__list {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+}
+
+.list__item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.list__image {
+    max-height: 3rem;
 }

@@ -71,13 +71,13 @@ const App = () => {
         player1Veggies: [],
         player1Grid: [],
         arePlayer1VeggiesPlaced: false,
-        player1Name: "Player 1",
+        playerName: "Player 1",
     });
     const [player2Data, setPlayer2Data] = useState({
         player2Veggies: [],
         player2Grid: [],
         arePlayer2VeggiesPlaced: false,
-        player2Name: "Player 2",
+        playerName: "Player 2",
     });
     const [highScores, setHighScores] = useState([]);
 
@@ -145,6 +145,9 @@ const App = () => {
     ]);
 
     useEffect(() => {
+        if (gameStatus.isWon) {
+            return;
+        }
         if (!gameStatus.isComputerFire) {
             return;
         }
