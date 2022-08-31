@@ -28,6 +28,9 @@ const GameGrid = ({
     }, []);
 
     const handleAttackingCellClick = (event) => {
+        if (showBoardComparison) {
+            return;
+        }
         const targetId = +event.target.id;
         const newPlayerGrid = playerGrid.map((cell) => {
             if (targetId === cell.id && !cell.isAttacked) {

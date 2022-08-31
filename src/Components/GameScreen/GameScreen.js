@@ -1,5 +1,5 @@
 import "./GameScreen.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import GameGrid from "../GameGrid/GameGrid";
 import VeggiePlaceTable from "../VeggiePlaceTable/VeggiePlaceTable";
 import robotGif from "../../assets/gifs/starbase-angry-robot-sound.gif";
@@ -46,6 +46,11 @@ const GameScreen = ({
         };
     }, [isComputerContinue, onConfirmPlacement, setIsComputerContinue]);
 
+    const isOneCellSelected = useMemo(
+        () => playerGrid.some((cell) => cell.isSelected),
+        [playerGrid]
+    );
+
     const handleResetClick = (event) => {
         onReset();
     };
@@ -72,6 +77,9 @@ const GameScreen = ({
     };
 
     const handleFireClick = () => {
+        if (!isOneCellSelected) {
+            return;
+        }
         const targetId = playerGrid.find((cell) => cell.isSelected).id;
         onFire(targetId);
     };
@@ -91,6 +99,18 @@ const GameScreen = ({
         onPlayAgain();
     };
 
+    const createButtonClassName = () => {
+        if (!arePlayerVeggiesPlaced) {
+            return playerVeggies.every((veggie) => veggie.isPlaced)
+                ? "game-screen__button"
+                : "game-screen__button--blocked";
+        }
+        return isOneCellSelected
+            ? "game-screen__button"
+            : "game-screen__button--blocked";
+    };
+
+    console.log(createButtonClassName());
     return (
         <div className="game-screen">
             {!isPlayer1Turn && isVersusCPU && (
@@ -255,13 +275,16 @@ const GameScreen = ({
                                     </button>
                                 )}
                                 <button
-                                    className={
-                                        playerVeggies.every(
-                                            (veggie) => veggie.isPlaced
-                                        )
-                                            ? "game-screen__button"
-                                            : "game-screen__button--blocked"
-                                    }
+                                    // className={
+                                    //     playerVeggies.every(
+                                    //         (veggie) => veggie.isPlaced
+                                    //     )
+                                    //         ? "game-screen__button"
+                                    //         : isOneCellSelected
+                                    //         ? "game-screen__button"
+                                    //         : "game-screen__button--blocked"
+                                    // }
+                                    className={createButtonClassName()}
                                     onClick={
                                         arePlayerVeggiesPlaced
                                             ? handleFireClick

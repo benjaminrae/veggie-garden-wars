@@ -1,70 +1,34 @@
-# Getting Started with Create React App
+# Veggie Garden Wars
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A Battleship style game
 
-## Available Scripts
+[Live Site](https://veggie-garden-wars.netlify.app/)
 
-In the project directory, you can run:
+![Veggie Garden Wars Screenshot]()
 
-### `npm start`
+## About the project
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+This project was an extra part of the ISDI Coders precourse. The objective was to create a Battleship style game. I used CSS grid for the game grid but flexbox for the rest. The main challenge was creating logic that could be reused if the grid was resized. For horizontal and vertical wins it was easy. One a piece is placed, the row/column is checked for at least 4 consecutive counters from the same player. The diagonals were more difficult since the columns and rows don't stay constant. In the end, I create a starting point by looking for the bottom of the diagonal. Then from there checked the full diagonal for at least 4 consecutive counters by the same player.
 
-### `npm test`
+### Built with
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+**Front End**
 
-### `npm run build`
+-   React
+-   CSS
+-   Javascript
+-   Hosted on Netlify
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### What I learned from this project
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+I really enjoyed this project because it was one of my first opportunities to take a problem and create the logic to solve it. I learned that drawing out a problem is one of the easiest starting points and from there I was able to create pseudocode and finally transfer it into JavaScript. It had also been a while since I'd worked on my last project so it was good fun relearning and remembering concepts, especially with CSS. I also learned that "document.getElementsByClassName" does not actually return an "Array". It returns an "HTMLCollection" which has its own prototypes.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Next steps
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+-   Work on responsiveness of the page
+-   Create a small backend for high scores
+-   Consider online multiplayer
+    -   Requires login
+    -   Could be done with websockets
