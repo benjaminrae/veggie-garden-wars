@@ -97,7 +97,7 @@ const GameScreen = ({
                 <div className="game-screen__computer-turn">
                     <div className="computer-turn__container">
                         <div className="computer-turn__icon">
-                            🤖
+                            🤖 The robot is taking its turn
                             <img
                                 className="computer-turn__loading"
                                 src={loading}
