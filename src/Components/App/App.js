@@ -711,6 +711,7 @@ const App = () => {
                         }
                         onPlayAgain={handlePlayAgain}
                         isVersusCPU={gameStatus.isVersusCPU}
+                        onHighScoresClick={openHighScores}
                     />
                 )}
                 {display.showHitOrMiss && (

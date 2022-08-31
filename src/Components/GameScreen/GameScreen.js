@@ -21,6 +21,7 @@ const GameScreen = ({
     secondPlayerGrid,
     onPlayAgain,
     isVersusCPU,
+    onHighScoresClick,
 }) => {
     const [buttonDirections, setButtonDirections] = useState([
         { direction: "up", directionSymbol: "⬆", isSelected: true },
@@ -116,7 +117,10 @@ const GameScreen = ({
             )}
             {showBoardComparison && (
                 <div className="game-screen__button-container">
-                    <button className="game-screen__button" onClick={() => {}}>
+                    <button
+                        className="game-screen__button"
+                        onClick={onHighScoresClick}
+                    >
                         See high scores
                     </button>
                     <button
