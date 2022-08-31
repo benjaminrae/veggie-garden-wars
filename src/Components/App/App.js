@@ -150,7 +150,9 @@ const App = () => {
 
     useEffect(() => {
         if (gameStatus.isWon) {
-            return;
+            return () => {
+                setGameStatus((prev) => ({ ...prev, isComputerFire: false }));
+            };
         }
         if (!gameStatus.isComputerFire) {
             return;
@@ -201,34 +203,34 @@ const App = () => {
                 isPlaced: false,
                 isSelected: true,
             },
-            {
-                veggieName: "Onions",
-                veggieSymbol: "🧅",
-                spaces: 4,
-                isPlaced: false,
-                isSelected: false,
-            },
-            {
-                veggieName: "Potatoes",
-                veggieSymbol: "🥔",
-                spaces: 3,
-                isPlaced: false,
-                isSelected: false,
-            },
-            {
-                veggieName: "Corn",
-                veggieSymbol: "🌽",
-                spaces: 3,
-                isPlaced: false,
-                isSelected: false,
-            },
-            {
-                veggieName: "Broccoli",
-                veggieSymbol: "🥦",
-                spaces: 2,
-                isPlaced: false,
-                isSelected: false,
-            },
+            // {
+            //     veggieName: "Onions",
+            //     veggieSymbol: "🧅",
+            //     spaces: 4,
+            //     isPlaced: false,
+            //     isSelected: false,
+            // },
+            // {
+            //     veggieName: "Potatoes",
+            //     veggieSymbol: "🥔",
+            //     spaces: 3,
+            //     isPlaced: false,
+            //     isSelected: false,
+            // },
+            // {
+            //     veggieName: "Corn",
+            //     veggieSymbol: "🌽",
+            //     spaces: 3,
+            //     isPlaced: false,
+            //     isSelected: false,
+            // },
+            // {
+            //     veggieName: "Broccoli",
+            //     veggieSymbol: "🥦",
+            //     spaces: 2,
+            //     isPlaced: false,
+            //     isSelected: false,
+            // },
         ];
         return newVeggies;
     };
@@ -429,7 +431,11 @@ const App = () => {
             if (!gameStatus.isWon && gameStatus.isVersusCPU) {
             }
         }
-        setDisplay((prev) => ({ ...prev, showHitOrMiss: true }));
+        if (!gameStatus.isWon) {
+            setDisplay((prev) => ({ ...prev, showHitOrMiss: true }));
+        } else {
+            setDisplay((prev) => ({ ...prev, showHitOrMiss: false }));
+        }
         // if (gameStatus.isHit) {
         //     playExplosion();
         // } else {
@@ -481,11 +487,12 @@ const App = () => {
             showHideScreen: false,
             showGameScreen: true,
             showBoardComparison: true,
+            showHitOrMiss: false,
         }));
-        setGameStatus((prev) => ({
-            ...prev,
-            isWon: false,
-        }));
+        // setGameStatus((prev) => ({
+        //     ...prev,
+        //     isWon: true,
+        // }));
     };
 
     const createComputerId = () => {
@@ -721,7 +728,7 @@ const App = () => {
                         isMuted={gameStatus.isMuted}
                     />
                 )}
-                {gameStatus.isWon && (
+                {gameStatus.isWon && !display.showBoardComparison && (
                     <GameOver
                         isPlayer1Turn={gameStatus.isPlayer1Turn}
                         isVersusCPU={gameStatus.isVersusCPU}
