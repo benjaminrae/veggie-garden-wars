@@ -4,13 +4,15 @@ A Battleship style game
 
 [Live Site](https://veggie-garden-wars.netlify.app/)
 
-![Veggie Garden Wars Screenshot]()
+![Veggie Garden Wars Screenshot](/src/assets/screenshots/veggie-garden-wars-screenshot.png)
 
 ## About the project
 
 ---
 
-This project was an extra part of the ISDI Coders precourse. The objective was to create a Battleship style game. I used CSS grid for the game grid but flexbox for the rest. The main challenge was creating logic that could be reused if the grid was resized. For horizontal and vertical wins it was easy. One a piece is placed, the row/column is checked for at least 4 consecutive counters from the same player. The diagonals were more difficult since the columns and rows don't stay constant. In the end, I create a starting point by looking for the bottom of the diagonal. Then from there checked the full diagonal for at least 4 consecutive counters by the same player.
+This project was an extra part of the ISDI Coders precourse. The objective was to create a Battleship style game. I used CSS grid for the game grid but flexbox for the rest. First, the user has to select if it is a single or two-player game. Then the players place their veggies on the grid. Players then take it in turns to fire one shot at a time. The user is given feedback to know if their shot was a hit or a miss. In the end, the winner is the player that destroys all of their opponent's veggies first. Player can see a board comparison at then end, see the high scores and play again.
+
+The computer chooses IDs in the grid to attack at random, but once it has a hit, the ID is stored. The computer then tries to fire at the horizontally and vertically adjacent cells to the last successful hit. If there are no more adjacent cells, it goes back to firing at random IDs.
 
 ### Built with
 
@@ -23,10 +25,11 @@ This project was an extra part of the ISDI Coders precourse. The objective was t
 
 ### What I learned from this project
 
-I really enjoyed this project because it was one of my first opportunities to take a problem and create the logic to solve it. I learned that drawing out a problem is one of the easiest starting points and from there I was able to create pseudocode and finally transfer it into JavaScript. It had also been a while since I'd worked on my last project so it was good fun relearning and remembering concepts, especially with CSS. I also learned that "document.getElementsByClassName" does not actually return an "Array". It returns an "HTMLCollection" which has its own prototypes.
+This project allowed me to explore React a little but more and show different screens based on booleans stored in state. Using sounds in React was not as simple as in vanilla JS. "audioFile".play() created an error. I solved this problem by using [use-sound](https://github.com/joshwcomeau/use-sound).
 
 ### Next steps
 
+-   Add custom player names
 -   Work on responsiveness of the page
 -   Create a small backend for high scores
 -   Consider online multiplayer
