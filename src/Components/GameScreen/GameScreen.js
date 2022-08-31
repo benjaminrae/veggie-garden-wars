@@ -110,7 +110,6 @@ const GameScreen = ({
             : "game-screen__button--blocked";
     };
 
-    console.log(createButtonClassName());
     return (
         <div className="game-screen">
             {!isPlayer1Turn && isVersusCPU && (

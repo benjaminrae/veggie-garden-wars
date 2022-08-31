@@ -506,11 +506,9 @@ const App = () => {
             adjacentIds.push(
                 player2Data.player2LastHitId + gridDimensions.gridWidth * -1
             );
-            console.log(adjacentIds);
             const checkedIds = adjacentIds.filter(
                 (id) => id > 0 && id < 100 && !checkComputerId(id)
             );
-            console.log(checkedIds);
             if (checkedIds.length) {
                 return checkedIds[
                     Math.floor(Math.random() * checkedIds.length)
@@ -521,7 +519,6 @@ const App = () => {
         const randomId = Math.floor(
             Math.random() * player2Data.player2Grid.length + 1
         );
-        console.log(randomId, "randId");
 
         return randomId;
     };

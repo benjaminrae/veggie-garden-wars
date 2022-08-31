@@ -113,7 +113,7 @@
 
 .game-screen__computer-turn {
     position: absolute;
-    height: 80%;
+    height: 90%;
     width: 90%;
     background-color: var(--off-white);
     display: flex;
