@@ -22,6 +22,7 @@ const GameScreen = ({
     onPlayAgain,
     isVersusCPU,
     onHighScoresClick,
+    isWon,
 }) => {
     const [buttonDirections, setButtonDirections] = useState([
         { direction: "up", directionSymbol: "⬆", isSelected: true },
@@ -112,7 +113,7 @@ const GameScreen = ({
 
     return (
         <div className="game-screen">
-            {!isPlayer1Turn && isVersusCPU && (
+            {!isPlayer1Turn && isVersusCPU && !isWon && (
                 <div className="game-screen__computer-turn">
                     <div className="computer-turn__container">
                         <div className="computer-turn__icon">

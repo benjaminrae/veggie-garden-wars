@@ -718,9 +718,10 @@ const App = () => {
                         onPlayAgain={handlePlayAgain}
                         isVersusCPU={gameStatus.isVersusCPU}
                         onHighScoresClick={openHighScores}
+                        isWon={gameStatus.isWon}
                     />
                 )}
-                {display.showHitOrMiss && (
+                {display.showHitOrMiss && !gameStatus.isWon && (
                     <HitOrMiss
                         isHit={gameStatus.isHit}
                         onContinue={handleHitOrMissContinue}
