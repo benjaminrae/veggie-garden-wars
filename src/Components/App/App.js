@@ -21,6 +21,7 @@ const App = () => {
             spaces: 5,
             isPlaced: false,
             isSelected: true,
+            isDestroyed: false,
         },
         {
             veggieName: "Onions",
@@ -28,6 +29,7 @@ const App = () => {
             spaces: 4,
             isPlaced: false,
             isSelected: false,
+            isDestroyed: false,
         },
         {
             veggieName: "Potatoes",
@@ -35,6 +37,7 @@ const App = () => {
             spaces: 3,
             isPlaced: false,
             isSelected: false,
+            isDestroyed: false,
         },
         {
             veggieName: "Corn",
@@ -42,6 +45,7 @@ const App = () => {
             spaces: 3,
             isPlaced: false,
             isSelected: false,
+            isDestroyed: false,
         },
         {
             veggieName: "Broccoli",
@@ -49,6 +53,7 @@ const App = () => {
             spaces: 2,
             isPlaced: false,
             isSelected: false,
+            isDestroyed: false,
         },
     ]);
     const [gridDimensions] = useState({ gridHeight: 10, gridWidth: 10 });
@@ -71,15 +76,15 @@ const App = () => {
         isWon: false,
     });
     const [player1Data, setPlayer1Data] = useState({
-        player1Veggies: [],
-        player1Grid: [],
-        arePlayer1VeggiesPlaced: false,
+        playerVeggies: [],
+        playerGrid: [],
+        arePlayerVeggiesPlaced: false,
         playerName: "Player 1",
     });
     const [player2Data, setPlayer2Data] = useState({
-        player2Veggies: [],
-        player2Grid: [],
-        arePlayer2VeggiesPlaced: false,
+        playerVeggies: [],
+        playerGrid: [],
+        arePlayerVeggiesPlaced: false,
         playerName: "Player 2",
     });
     const [highScores, setHighScores] = useState([]);
@@ -87,13 +92,13 @@ const App = () => {
     useEffect(() => {
         setPlayer1Data((prev) => ({
             ...prev,
-            player1Veggies: createNewVeggies(),
-            player1Grid: createPlayerGrid(),
+            playerVeggies: createNewVeggies(),
+            playerGrid: createPlayerGrid(),
         }));
         setPlayer2Data((prev) => ({
             ...prev,
-            player2Veggies: createNewVeggies(),
-            player2Grid: createPlayerGrid(),
+            playerVeggies: createNewVeggies(),
+            playerGrid: createPlayerGrid(),
             player2LastHitId: null,
         }));
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -103,14 +108,14 @@ const App = () => {
         if (gameStatus.isPlayer1Turn) {
             setPlayer1Data((prev) => ({
                 ...prev,
-                player1Veggies: createNewVeggies(),
-                player1Grid: createPlayerGrid(),
+                playerVeggies: createNewVeggies(),
+                playerGrid: createPlayerGrid(),
             }));
         } else {
             setPlayer2Data((prev) => ({
                 ...prev,
-                player2Veggies: createNewVeggies(),
-                player2Grid: createPlayerGrid(),
+                playerVeggies: createNewVeggies(),
+                playerGrid: createPlayerGrid(),
             }));
         }
         return () => {
@@ -121,15 +126,15 @@ const App = () => {
 
     useEffect(() => {
         if (
-            !player1Data.arePlayer1VeggiesPlaced ||
-            !player2Data.arePlayer2VeggiesPlaced
+            !player1Data.arePlayerVeggiesPlaced ||
+            !player2Data.arePlayerVeggiesPlaced
         ) {
             return;
         }
-        const player1Cells = player1Data.player1Grid.filter(
+        const player1Cells = player1Data.playerGrid.filter(
             (cell) => cell.veggieSymbol
         );
-        const player2Cells = player2Data.player2Grid.filter(
+        const player2Cells = player2Data.playerGrid.filter(
             (cell) => cell.veggieSymbol
         );
         if (player1Cells && player1Cells.every((cell) => cell.isDefendingHit)) {
@@ -142,10 +147,10 @@ const App = () => {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [
-        player1Data.arePlayer1VeggiesPlaced,
-        player1Data.player1Grid,
-        player2Data.arePlayer2VeggiesPlaced,
-        player2Data.player2Grid,
+        player1Data.arePlayerVeggiesPlaced,
+        player1Data.playerGrid,
+        player2Data.arePlayerVeggiesPlaced,
+        player2Data.playerGrid,
     ]);
 
     useEffect(() => {
@@ -202,35 +207,40 @@ const App = () => {
                 spaces: 5,
                 isPlaced: false,
                 isSelected: true,
+                isDestroyed: false,
             },
-            // {
-            //     veggieName: "Onions",
-            //     veggieSymbol: "🧅",
-            //     spaces: 4,
-            //     isPlaced: false,
-            //     isSelected: false,
-            // },
-            // {
-            //     veggieName: "Potatoes",
-            //     veggieSymbol: "🥔",
-            //     spaces: 3,
-            //     isPlaced: false,
-            //     isSelected: false,
-            // },
-            // {
-            //     veggieName: "Corn",
-            //     veggieSymbol: "🌽",
-            //     spaces: 3,
-            //     isPlaced: false,
-            //     isSelected: false,
-            // },
-            // {
-            //     veggieName: "Broccoli",
-            //     veggieSymbol: "🥦",
-            //     spaces: 2,
-            //     isPlaced: false,
-            //     isSelected: false,
-            // },
+            {
+                veggieName: "Onions",
+                veggieSymbol: "🧅",
+                spaces: 4,
+                isPlaced: false,
+                isSelected: false,
+                isDestroyed: false,
+            },
+            {
+                veggieName: "Potatoes",
+                veggieSymbol: "🥔",
+                spaces: 3,
+                isPlaced: false,
+                isSelected: false,
+                isDestroyed: false,
+            },
+            {
+                veggieName: "Corn",
+                veggieSymbol: "🌽",
+                spaces: 3,
+                isPlaced: false,
+                isSelected: false,
+                isDestroyed: false,
+            },
+            {
+                veggieName: "Broccoli",
+                veggieSymbol: "🥦",
+                spaces: 2,
+                isPlaced: false,
+                isSelected: false,
+                isDestroyed: false,
+            },
         ];
         return newVeggies;
     };
@@ -280,11 +290,11 @@ const App = () => {
         gameStatus.isPlayer1Turn
             ? setPlayer1Data((prev) => ({
                   ...prev,
-                  player1Veggies: newVeggies,
+                  playerVeggies: newVeggies,
               }))
             : setPlayer2Data((prev) => ({
                   ...prev,
-                  player2Veggies: newVeggies,
+                  playerVeggies: newVeggies,
               }));
     };
 
@@ -292,11 +302,11 @@ const App = () => {
         gameStatus.isPlayer1Turn
             ? setPlayer1Data((prev) => ({
                   ...prev,
-                  player1Grid: newPlayerGrid,
+                  playerGrid: newPlayerGrid,
               }))
             : setPlayer2Data((prev) => ({
                   ...prev,
-                  player2Grid: newPlayerGrid,
+                  playerGrid: newPlayerGrid,
               }));
     };
 
@@ -308,13 +318,13 @@ const App = () => {
         if (gameStatus.isPlayer1Turn) {
             setPlayer1Data((prev) => ({
                 ...prev,
-                arePlayer1VeggiesPlaced: true,
+                arePlayerVeggiesPlaced: true,
             }));
             togglePlayer();
         } else {
             setPlayer2Data((prev) => ({
                 ...prev,
-                arePlayer2VeggiesPlaced: true,
+                arePlayerVeggiesPlaced: true,
             }));
             togglePlayer();
         }
@@ -350,82 +360,116 @@ const App = () => {
         volume: gameStatus.isMuted ? 0 : 0.5,
     });
 
-    const onFire = (targetId) => {
+    const checkVeggieDestroyed = (newPlayerGrid, cell) => {
+        let newPlayerVeggies;
         if (gameStatus.isPlayer1Turn) {
-            const newPlayer1Grid = [...player1Data.player1Grid];
-            const newPlayer2Grid = player2Data.player2Grid.map(
-                (cell, index) => {
-                    if (cell.id === targetId) {
-                        if (cell.veggieSymbol) {
-                            cell.isDefendingHit = true;
-                            cell.isDefended = true;
-                            newPlayer1Grid[index].isAttackingHit = true;
-                            newPlayer1Grid[index].isAttacked = true;
-                            setGameStatus((prev) => ({ ...prev, isHit: true }));
-                            playExplosion();
-                        } else {
-                            cell.isDefendingMiss = true;
-                            cell.isDefended = true;
-                            newPlayer1Grid[index].isAttackingMiss = true;
-                            newPlayer1Grid[index].isAttacked = true;
-                            setGameStatus((prev) => ({
-                                ...prev,
-                                isHit: false,
-                            }));
-                            playMiss();
-                        }
-                        newPlayer1Grid[index].isSelected = false;
-                    }
-                    return cell;
+            newPlayerVeggies = player2Data.playerVeggies;
+        } else {
+            newPlayerVeggies = player1Data.playerVeggies;
+        }
+        const veggieCells = newPlayerGrid.filter(
+            (newPlayerCell) => newPlayerCell.veggieSymbol === cell.veggieSymbol
+        );
+        if (veggieCells.every((veggieCell) => veggieCell.isDefended)) {
+            newPlayerVeggies.forEach((veggie) => {
+                if (veggie.veggieSymbol === cell.veggieSymbol) {
+                    veggie.isDestroyed = true;
                 }
-            );
-            setPlayer1Data((prev) => ({
-                ...prev,
-                player1Grid: newPlayer1Grid,
-            }));
+                return veggie;
+            });
+        }
+        if (gameStatus.isPlayer1Turn) {
             setPlayer2Data((prev) => ({
                 ...prev,
-                player2Grid: newPlayer2Grid,
+                playerVeggies: newPlayerVeggies,
             }));
         } else {
-            const newPlayer2Grid = [...player2Data.player2Grid];
-            const newPlayer1Grid = player1Data.player1Grid.map(
-                (cell, index) => {
-                    if (cell.id === targetId) {
-                        if (cell.veggieSymbol) {
-                            cell.isDefendingHit = true;
-                            cell.isDefended = true;
-                            newPlayer2Grid[index].isAttackingHit = true;
-                            newPlayer2Grid[index].isAttacked = true;
-                            setGameStatus((prev) => ({ ...prev, isHit: true }));
-                            setPlayer2Data((prev) => ({
-                                ...prev,
-                                player2LastHitId: targetId,
-                            }));
-                            playExplosion();
-                        } else {
-                            cell.isDefendingMiss = true;
-                            cell.isDefended = true;
-                            newPlayer2Grid[index].isAttackingMiss = true;
-                            newPlayer2Grid[index].isAttacked = true;
-                            setGameStatus((prev) => ({
-                                ...prev,
-                                isHit: false,
-                            }));
-                            playMiss();
-                        }
-                        newPlayer2Grid[index].isSelected = false;
-                    }
-                    return cell;
-                }
-            );
             setPlayer1Data((prev) => ({
                 ...prev,
-                player1Grid: newPlayer1Grid,
+                playerVeggies: newPlayerVeggies,
+            }));
+        }
+    };
+
+    const onFire = (targetId) => {
+        if (gameStatus.isPlayer1Turn) {
+            let targetCell;
+            const newPlayer1Grid = [...player1Data.playerGrid];
+            const newPlayer2Grid = player2Data.playerGrid.map((cell, index) => {
+                if (cell.id === targetId) {
+                    targetCell = cell;
+                    if (cell.veggieSymbol) {
+                        cell.isDefendingHit = true;
+                        cell.isDefended = true;
+                        newPlayer1Grid[index].isAttackingHit = true;
+                        newPlayer1Grid[index].isAttacked = true;
+                        setGameStatus((prev) => ({ ...prev, isHit: true }));
+                        playExplosion();
+                    } else {
+                        cell.isDefendingMiss = true;
+                        cell.isDefended = true;
+                        newPlayer1Grid[index].isAttackingMiss = true;
+                        newPlayer1Grid[index].isAttacked = true;
+                        setGameStatus((prev) => ({
+                            ...prev,
+                            isHit: false,
+                        }));
+                        playMiss();
+                    }
+                    newPlayer1Grid[index].isSelected = false;
+                }
+                return cell;
+            });
+            checkVeggieDestroyed(newPlayer2Grid, targetCell);
+
+            setPlayer1Data((prev) => ({
+                ...prev,
+                playerGrid: newPlayer1Grid,
             }));
             setPlayer2Data((prev) => ({
                 ...prev,
-                player2Grid: newPlayer2Grid,
+                playerGrid: newPlayer2Grid,
+            }));
+        } else {
+            let targetCell;
+            const newPlayer2Grid = [...player2Data.playerGrid];
+            const newPlayer1Grid = player1Data.playerGrid.map((cell, index) => {
+                if (cell.id === targetId) {
+                    targetCell = cell;
+                    if (cell.veggieSymbol) {
+                        cell.isDefendingHit = true;
+                        cell.isDefended = true;
+                        newPlayer2Grid[index].isAttackingHit = true;
+                        newPlayer2Grid[index].isAttacked = true;
+                        setGameStatus((prev) => ({ ...prev, isHit: true }));
+                        setPlayer2Data((prev) => ({
+                            ...prev,
+                            player2LastHitId: targetId,
+                        }));
+                        playExplosion();
+                    } else {
+                        cell.isDefendingMiss = true;
+                        cell.isDefended = true;
+                        newPlayer2Grid[index].isAttackingMiss = true;
+                        newPlayer2Grid[index].isAttacked = true;
+                        setGameStatus((prev) => ({
+                            ...prev,
+                            isHit: false,
+                        }));
+                        playMiss();
+                    }
+                    newPlayer2Grid[index].isSelected = false;
+                }
+                return cell;
+            });
+            checkVeggieDestroyed(newPlayer1Grid, targetCell);
+            setPlayer1Data((prev) => ({
+                ...prev,
+                playerGrid: newPlayer1Grid,
+            }));
+            setPlayer2Data((prev) => ({
+                ...prev,
+                playerGrid: newPlayer2Grid,
             }));
 
             if (!gameStatus.isWon && gameStatus.isVersusCPU) {
@@ -458,9 +502,9 @@ const App = () => {
     const handlePlayAgain = () => {
         setPlayer1Data((prev) => ({
             ...prev,
-            player1Grid: createPlayerGrid(),
-            player1Veggies: createNewVeggies(),
-            arePlayer1VeggiesPlaced: false,
+            playerGrid: createPlayerGrid(),
+            playerVeggies: createNewVeggies(),
+            arePlayerVeggiesPlaced: false,
         }));
 
         setGameStatus((prev) => ({
@@ -470,9 +514,9 @@ const App = () => {
         }));
         setPlayer2Data((prev) => ({
             ...prev,
-            player2Grid: createPlayerGrid(),
-            player2Veggies: createNewVeggies(),
-            arePlayer2VeggiesPlaced: false,
+            playerGrid: createPlayerGrid(),
+            playerVeggies: createNewVeggies(),
+            arePlayerVeggiesPlaced: false,
         }));
 
         setDisplay((prev) => ({
@@ -519,14 +563,14 @@ const App = () => {
         }
 
         const randomId = Math.floor(
-            Math.random() * player2Data.player2Grid.length + 1
+            Math.random() * player2Data.playerGrid.length + 1
         );
 
         return randomId;
     };
 
     const checkComputerId = (randomId) => {
-        return player2Data.player2Grid[randomId - 1].isAttacked;
+        return player2Data.playerGrid[randomId - 1].isAttacked;
     };
 
     const createComputerDirection = () => {
@@ -540,7 +584,7 @@ const App = () => {
     };
 
     const setUpComputerGrid = () => {
-        for (let playerVeggie of player2Data.player2Veggies) {
+        for (let playerVeggie of player2Data.playerVeggies) {
             let randomId, randomDirection;
             do {
                 randomId = createComputerId();
@@ -549,7 +593,7 @@ const App = () => {
                 !checkComputerCellsToFill(
                     playerVeggie,
                     randomId,
-                    player2Data.player2Grid,
+                    player2Data.playerGrid,
                     randomDirection
                 )
             );
@@ -567,17 +611,17 @@ const App = () => {
         randomId,
         randomDirection
     ) => {
-        let playerGrid = player2Data.player2Grid;
+        let newPlayerGrid = player2Data.playerGrid;
 
         for (let i = 0; i < playerVeggie.spaces; i++) {
-            playerGrid = playerGrid.map((cell) => {
+            newPlayerGrid = newPlayerGrid.map((cell) => {
                 if (cell.id === randomId + i * randomDirection) {
                     cell.veggieSymbol = playerVeggie.veggieSymbol;
                 }
                 return cell;
             });
         }
-        setPlayer2Data((prev) => ({ ...prev, player2Grid: [...playerGrid] }));
+        setPlayer2Data((prev) => ({ ...prev, playerGrid: [...newPlayerGrid] }));
     };
 
     const checkComputerCellsToFill = (
@@ -636,13 +680,13 @@ const App = () => {
         if (gameStatus.isPlayer1Turn) {
             winnerData = player1Data;
             loserData = player2Data;
-            winnerTurns = player1Data.player1Grid.filter(
+            winnerTurns = player1Data.playerGrid.filter(
                 (cell) => cell.isAttacked
             ).length;
         } else {
             winnerData = player2Data;
             loserData = player2Data;
-            winnerTurns = player2Data.player2Grid.filter(
+            winnerTurns = player2Data.playerGrid.filter(
                 (cell) => cell.isAttacked
             ).length;
         }
@@ -691,18 +735,18 @@ const App = () => {
                         isPlayer1Turn={gameStatus.isPlayer1Turn}
                         arePlayerVeggiesPlaced={
                             gameStatus.isPlayer1Turn
-                                ? player1Data.arePlayer1VeggiesPlaced
-                                : player2Data.arePlayer2VeggiesPlaced
+                                ? player1Data.arePlayerVeggiesPlaced
+                                : player2Data.arePlayerVeggiesPlaced
                         }
                         playerVeggies={
                             gameStatus.isPlayer1Turn
-                                ? player1Data.player1Veggies
-                                : player2Data.player2Veggies
+                                ? player1Data.playerVeggies
+                                : player2Data.playerVeggies
                         }
                         playerGrid={
                             gameStatus.isPlayer1Turn
-                                ? player1Data.player1Grid
-                                : player2Data.player2Grid
+                                ? player1Data.playerGrid
+                                : player2Data.playerGrid
                         }
                         onUpdateVeggies={updatePlayerVeggieSelection}
                         onPlayerGridChange={updatePlayerGrid}
@@ -712,13 +756,16 @@ const App = () => {
                         showBoardComparison={display.showBoardComparison}
                         secondPlayerGrid={
                             gameStatus.isPlayer1Turn
-                                ? player2Data.player2Grid
-                                : player1Data.player1Grid
+                                ? player2Data.playerGrid
+                                : player1Data.playerGrid
                         }
                         onPlayAgain={handlePlayAgain}
                         isVersusCPU={gameStatus.isVersusCPU}
                         onHighScoresClick={openHighScores}
                         isWon={gameStatus.isWon}
+                        player2Data={player2Data}
+                        player1Data={player1Data}
+                        gameStatus={gameStatus}
                     />
                 )}
                 {display.showHitOrMiss && !gameStatus.isWon && (

@@ -1,7 +1,7 @@
 import "./GameScreen.css";
 import { useState, useEffect, useMemo } from "react";
 import GameGrid from "../GameGrid/GameGrid";
-import VeggiePlaceTable from "../VeggiePlaceTable/VeggiePlaceTable";
+import VeggieTable from "../VeggieTable/VeggieTable";
 import robotGif from "../../assets/gifs/starbase-angry-robot-sound.gif";
 import loading from "../../assets/gifs/loading-loading-forever.gif";
 
@@ -23,6 +23,9 @@ const GameScreen = ({
     isVersusCPU,
     onHighScoresClick,
     isWon,
+    player2Data,
+    player1Data,
+    gameStatus,
 }) => {
     const [buttonDirections, setButtonDirections] = useState([
         { direction: "up", directionSymbol: "⬆", isSelected: true },
@@ -259,12 +262,14 @@ const GameScreen = ({
                                     ? "Take your turn"
                                     : "Place your veggies"}
                             </h2>
-                            {arePlayerVeggiesPlaced || (
-                                <VeggiePlaceTable
-                                    playerVeggies={playerVeggies}
-                                    onUpdateVeggies={onUpdateVeggies}
-                                />
-                            )}
+                            <VeggieTable
+                                playerVeggies={playerVeggies}
+                                player2Data={player2Data}
+                                onUpdateVeggies={onUpdateVeggies}
+                                arePlayerVeggiesPlaced={arePlayerVeggiesPlaced}
+                                player1Data={player1Data}
+                                gameStatus={gameStatus}
+                            />
                             <div className="game-screen__button-container">
                                 {!arePlayerVeggiesPlaced && (
                                     <button
