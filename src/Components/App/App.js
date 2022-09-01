@@ -203,34 +203,34 @@ const App = () => {
                 isPlaced: false,
                 isSelected: true,
             },
-            {
-                veggieName: "Onions",
-                veggieSymbol: "🧅",
-                spaces: 4,
-                isPlaced: false,
-                isSelected: false,
-            },
-            {
-                veggieName: "Potatoes",
-                veggieSymbol: "🥔",
-                spaces: 3,
-                isPlaced: false,
-                isSelected: false,
-            },
-            {
-                veggieName: "Corn",
-                veggieSymbol: "🌽",
-                spaces: 3,
-                isPlaced: false,
-                isSelected: false,
-            },
-            {
-                veggieName: "Broccoli",
-                veggieSymbol: "🥦",
-                spaces: 2,
-                isPlaced: false,
-                isSelected: false,
-            },
+            // {
+            //     veggieName: "Onions",
+            //     veggieSymbol: "🧅",
+            //     spaces: 4,
+            //     isPlaced: false,
+            //     isSelected: false,
+            // },
+            // {
+            //     veggieName: "Potatoes",
+            //     veggieSymbol: "🥔",
+            //     spaces: 3,
+            //     isPlaced: false,
+            //     isSelected: false,
+            // },
+            // {
+            //     veggieName: "Corn",
+            //     veggieSymbol: "🌽",
+            //     spaces: 3,
+            //     isPlaced: false,
+            //     isSelected: false,
+            // },
+            // {
+            //     veggieName: "Broccoli",
+            //     veggieSymbol: "🥦",
+            //     spaces: 2,
+            //     isPlaced: false,
+            //     isSelected: false,
+            // },
         ];
         return newVeggies;
     };
@@ -456,22 +456,24 @@ const App = () => {
     };
 
     const handlePlayAgain = () => {
-        setPlayer1Data({
+        setPlayer1Data((prev) => ({
+            ...prev,
             player1Grid: createPlayerGrid(),
             player1Veggies: createNewVeggies(),
             arePlayer1VeggiesPlaced: false,
-        });
+        }));
 
         setGameStatus((prev) => ({
             ...prev,
             isPlayer1Turn: true,
             isWon: false,
         }));
-        setPlayer2Data({
+        setPlayer2Data((prev) => ({
+            ...prev,
             player2Grid: createPlayerGrid(),
             player2Veggies: createNewVeggies(),
             arePlayer2VeggiesPlaced: false,
-        });
+        }));
 
         setDisplay((prev) => ({
             ...prev,
