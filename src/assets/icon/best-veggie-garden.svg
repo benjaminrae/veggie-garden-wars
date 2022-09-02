@@ -1,0 +1,16 @@
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600.230769230769 623.44" width="1800.6923076923072" height="1870.3200000000002">
+  <!-- svg-source:excalidraw -->
+  
+  <defs>
+    <style>
+      @font-face {
+        font-family: "Virgil";
+        src: url("https://excalidraw.com/Virgil.woff2");
+      }
+      @font-face {
+        font-family: "Cascadia";
+        src: url("https://excalidraw.com/Cascadia.woff2");
+      }
+    </style>
+  </defs>
+  <g transform="translate(10 10) rotate(0 290.1153846153845 301.72)"><text x="0" y="446.44000000000005" font-family="Virgil, Segoe UI Emoji" font-size="417.7661538461541px" fill="#000000" text-anchor="start" style="white-space: pre;" direction="ltr">🏆</text></g><g transform="translate(195.26125136612018 166.30190074219064) rotate(0 95.5 24.706467661691562)"><text x="95.5" y="17.706467661691548" font-family="Virgil, Segoe UI Emoji" font-size="19.740623440176176px" fill="#000000" text-anchor="middle" style="white-space: pre;" direction="ltr">Best Veggie Garden</text><text x="95.5" y="42.412935323383095" font-family="Virgil, Segoe UI Emoji" font-size="19.740623440176176px" fill="#000000" text-anchor="middle" style="white-space: pre;" direction="ltr">2022</text></g></svg>

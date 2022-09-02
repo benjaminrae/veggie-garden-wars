@@ -1,4 +1,5 @@
 import "./HighScores.css";
+import trophy from "./../../assets/icon/best-veggie-garden.svg";
 
 const ScoreTable = ({ highScores }) => {
     const sortedHighScores = [...highScores].sort((a, b) => b.turns - a.turns);
@@ -36,7 +37,12 @@ const HighScores = ({ onClose, highScores }) => {
                 &#10060;
             </div>
             <div className="high-scores__screen">
-                <h2 className="high-scores__title">HighScores</h2>
+                <h2 className="high-scores__title">High Scores</h2>
+                <img
+                    src={trophy}
+                    alt="trophy"
+                    className="high-scores__trophy"
+                />
                 <ScoreTable highScores={highScores} />
                 {!highScores.length && (
                     <p>There's no high scores to display yet!</p>

@@ -25,6 +25,7 @@
     font-size: 2rem;
     font-family: "Rubik Dirt", cursive;
     color: var(--dark-brown);
+    z-index: 50;
 }
 .high-scores__close {
     font-size: 1.5rem;
@@ -35,4 +36,13 @@
 
 .high-scores__close:hover {
     cursor: pointer;
+}
+
+.high-scores__trophy {
+    max-width: 90%;
+    max-height: 100%;
+    overflow: hidden;
+    position: absolute;
+    z-index: 45;
+    opacity: 0.2;
 }

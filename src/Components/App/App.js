@@ -780,6 +780,12 @@ const App = () => {
                         onHighScoresClick={openHighScores}
                         onPlayAgain={handlePlayAgain}
                         onShowBoards={handleShowBoards}
+                        gameStatus={gameStatus}
+                        playerName={
+                            gameStatus.isPlayer1Turn
+                                ? player1Data.playerName
+                                : player2Data.playerName
+                        }
                     />
                 )}
             </div>

@@ -3,25 +3,25 @@ import win from "../../assets/gifs/baby-yes.gif";
 import lose from "../../assets/gifs/bender-futurama.gif";
 
 const GameOver = ({
-    isPlayer1Turn,
-    isVersusCPU,
     onHighScoresClick,
     onPlayAgain,
     onShowBoards,
+    playerName,
+    gameStatus,
 }) => {
     return (
         <div className="game-over">
             <div className="game-over__screen">
-                <h2 className="game-over__title">
-                    {isPlayer1Turn
-                        ? "Player 1 Wins!"
-                        : isVersusCPU
-                        ? "CPU Wins 😢"
-                        : "Player 2 Wins!"}
-                </h2>
+                <h2 className="game-over__title">{`${playerName} Wins!`}</h2>
                 <img
                     className="game-over__gif"
-                    src={isPlayer1Turn ? win : isVersusCPU ? lose : win}
+                    src={
+                        gameStatus.isPlayer1Turn
+                            ? win
+                            : gameStatus.isVersusCPU
+                            ? lose
+                            : win
+                    }
                     alt=""
                 />
                 <div className="game-over__button-container">
