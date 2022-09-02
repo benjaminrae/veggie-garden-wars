@@ -740,13 +740,13 @@ const App = () => {
                     <Welcome
                         onPlayerSelect={selectPlayers}
                         onStartGame={startGame}
-                        player1Data={player1Data}
-                        player2Data={player2Data}
                     />
                 )}
                 {display.showHideScreen && (
                     <HideScreen
                         isPlayer1Turn={gameStatus.isPlayer1Turn}
+                        player1Name={player1Data.playerName}
+                        player2Name={player2Data.playerName}
                         onTakeTurn={takeTurn}
                     />
                 )}

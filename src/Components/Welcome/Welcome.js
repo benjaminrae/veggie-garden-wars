@@ -1,7 +1,7 @@
 import "./Welcome.css";
 import { useState } from "react";
 
-const Welcome = ({ onPlayerSelect, onStartGame, player1Data, player2Data }) => {
+const Welcome = ({ onPlayerSelect, onStartGame }) => {
     const [showWelcome, setShowWelcome] = useState(true);
     const [showSinglePlayer, setShowSinglePlayer] = useState(false);
     const [showTwoPlayer, setShowTwoPlayer] = useState(false);
