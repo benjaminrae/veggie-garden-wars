@@ -252,14 +252,34 @@ const App = () => {
         }));
     };
 
-    const startGame = () => {
+    const startGame = (playerNames) => {
         setDisplay((prev) => ({ ...prev, showWelcome: false }));
+        setPlayer1Data((prev) => ({
+            ...prev,
+            playerName: playerNames.player1Name,
+        }));
+        setPlayer2Data((prev) => ({
+            ...prev,
+            playerName: gameStatus.isVersusCPU
+                ? "Robot"
+                : playerNames.player2Name,
+        }));
         if (gameStatus.isVersusCPU) {
             setDisplay((prev) => ({ ...prev, showGameScreen: true }));
             setUpComputerGrid();
             return;
         }
         setDisplay((prev) => ({ ...prev, showHideScreen: true }));
+        setPlayer1Data((prev) => ({
+            ...prev,
+            playerName: playerNames.player1Name,
+        }));
+        setPlayer2Data((prev) => ({
+            ...prev,
+            playerName: gameStatus.isVersusCPU
+                ? "Robot"
+                : playerNames.player2Name,
+        }));
     };
 
     const takeTurn = () => {
@@ -720,6 +740,8 @@ const App = () => {
                     <Welcome
                         onPlayerSelect={selectPlayers}
                         onStartGame={startGame}
+                        player1Data={player1Data}
+                        player2Data={player2Data}
                     />
                 )}
                 {display.showHideScreen && (

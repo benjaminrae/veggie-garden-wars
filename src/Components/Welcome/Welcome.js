@@ -1,10 +1,14 @@
 import "./Welcome.css";
 import { useState } from "react";
 
-const Welcome = ({ onPlayerSelect, onStartGame }) => {
+const Welcome = ({ onPlayerSelect, onStartGame, player1Data, player2Data }) => {
     const [showWelcome, setShowWelcome] = useState(true);
     const [showSinglePlayer, setShowSinglePlayer] = useState(false);
     const [showTwoPlayer, setShowTwoPlayer] = useState(false);
+    const [playerNames, setPlayerNames] = useState({
+        player1Name: "Player 1",
+        player2Name: "Player 2",
+    });
 
     const handlePlayerButtonClick = (event) => {
         if (+event.target.value === 1) {
@@ -20,7 +24,21 @@ const Welcome = ({ onPlayerSelect, onStartGame }) => {
     };
 
     const handleStartGameButtonClick = () => {
-        onStartGame();
+        onStartGame(playerNames);
+    };
+
+    const handlePlayer1NameChange = (event) => {
+        setPlayerNames((prev) => ({
+            ...prev,
+            player1Name: event.target.value,
+        }));
+    };
+
+    const handlePlayer2NameChange = (event) => {
+        setPlayerNames((prev) => ({
+            ...prev,
+            player2Name: event.target.value,
+        }));
     };
 
     return (
@@ -68,6 +86,19 @@ const Welcome = ({ onPlayerSelect, onStartGame }) => {
                         Use your catapult to fire on VegBot's garden and try to
                         destroy all its veggies, before it destroys yours!
                     </div>
+                    <div className="welcome__input-container">
+                        <div className="welcome__player-group">
+                            <label htmlFor="player1-input">Player 1:</label>
+                            <input
+                                type="text"
+                                placeholder="Player 1"
+                                name="player1-input"
+                                value={playerNames.player1Name}
+                                className="welcome__input"
+                                onChange={handlePlayer1NameChange}
+                            ></input>
+                        </div>
+                    </div>
                     <div className="welcome__button-container">
                         <button
                             className="welcome__button"
@@ -104,6 +135,30 @@ const Welcome = ({ onPlayerSelect, onStartGame }) => {
                     <div>
                         Use your catapults to fire on your neighbour's garden
                         and try to destroy all their veggies.
+                    </div>
+                    <div className="welcome__input-container">
+                        <div className="welcome__player-group">
+                            <label htmlFor="player1-input">Player 1:</label>
+                            <input
+                                type="text"
+                                placeholder="Player 1"
+                                name="player1-input"
+                                value={playerNames.player1Name}
+                                className="welcome__input"
+                                onChange={handlePlayer1NameChange}
+                            ></input>
+                        </div>
+                        <div className="welcome__player-group">
+                            <label htmlFor="player2-input">Player 2:</label>
+                            <input
+                                type="text"
+                                placeholder="Player 2"
+                                name="player2-input"
+                                value={playerNames.player2Name}
+                                className="welcome__input"
+                                onChange={handlePlayer2NameChange}
+                            ></input>
+                        </div>
                     </div>
                     <div className="welcome__button-container">
                         <button
