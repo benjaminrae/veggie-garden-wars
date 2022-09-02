@@ -752,42 +752,18 @@ const App = () => {
                 )}
                 {display.showGameScreen && (
                     <GameScreen
-                        height={gridDimensions.gridHeight}
-                        width={gridDimensions.gridWidth}
-                        isPlayer1Turn={gameStatus.isPlayer1Turn}
-                        arePlayerVeggiesPlaced={
-                            gameStatus.isPlayer1Turn
-                                ? player1Data.arePlayerVeggiesPlaced
-                                : player2Data.arePlayerVeggiesPlaced
-                        }
-                        playerVeggies={
-                            gameStatus.isPlayer1Turn
-                                ? player1Data.playerVeggies
-                                : player2Data.playerVeggies
-                        }
-                        playerGrid={
-                            gameStatus.isPlayer1Turn
-                                ? player1Data.playerGrid
-                                : player2Data.playerGrid
-                        }
+                        gridDimensions={gridDimensions}
+                        gameStatus={gameStatus}
                         onUpdateVeggies={updatePlayerVeggieSelection}
                         onPlayerGridChange={updatePlayerGrid}
                         onReset={onResetGridAndPlacement}
                         onConfirmPlacement={onConfirmVeggiePlacement}
                         onFire={onFire}
                         showBoardComparison={display.showBoardComparison}
-                        secondPlayerGrid={
-                            gameStatus.isPlayer1Turn
-                                ? player2Data.playerGrid
-                                : player1Data.playerGrid
-                        }
                         onPlayAgain={handlePlayAgain}
-                        isVersusCPU={gameStatus.isVersusCPU}
                         onHighScoresClick={openHighScores}
-                        isWon={gameStatus.isWon}
                         player2Data={player2Data}
                         player1Data={player1Data}
-                        gameStatus={gameStatus}
                     />
                 )}
                 {display.showHitOrMiss && !gameStatus.isWon && (

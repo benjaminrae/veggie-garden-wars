@@ -2,8 +2,7 @@ import "./GameGrid.css";
 import { useState, useEffect } from "react";
 
 const GameGrid = ({
-    height,
-    width,
+    gridDimensions,
     arePlayerVeggiesPlaced,
     currentVeggie,
     number,
@@ -19,8 +18,8 @@ const GameGrid = ({
 
     useEffect(() => {
         setCellDifference({
-            [buttonDirections[0].direction]: width * -1,
-            [buttonDirections[1].direction]: width,
+            [buttonDirections[0].direction]: gridDimensions.gridWidth * -1,
+            [buttonDirections[1].direction]: gridDimensions.gridWidth,
             [buttonDirections[2].direction]: -1,
             [buttonDirections[3].direction]: 1,
         });
@@ -90,7 +89,6 @@ const GameGrid = ({
                 }
             });
         }
-
         if (cellsToFill.some((cell) => cell.veggieSymbol)) {
             // console.log("veggie clash");
             return false;

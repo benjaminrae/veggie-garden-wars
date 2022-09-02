@@ -6,26 +6,18 @@ import robotGif from "../../assets/gifs/starbase-angry-robot-sound.gif";
 import loading from "../../assets/gifs/loading-loading-forever.gif";
 
 const GameScreen = ({
-    height,
-    width,
-    isPlayer1Turn,
-    arePlayerVeggiesPlaced,
-    playerVeggies,
-    playerGrid,
+    gridDimensions,
+    gameStatus,
     onUpdateVeggies,
     onPlayerGridChange,
     onReset,
     onConfirmPlacement,
     onFire,
     showBoardComparison,
-    secondPlayerGrid,
     onPlayAgain,
-    isVersusCPU,
     onHighScoresClick,
-    isWon,
     player2Data,
     player1Data,
-    gameStatus,
 }) => {
     const [buttonDirections, setButtonDirections] = useState([
         { direction: "up", directionSymbol: "⬆", isSelected: true },
@@ -49,6 +41,13 @@ const GameScreen = ({
             clearTimeout(timeout);
         };
     }, [isComputerContinue, onConfirmPlacement, setIsComputerContinue]);
+
+    const { arePlayerVeggiesPlaced, playerGrid, playerVeggies, playerName } =
+        gameStatus.isPlayer1Turn ? player1Data : player2Data;
+
+    const secondPlayerGrid = gameStatus.isPlayer1Turn
+        ? player2Data.playerGrid
+        : player1Data.playerGrid;
 
     const isOneCellSelected = useMemo(
         () => playerGrid.some((cell) => cell.isSelected),
@@ -89,7 +88,7 @@ const GameScreen = ({
     };
 
     const handleConfirmClick = () => {
-        if (isVersusCPU) {
+        if (gameStatus.isVersusCPU) {
             onConfirmPlacement();
             setIsComputerContinue(true);
         }
@@ -116,28 +115,30 @@ const GameScreen = ({
 
     return (
         <div className="game-screen">
-            {!isPlayer1Turn && isVersusCPU && !isWon && (
-                <div className="game-screen__computer-turn">
-                    <div className="computer-turn__container">
-                        <div className="computer-turn__icon">
-                            🤖 The robot is taking its turn
+            {!gameStatus.isPlayer1Turn &&
+                gameStatus.isVersusCPU &&
+                !gameStatus.isWon && (
+                    <div className="game-screen__computer-turn">
+                        <div className="computer-turn__container">
+                            <div className="computer-turn__icon">
+                                🤖 The robot is taking its turn
+                                <img
+                                    className="computer-turn__loading"
+                                    src={loading}
+                                    alt=""
+                                />
+                            </div>
+                            <div className="computer-turn__title">
+                                "Me cago en tus huertos!"
+                            </div>
                             <img
-                                className="computer-turn__loading"
-                                src={loading}
+                                className="computer-turn__gif"
+                                src={robotGif}
                                 alt=""
                             />
                         </div>
-                        <div className="computer-turn__title">
-                            "Me cago en tus huertos!"
-                        </div>
-                        <img
-                            className="computer-turn__gif"
-                            src={robotGif}
-                            alt=""
-                        />
                     </div>
-                </div>
-            )}
+                )}
             {showBoardComparison && (
                 <div className="game-screen__button-container">
                     <button
@@ -159,7 +160,7 @@ const GameScreen = ({
                 <div className="game-screen__left-container">
                     {showBoardComparison && (
                         <h2 className="game-screen__title">
-                            {isPlayer1Turn ? "Player 1 🏆" : "Player 2 🏆"}
+                            {`${playerName} 🏆`}
                         </h2>
                     )}
                     {!arePlayerVeggiesPlaced && (
@@ -208,8 +209,7 @@ const GameScreen = ({
                         </div>
                     )}
                     <GameGrid
-                        height={height}
-                        width={width}
+                        gridDimensions={gridDimensions}
                         arePlayerVeggiesPlaced={arePlayerVeggiesPlaced}
                         currentVeggie={playerVeggies.find(
                             (veggie) => veggie.isSelected
@@ -230,12 +230,13 @@ const GameScreen = ({
                     {showBoardComparison && (
                         <>
                             <h2 className="game-screen__title">
-                                {isPlayer1Turn ? "Player 2" : "Player 1"}
+                                {gameStatus.isPlayer1Turn
+                                    ? player2Data.playerName
+                                    : player1Data.playerName}
                             </h2>
 
                             <GameGrid
-                                height={height}
-                                width={width}
+                                gridDimensions={gridDimensions}
                                 arePlayerVeggiesPlaced={arePlayerVeggiesPlaced}
                                 currentVeggie={playerVeggies.find(
                                     (veggie) => veggie.isSelected
@@ -256,7 +257,7 @@ const GameScreen = ({
                     {!showBoardComparison && (
                         <>
                             <h2 className="game-screen__title">
-                                {isPlayer1Turn ? "Player 1" : "Player 2"}
+                                {playerName}
                                 <br />
                                 {arePlayerVeggiesPlaced
                                     ? "Take your turn"
