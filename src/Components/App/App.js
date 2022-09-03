@@ -707,7 +707,7 @@ const App = () => {
             ).length;
         } else {
             winnerData = player2Data;
-            loserData = player2Data;
+            loserData = player1Data;
             winnerTurns = player2Data.playerGrid.filter(
                 (cell) => cell.isAttacked
             ).length;
