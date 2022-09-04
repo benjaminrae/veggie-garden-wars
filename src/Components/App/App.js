@@ -86,6 +86,7 @@ const App = () => {
         playerGrid: [],
         arePlayerVeggiesPlaced: false,
         playerName: "Player 2",
+        player2LastHitId: null,
     });
     const [highScores, setHighScores] = useState([]);
 
@@ -99,7 +100,6 @@ const App = () => {
             ...prev,
             playerVeggies: createNewVeggies(),
             playerGrid: createPlayerGrid(),
-            player2LastHitId: null,
         }));
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
@@ -500,11 +500,6 @@ const App = () => {
         } else {
             setDisplay((prev) => ({ ...prev, showHitOrMiss: false }));
         }
-        // if (gameStatus.isHit) {
-        //     playExplosion();
-        // } else {
-        //     playMiss();
-        // }
     };
 
     const handleHitOrMissContinue = () => {
@@ -557,23 +552,80 @@ const App = () => {
             showBoardComparison: true,
             showHitOrMiss: false,
         }));
-        // setGameStatus((prev) => ({
-        //     ...prev,
-        //     isWon: true,
-        // }));
     };
 
+    const findDestroyedVeggieIndexes = (
+        player2Hits,
+        player1DestroyedVeggiesSpaces
+    ) => {
+        let destroyedIndexes = [];
+        player2Hits.forEach((hit) => {
+            let visitedHorizontal = [hit.id];
+            let visitedVertical = [hit.id];
+            player1DestroyedVeggiesSpaces.forEach((destroyedVeggieSpaces) => {
+                for (let i = 1; i < destroyedVeggieSpaces; i++) {
+                    if (
+                        player2Hits.find((newHit) => newHit.id === hit.id + i)
+                    ) {
+                        visitedHorizontal.push(hit.id + i);
+                    }
+                    if (
+                        player2Hits.find(
+                            (newHit) =>
+                                newHit.id ===
+                                hit.id + i * gridDimensions.gridWidth
+                        )
+                    ) {
+                        visitedVertical.push(
+                            hit.id + i * gridDimensions.gridWidth
+                        );
+                    }
+                }
+                if (visitedHorizontal.length === destroyedVeggieSpaces) {
+                    destroyedIndexes.push(...visitedHorizontal);
+                    visitedHorizontal = [hit.id];
+                }
+                if (visitedVertical.length === destroyedVeggieSpaces) {
+                    destroyedIndexes.push(...visitedVertical);
+                    visitedVertical = [hit.id];
+                }
+            });
+        });
+        return destroyedIndexes;
+    };
     const createComputerId = () => {
-        const adjacentIds = [];
-        if (player2Data.player2LastHitId) {
-            adjacentIds.push(player2Data.player2LastHitId + 1);
-            adjacentIds.push(player2Data.player2LastHitId - 1);
-            adjacentIds.push(
-                player2Data.player2LastHitId + gridDimensions.gridWidth
+        let adjacentIds = [];
+        let player2Hits = player2Data.playerGrid.filter(
+            (cell) => cell.isAttackingHit
+        );
+        const player1DestroyedVeggiesSpaces = player1Data.playerVeggies.map(
+            // eslint-disable-next-line array-callback-return
+            (veggie) => {
+                if (veggie.isDestroyed) {
+                    return veggie.spaces;
+                }
+            }
+        );
+        let destroyedVeggieIndexes;
+        if (player1DestroyedVeggiesSpaces.length) {
+            destroyedVeggieIndexes = findDestroyedVeggieIndexes(
+                player2Hits,
+                player1DestroyedVeggiesSpaces
             );
-            adjacentIds.push(
-                player2Data.player2LastHitId + gridDimensions.gridWidth * -1
-            );
+        }
+        player2Hits = player2Hits.filter(
+            (hit) => !destroyedVeggieIndexes.includes(hit.id)
+        );
+
+        if (player2Hits.length) {
+            player2Hits.forEach((hit) => {
+                adjacentIds.push(hit.id + 1);
+                adjacentIds.push(hit.id - 1);
+                adjacentIds.push(hit.id + gridDimensions.gridWidth);
+                adjacentIds.push(hit.id + gridDimensions.gridWidth * -1);
+            });
+            adjacentIds = [...new Set(adjacentIds)];
+            console.log(adjacentIds);
             const checkedIds = adjacentIds.filter(
                 (id) => id > 0 && id < 100 && !checkComputerId(id)
             );
