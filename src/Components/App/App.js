@@ -625,7 +625,6 @@ const App = () => {
                 adjacentIds.push(hit.id + gridDimensions.gridWidth * -1);
             });
             adjacentIds = [...new Set(adjacentIds)];
-            console.log(adjacentIds);
             const checkedIds = adjacentIds.filter(
                 (id) => id > 0 && id < 100 && !checkComputerId(id)
             );
